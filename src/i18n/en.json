@@ -1,3 +1,9 @@
 {
-	
+	"action": {
+        "properties": "Properties",
+        "parameters": "Parameters",
+        "triggers": "Triggers",
+        "onsuccess": "On Success",
+        "onfailure": "On Failure"
+    }
 }
