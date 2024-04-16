@@ -1,0 +1,7 @@
+{
+  "firstAction": {
+    "$type": {
+        "ui:widget": "hidden"
+    }
+  }
+}

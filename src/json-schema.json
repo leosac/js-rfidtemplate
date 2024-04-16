@@ -1,0 +1,2233 @@
+{
+  "type": "object",
+  "properties": {
+    "firstAction": {
+      "allOf": [
+        {
+            "$ref": "#/definitions/ChipAction"
+        }
+      ],
+      "title": "Action",
+      "description": "The first encoding action to execute."
+    },
+    "forceCardType": {
+      "type": "string",
+      "title": "Force Card Type",
+      "description": "Force the card type to use (optional).",
+      "nullable": true
+    },
+    "sam": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SAMProperties"
+        }
+      ],
+      "title": "NXP SAM AV2/AV3",
+      "description": "The optional SAM properties."
+    }
+  },
+  "description": "Content definition for an encoding fragment template.",
+  "definitions": {
+    "AccessControlDataService": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "The access control format to use.",
+          "nullable": true
+        }
+      },
+      "description": "The base access control data encoding service properties."
+    },
+    "ActionTrigger": {
+      "type": "object",
+      "properties": {
+        "callActions": {
+          "type": "array",
+          "title": "Run Actions",
+          "items": {
+            "$ref": "#/definitions/ChipAction",
+            "description": "Base class for Encoding Action Properties"
+          },
+          "description": "The following action to execute.",
+          "nullable": true
+        },
+        "throw": {
+          "type": "boolean",
+          "title": "Throw",
+          "description": "True to throw an exception and end the fragment production, false otherwise.",
+          "nullable": true
+        },
+        "throwCustomMessage": {
+          "type": "string",
+          "title": "Custom error message",
+          "description": "An optional custom message to throw (if enabled).",
+          "nullable": true
+        }
+      },
+      "description": "Action Trigger definition"
+    },
+    "CardSerialNumberService": {
+      "type": "object",
+      "title": "Get Card Serial Number",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "CardSerialNumberService" ],
+          "default": "CardSerialNumberService"
+        },
+        "checkCSN": {
+          "type": "boolean",
+          "title": "Check CSN",
+          "description": "True to check for CSN value match, false otherwise."
+        }
+      },
+      "description": "Card Serial Number encoding service properties."
+    },
+    "ChangeActionPropertyService": {
+      "type": "object",
+      "title": "Change Action Property",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "ChangeActionPropertyService" ],
+          "default": "ChangeActionPropertyService"
+        },
+        "propertyName": {
+          "type": "string",
+          "description": "The action property name to update.",
+          "nullable": true
+        },
+        "sourceField": {
+          "type": "string",
+          "description": "The data field name from where to get the updated data.",
+          "nullable": true
+        }
+      },
+      "description": "Service to dynamically update action property."
+    },
+    "ChipAction": {
+      "required": [
+        "$type"
+      ],
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Nothing"
+        },
+        {
+          "$ref": "#/definitions/UltralightC.Authenticate"
+        },
+        {
+          "$ref": "#/definitions/UltralightC.ChangeKey"
+        },
+        {
+          "$ref": "#/definitions/UltralightC.LockPage"
+        },
+        {
+          "$ref": "#/definitions/UltralightC.ReadPage"
+        },
+        {
+          "$ref": "#/definitions/UltralightC.WritePage"
+        },
+        {
+          "$ref": "#/definitions/DESFire.AbortTransaction"
+        },
+        {
+          "$ref": "#/definitions/DESFire.Authenticate"
+        },
+        {
+          "$ref": "#/definitions/DESFire.AuthenticateAES"
+        },
+        {
+          "$ref": "#/definitions/DESFire.AuthenticateEV2First"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ChangeFileSettings"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ChangeKey"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ChangeKeyEV2"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ChangeKeySettings"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CommitTransaction"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateApplication"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationEV1"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationEV2"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateBackupFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateCyclicRecordFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateDelegatedApplication"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateLinearRecordFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileEV1"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateTransactionMACFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CreateValueFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.Credit"
+        },
+        {
+          "$ref": "#/definitions/DESFire.Debit"
+        },
+        {
+          "$ref": "#/definitions/DESFire.DeleteApplication"
+        },
+        {
+          "$ref": "#/definitions/DESFire.DeleteFile"
+        },
+        {
+          "$ref": "#/definitions/DESFire.Erase"
+        },
+        {
+          "$ref": "#/definitions/DESFire.FinalizeKeySet"
+        },
+        {
+          "$ref": "#/definitions/DESFire.InitializeKeySet"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ProximityCheck"
+        },
+        {
+          "$ref": "#/definitions/DESFire.ReadData"
+        },
+        {
+          "$ref": "#/definitions/DESFire.RollKeySet"
+        },
+        {
+          "$ref": "#/definitions/DESFire.SelectApplication"
+        },
+        {
+          "$ref": "#/definitions/DESFire.SetConfiguration"
+        },
+        {
+          "$ref": "#/definitions/DESFire.SetConfigurationEV2"
+        },
+        {
+          "$ref": "#/definitions/DESFire.SetConfigurationMessaging"
+        },
+        {
+          "$ref": "#/definitions/DESFire.WriteData"
+        },
+        {
+          "$ref": "#/definitions/DESFire.WriteRecord"
+        }
+      ]  
+    },
+    "CipherMode": {
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "type": "integer",
+      "format": "int32"
+    },
+    "CredentialKey": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "ownerId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "keyType": {
+          "type": "string",
+          "nullable": true
+        },
+        "keyStoreType": {
+          "type": "string",
+          "nullable": true
+        },
+        "keyStore": {
+          "type": "string",
+          "nullable": true
+        },
+        "keyStoreReference": {
+          "type": "string",
+          "nullable": true
+        },
+        "value": {
+          "type": "string",
+          "nullable": true
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32",
+          "nullable": true
+        },
+        "scope": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/CredentialKeyScope"
+            }
+          ]
+        },
+        "scopeDiversifier": {
+          "type": "string",
+          "nullable": true
+        },
+        "lastUpdate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CredentialKeyScope": {
+      "enum": [
+        0,
+        1
+      ],
+      "type": "integer",
+      "format": "int32"
+    },
+    "CryptoDataService": {
+      "type": "object",
+      "title": "Crypto Data",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "CryptoDataService" ],
+          "default": "CryptoDataService"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use fo the crypto operation."
+        },
+        "crypto": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/CryptoProperties"
+            }
+          ],
+          "description": "The cryptographic properties."
+        },
+        "initializationVectorField": {
+          "type": "string",
+          "description": "A credential field to use as Initialization Vector.",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false,
+      "description": "Crypto encoding service properties."
+    },
+    "CryptoOperation": {
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "type": "integer",
+      "format": "int32"
+    },
+    "CryptoProperties": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/CryptoOperation"
+            }
+          ]
+        },
+        "hashAlgorithm": {
+          "type": "string",
+          "nullable": true
+        },
+        "cipherMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/CipherMode"
+            }
+          ]
+        },
+        "paddingMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaddingMode"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "DESFire.AbortTransaction": {
+      "type": "object",
+      "title": "DESFire.AbortTransaction",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.AbortTransaction" ],
+          "default": "DESFire.AbortTransaction"
+        }
+      },
+      "description": "Abort a previously started transaction."
+    },
+    "DESFire.Authenticate": {
+      "type": "object",
+      "title": "DESFire.Authenticate",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.Authenticate" ],
+          "default": "DESFire.Authenticate"
+        },
+        "keyNo": {
+          "type": "integer",
+          "description": "The PICC key number.",
+          "format": "int32",
+          "default": 0
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for authentication."
+        }
+      },
+      "description": "Authenticate with a PICC key."
+    },
+    "DESFire.AuthenticateAES": {
+      "type": "object",
+      "title": "DESFire.AuthenticateAES",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.AuthenticateAES" ],
+          "default": "DESFire.AuthenticateAES"
+        },
+        "keyNo": {
+          "type": "integer",
+          "description": "The PICC key number.",
+          "format": "int32",
+          "default": 0
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for authentication."
+        }
+      },
+      "description": "Authenticate AES with a PICC key."
+    },
+    "DESFire.AuthenticateEV2First": {
+      "type": "object",
+      "title": "DESFire.AuthenticateEV2First",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.AuthenticateEV2First" ],
+          "default": "DESFire.AuthenticateEV2First"
+        },
+        "keyNo": {
+          "type": "integer",
+          "description": "The PICC key number.",
+          "format": "int32",
+          "default": 0
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for authentication."
+        }
+      },
+      "description": "Authenticate EV2 First with a PICC key."
+    },
+    "DESFire.ChangeFileSettings": {
+      "type": "object",
+      "title": "DESFire.ChangeFileSettings",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ChangeFileSettings" ],
+          "default": "DESFire.ChangeFileSettings"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number to change settings for.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "description": "The new security communication with the file."
+        },
+        "accessRights": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireAccessRights"
+            }
+          ],
+          "description": "The new file access rights."
+        },
+        "plain": {
+          "type": "boolean",
+          "description": "True if the communication is in plain mode, false otherwise."
+        }
+      },
+      "description": "Change a file settings."
+    },
+    "DESFire.ChangeKeyBase": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "keyNo": {
+          "type": "integer",
+          "title": "Key No",
+          "description": "The PICC key number.",
+          "format": "int32",
+          "default": 0
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "title": "Key",
+          "description": "The new key."
+        },
+        "oldKey": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "title": "Old Key",
+          "description": "The old key. Should only be required if not authenticated with before."
+        }
+      }
+    },
+    "DESFire.ChangeKey": {
+      "type": "object",
+      "title": "DESFire.ChangeKey",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.ChangeKeyBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ChangeKey" ],
+          "default": "DESFire.ChangeKey"
+        }
+      },
+      "description": "Change a PICC key."
+    },
+    "DESFire.ChangeKeyEV2": {
+      "type": "object",
+      "title": "DESFire.ChangeKeyEV2",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.ChangeKeyBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ChangeKeyEV2" ],
+          "default": "DESFire.ChangeKeyEV2"
+        },
+        "keySet": {
+          "type": "integer",
+          "description": "The KeySet number.",
+          "format": "int32"
+        }
+      },
+      "description": "Change a PICC key."
+    },
+    "DESFire.ChangeKeySettings": {
+      "type": "object",
+      "title": "DESFire.ChangeKeySettings",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ChangeKeySettings" ],
+          "default": "DESFire.ChangeKeySettings"
+        },
+        "keySettings": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeySettings"
+            }
+          ],
+          "description": "The new key settings."
+        }
+      },
+      "description": "Change key settings of the current application."
+    },
+    "DESFire.CommitTransaction": {
+      "type": "object",
+      "title": "DESFire.CommitTransaction",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CommitTransaction" ],
+          "default": "DESFire.CommitTransaction"
+        }
+      },
+      "description": "Commit a previously started transaction."
+    },
+    "DESFire.CreateApplicationBase": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "aid": {
+          "type": "integer",
+          "description": "The new application identifier.",
+          "format": "int32",
+          "default": 0
+        },
+        "keySettings": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeySettings"
+            }
+          ],
+          "description": "The key settings for the new application.",
+          "default": "default"
+        },
+        "maxNbKeys": {
+          "type": "integer",
+          "description": "Number of PICC keys inside the application.",
+          "format": "int32",
+          "default": 2
+        }
+      }
+    },
+    "DESFire.CreateApplication": {
+      "type": "object",
+      "title": "DESFire.CreateApplication",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateApplication" ],
+          "default": "DESFire.CreateApplication"
+        }
+      },
+      "description": "Create a new application."
+    },
+    "DESFire.CreateApplicationEV1Base": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationBase"
+        }
+      ],
+      "properties": {
+        "keyType": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeyType"
+            }
+          ],
+          "description": "The key type.",
+          "default": "aes128"
+        },
+        "fidSupport": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/FidSupport"
+            }
+          ],
+          "description": "FID Support."
+        },
+        "isoFID": {
+          "type": "integer",
+          "description": "Optional ISO FID.",
+          "format": "int32",
+          "nullable": true
+        },
+        "isoDFName": {
+          "type": "string",
+          "description": "Optional ISO DF Name.",
+          "nullable": true
+        }
+      }
+    },
+    "DESFire.CreateApplicationEV1": {
+      "type": "object",
+      "title": "DESFire.CreateApplicationEV1",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationEV1Base"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateApplicationEV1" ],
+          "default": "DESFire.CreateApplicationEV1"
+        }
+      },
+      "description": "Create a new EV1 application."
+    },
+    "DESFire.CreateApplicationEV2Base": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationEV1Base"
+        }
+      ],
+      "properties": {
+        "numberKeySets": {
+          "type": "integer",
+          "description": "Number of keysets on the application.",
+          "format": "int32"
+        },
+        "maxKeySize": {
+          "type": "integer",
+          "description": "Max key size.",
+          "format": "int32"
+        },
+        "actualKeySetVersion": {
+          "type": "integer",
+          "description": "The current keyset version.",
+          "format": "int32"
+        },
+        "rollKeyNo": {
+          "type": "integer",
+          "description": "The key number for keyset rolling.",
+          "format": "int32"
+        },
+        "specificCapabilityData": {
+          "type": "boolean",
+          "description": "True to enable application specific capability data, false otherwise."
+        },
+        "specificVCKeys": {
+          "type": "boolean",
+          "description": "True to enable application specific virtual card keys (including proximity check), false otherwise."
+        }
+      }
+    },
+    "DESFire.CreateApplicationEV2": {
+      "type": "object",
+      "title": "DESFire.CreateApplicationEV2",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateApplicationEV2" ],
+          "default": "DESFire.CreateApplicationEV2"
+        }
+      },
+      "description": "Create a new EV2 application."
+    },
+    "DESFire.CreateBackupFile": {
+      "type": "object",
+      "title": "DESFire.CreateBackupFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateBackupFile" ],
+          "default": "DESFire.CreateBackupFile"
+        },
+        "fileSize": {
+          "type": "integer",
+          "description": "The new file size (in bytes).",
+          "format": "int32"
+        }
+      },
+      "description": "Create a new backup file."
+    },
+    "DESFire.CreateCyclicRecordFile": {
+      "type": "object",
+      "title": "DESFire.CreateCyclicRecordFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateCyclicRecordFile" ],
+          "default": "DESFire.CreateCyclicRecordFile"
+        },
+        "recordSize": {
+          "type": "integer",
+          "description": "Size of a record (in bytes).",
+          "format": "int32"
+        },
+        "maxNumberOfRecords": {
+          "type": "integer",
+          "description": "Maximal number of records inside the file.",
+          "format": "int32"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Create a new cyclic record file."
+    },
+    "DESFire.CreateDelegatedApplication": {
+      "type": "object",
+      "title": "DESFire.CreateDelegatedApplication",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateDelegatedApplication" ],
+          "default": "DESFire.CreateDelegatedApplication"
+        },
+        "damSlotNo": {
+          "type": "integer",
+          "description": "The DAM slot number.",
+          "format": "int32"
+        },
+        "damSlotVersion": {
+          "type": "integer",
+          "description": "The DAM slot version.",
+          "format": "int32"
+        },
+        "quotaLimit": {
+          "type": "integer",
+          "description": "A quota limit for the DAM.",
+          "format": "int32"
+        },
+        "aid": {
+          "type": "integer",
+          "description": "The new application identifier.",
+          "format": "int32"
+        },
+        "keySettings": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeySettings"
+            }
+          ],
+          "description": "The key settings for the new application."
+        },
+        "maxNbKeys": {
+          "type": "integer",
+          "description": "Number of PICC keys inside the application.",
+          "format": "int32"
+        },
+        "keyType": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeyType"
+            }
+          ],
+          "description": "The key type."
+        },
+        "fidSupport": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/FidSupport"
+            }
+          ],
+          "description": "FID Support."
+        },
+        "isoFID": {
+          "type": "integer",
+          "description": "Optional ISO FID.",
+          "format": "int32",
+          "nullable": true
+        },
+        "isoDFName": {
+          "type": "string",
+          "description": "Optional ISO DF Name.",
+          "nullable": true
+        },
+        "numberKeySets": {
+          "type": "integer",
+          "description": "Number of keysets on the application.",
+          "format": "int32"
+        },
+        "maxKeySize": {
+          "type": "integer",
+          "description": "Max key size.",
+          "format": "int32"
+        },
+        "actualKeySetVersion": {
+          "type": "integer",
+          "description": "The current keyset version.",
+          "format": "int32"
+        },
+        "rollKeyNo": {
+          "type": "integer",
+          "description": "The key number for keyset rolling.",
+          "format": "int32"
+        },
+        "specificCapabilityData": {
+          "type": "boolean",
+          "description": "True to enable application specific capability data, false otherwise."
+        },
+        "specificVCKeys": {
+          "type": "boolean",
+          "description": "True to enable application specific virtual card keys (including proximity check), false otherwise."
+        }
+      },
+      "description": "Create a delegated application."
+    },
+    "DESFire.CreateFile": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "fileNo": {
+          "type": "integer",
+          "title": "File No",
+          "description": "The file number.",
+          "format": "int32",
+          "default": 0
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "title": "Encryption Mode",
+          "description": "The encryption mode for the file.",
+          "default": "encrypt"
+        },
+        "accessRights": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireAccessRights"
+            }
+          ],
+          "title": "Access Rights",
+          "description": "The file access rights."
+        }
+      },
+      "description": "Base class for file creation."
+    },
+    "DESFire.CreateLinearRecordFile": {
+      "type": "object",
+      "title": "DESFire.CreateLinearRecordFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateLinearRecordFile" ],
+          "default": "DESFire.CreateLinearRecordFile"
+        },
+        "recordSize": {
+          "type": "integer",
+          "title": "Record Size",
+          "description": "Size of a record (in bytes).",
+          "format": "int32"
+        },
+        "maxNumberOfRecords": {
+          "type": "integer",
+          "title": "Max Number of Records",
+          "description": "Maximal number of records inside the file.",
+          "format": "int32"
+        }
+      },
+      "description": "Create a new linear record file."
+    },
+    "DESFire.CreateStdDataFileBase": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "fileSize": {
+          "type": "integer",
+          "title": "File Size",
+          "description": "The new file size (in bytes).",
+          "format": "int32",
+          "default": 32
+        }
+      }
+    },
+    "DESFire.CreateStdDataFile": {
+      "type": "object",
+      "title": "DESFire.CreateStdDataFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateStdDataFile" ],
+          "default": "DESFire.CreateStdDataFile"
+        }
+      },
+      "description": "Create a new standard data file."
+    },
+    "DESFire.CreateStdDataFileEV1": {
+      "type": "object",
+      "title": "DESFire.CreateStdDataFileEV1",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateStdDataFileEV1" ],
+          "default": "DESFire.CreateStdDataFileEV1"
+        },
+        "isoFID": {
+          "type": "integer",
+          "title": "ISO FID",
+          "description": "Optional ISO FID.",
+          "format": "int32",
+          "nullable": true
+        }
+      },
+      "description": "Create a new standard data file EV1."
+    },
+    "DESFire.CreateTransactionMACFile": {
+      "type": "object",
+      "title": "DESFire.CreateTransactionMACFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateTransactionMACFile" ],
+          "default": "DESFire.CreateTransactionMACFile"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The transaction MAC key."
+        },
+        "keyVersion": {
+          "type": "integer",
+          "description": "The transaction MAC key version.",
+          "format": "int32"
+        }
+      },
+      "description": "Create the transaction MAC file."
+    },
+    "DESFire.CreateValueFile": {
+      "type": "object",
+      "title": "DESFire.CreateValueFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateFile"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateValueFile" ],
+          "default": "DESFire.CreateValueFile"
+        },
+        "lowerLimit": {
+          "type": "integer",
+          "title": "Low Limit",
+          "description": "The lower limit.",
+          "format": "int32"
+        },
+        "upperLimit": {
+          "type": "integer",
+          "title": "Upper Limit",
+          "description": "The upper limit.",
+          "format": "int32"
+        },
+        "initialValue": {
+          "type": "integer",
+          "title": "Initial Value",
+          "description": "The file initial value.",
+          "format": "int32"
+        },
+        "limitedCreditEnabled": {
+          "type": "boolean",
+          "title": "Limited Credit",
+          "description": "True to enable limited credit (on a same transaction with an initial debit operation), false otherwise."
+        }
+      },
+      "description": "Create a new value file."
+    },
+    "DESFire.Credit": {
+      "type": "object",
+      "title": "DESFire.Credit",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.Credit" ],
+          "default": "DESFire.Credit"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number.",
+          "format": "int32"
+        },
+        "value": {
+          "type": "integer",
+          "description": "The value to debit.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "description": "The communication encryption mode with the file."
+        }
+      },
+      "description": "Credit operation."
+    },
+    "DESFire.DESFireActionProperties": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingActionProperties"
+        }
+      ],
+      "description": "Base class for DESFire Encoding Action Properties"
+    },
+    "DESFire.Debit": {
+      "type": "object",
+      "title": "DESFire.Debit",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.Debit" ],
+          "default": "DESFire.Debit"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number.",
+          "format": "int32"
+        },
+        "value": {
+          "type": "integer",
+          "description": "The value to credit.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "description": "The communication encryption mode with the file."
+        }
+      },
+      "description": "Debit operation."
+    },
+    "DESFire.DeleteApplication": {
+      "type": "object",
+      "title": "DESFire.DeleteApplication",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.DeleteApplication" ],
+          "default": "DESFire.DeleteApplication"
+        },
+        "aid": {
+          "type": "integer",
+          "description": "The targeted application identifier.",
+          "format": "int32"
+        }
+      },
+      "description": "Delete an existing application."
+    },
+    "DESFire.DeleteFile": {
+      "type": "object",
+      "title": "DESFire.DeleteFile",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.DeleteFile" ],
+          "default": "DESFire.DeleteFile"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number.",
+          "format": "int32"
+        }
+      },
+      "description": "Delete an existing file."
+    },
+    "DESFire.Erase": {
+      "type": "object",
+      "title": "DESFire.Erase",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.Erase" ],
+          "default": "DESFire.Erase"
+        }
+      },
+      "description": "Erase the PICC."
+    },
+    "DESFire.FinalizeKeySet": {
+      "type": "object",
+      "title": "DESFire.FinalizeKeySet",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.FinalizeKeySet" ],
+          "default": "DESFire.FinalizeKeySet"
+        },
+        "keySetNo": {
+          "type": "integer",
+          "description": "The keyset number.",
+          "format": "int32"
+        },
+        "keySetVersion": {
+          "type": "integer",
+          "description": "The keyset version.",
+          "format": "int32"
+        }
+      },
+      "description": "Finalize a keyset."
+    },
+    "DESFire.InitializeKeySet": {
+      "type": "object",
+      "title": "DESFire.InitializeKeySet",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.InitializeKeySet" ],
+          "default": "DESFire.InitializeKeySet"
+        },
+        "keySetNo": {
+          "type": "integer",
+          "description": "The keyset number.",
+          "format": "int32"
+        },
+        "keyType": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireKeyType"
+            }
+          ],
+          "description": "The key type."
+        }
+      },
+      "description": "Initialize a keyset."
+    },
+    "DESFire.ProximityCheck": {
+      "type": "object",
+      "title": "DESFire.ProximityCheck",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ProximityCheck" ],
+          "default": "DESFire.ProximityCheck"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for proximity check authentication."
+        },
+        "chunkSize": {
+          "type": "integer",
+          "description": "The chunk size. This value must be either 1, 2 or 4",
+          "format": "int32"
+        }
+      },
+      "description": "Perform the full proximity check."
+    },
+    "DESFire.ReadData": {
+      "type": "object",
+      "title": "DESFire.ReadData",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ReadData" ],
+          "default": "DESFire.ReadData"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number.",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset.",
+          "format": "int32"
+        },
+        "byteLength": {
+          "type": "integer",
+          "description": "Number of bytes to read.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "description": "The communication encryption mode with the file."
+        }
+      },
+      "description": "Read data from a file."
+    },
+    "DESFire.RollKeySet": {
+      "type": "object",
+      "title": "DESFire.RollKeySet",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.RollKeySet" ],
+          "default": "DESFire.RollKeySet"
+        },
+        "keySetNo": {
+          "type": "integer",
+          "description": "The keyset number.",
+          "format": "int32"
+        }
+      },
+      "description": "Roll to keyset."
+    },
+    "DESFire.SelectApplication": {
+      "type": "object",
+      "title": "DESFire.SelectApplication",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.SelectApplication" ],
+          "default": "DESFire.SelectApplication"
+        },
+        "aid": {
+          "type": "integer",
+          "description": "The targeted application identifier.",
+          "format": "int32"
+        }
+      },
+      "description": "Select an existing application."
+    },
+    "DESFire.SetConfigurationBase": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "formatCardEnabled": {
+          "type": "boolean",
+          "description": "True to enable format/erase operation, false otherwise."
+        },
+        "randomIdEnabled": {
+          "type": "boolean",
+          "description": "True to enable Random ID/CSN, false otherwise."
+        },
+        "defaultKey": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "Optionally define a new default key."
+        }
+      }
+    },
+    "DESFire.SetConfiguration": {
+      "type": "object",
+      "title": "DESFire.SetConfiguration",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.SetConfigurationBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.SetConfiguration" ],
+          "default": "DESFire.SetConfiguration"
+        }
+      },
+      "description": "Set new PICC configuration."
+    },
+    "DESFire.SetConfigurationEV2": {
+      "type": "object",
+      "title": "DESFire.SetConfigurationEV2",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.SetConfigurationBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.SetConfigurationEV2" ],
+          "default": "DESFire.SetConfigurationEV2"
+        },
+        "pcMandatoryEnabled": {
+          "type": "boolean",
+          "description": "True to enforce Proximity Check, false otherwise."
+        },
+        "authVCMandatoryEnabled": {
+          "type": "boolean",
+          "description": "True to enforce Virtual Card authentication, false otherwise."
+        }
+      },
+      "description": "Set new PICC configuration."
+    },
+    "DESFire.SetConfigurationMessaging": {
+      "type": "object",
+      "title": "DESFire.SetConfigurationMessaging",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.SetConfigurationMessaging" ],
+          "default": "DESFire.SetConfigurationMessaging"
+        },
+        "d40SecureMessagingEnabled": {
+          "type": "boolean",
+          "description": "True to enable D40 secure messaging, false otherwise."
+        },
+        "eV1SecureMessagingEnabled": {
+          "type": "boolean",
+          "description": "True to enable EV1 secure messaging, false otherwise."
+        },
+        "eV2ChainedWritingEnabled": {
+          "type": "boolean",
+          "description": "True to enable EV2 chanined writing, false otherwise."
+        }
+      },
+      "description": "Set global secure messaging configuration."
+    },
+    "DESFire.WriteData": {
+      "type": "object",
+      "title": "DESFire.WriteData",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.WriteData" ],
+          "default": "DESFire.WriteData"
+        },
+        "fileNo": {
+          "type": "integer",
+          "title": "File No",
+          "description": "The targeted file number.",
+          "format": "int32",
+          "default": 0
+        },
+        "offset": {
+          "type": "integer",
+          "title": "Offset",
+          "description": "The offset.",
+          "format": "int32",
+          "default": 0
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "title": "Encryption Mode",
+          "description": "The communication encryption mode with the file.",
+          "default": "encrypt"
+        }
+      },
+      "description": "Write data to a file."
+    },
+    "DESFire.WriteRecord": {
+      "type": "object",
+      "title": "DESFire.WriteRecord",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.WriteRecord" ],
+          "default": "DESFire.WriteRecord"
+        },
+        "fileNo": {
+          "type": "integer",
+          "description": "The targeted file number.",
+          "format": "int32"
+        },
+        "offset": {
+          "type": "integer",
+          "description": "The offset.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "description": "The communication encryption mode with the file."
+        }
+      },
+      "description": "Write a new record to a file."
+    },
+    "DESFireAccessRights": {
+      "type": "object",
+      "properties": {
+        "readAccess": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/TaskAccessRights"
+            }
+          ],
+          "title": "Read",
+          "description": "Read access",
+          "default": "key1"
+        },
+        "writeAccess": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/TaskAccessRights"
+            }
+          ],
+          "title": "Write",
+          "description": "Write access",
+          "default": "key0"
+        },
+        "readAndWriteAccess": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/TaskAccessRights"
+            }
+          ],
+          "title": "Read & Write",
+          "description": "Read and Write access",
+          "default": "key0"
+        },
+        "changeAccess": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/TaskAccessRights"
+            }
+          ],
+          "title": "Access Rights Change",
+          "description": "Access Rights change access",
+          "default": "key0"
+        }
+      },
+      "additionalProperties": false,
+      "description": "DESFire File Access Rights"
+    },
+    "DESFireKeySettings": {
+      "enum": [
+        "changeKeyWithMasterKey",
+        "allowChangeMasterKey",
+        "freeListingWithoutMasterKey",
+        "freeCreateDeleteWithoutMasterKey",
+        "configurationChangeable",
+        "default",
+        "changeKeyWithTargetedKeyNo",
+        "changeKeyFrozen"
+      ],
+      "type": "string",
+      "description": "DESFire Key Settings"
+    },
+    "DESFireKeyType": {
+      "enum": [
+        "des",
+        "tk3des",
+        "aes128"
+      ],
+      "type": "string",
+      "description": "DESFire Key Type."
+    },
+    "DivInputFragment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/DivInputFragmentType"
+            }
+          ],
+          "description": "The fragment type."
+        },
+        "value": {
+          "type": "string",
+          "description": "The fragment value.",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false,
+      "description": "Div Input fragment."
+    },
+    "DivInputFragmentType": {
+      "enum": [
+        0,
+        1
+      ],
+      "type": "integer",
+      "description": "Div Input fragment type.",
+      "format": "int32"
+    },
+    "EncodingActionProperties": {
+      "required": [
+        "$type"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "title": "Label",
+          "description": "The optional action indicative label.",
+          "nullable": true
+        },
+        "group": {
+          "type": "string",
+          "description": "The optional action group, mainly used to regroup visually several operations.",
+          "nullable": true
+        },
+        "servicesBefore": {
+          "type": "array",
+          "title": "Services Before",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/CardSerialNumberService"
+              },
+              {
+                "$ref": "#/definitions/ChangeActionPropertyService"
+              },
+              {
+                "$ref": "#/definitions/CryptoDataService"
+              },
+              {
+                "$ref": "#/definitions/ParseAccessControlDataService"
+              },
+              {
+                "$ref": "#/definitions/PrepareAccessControlDataService"
+              },
+              {
+                "$ref": "#/definitions/UpdateBufferService"
+              }
+            ],
+            "description": "Base class for encoding service properties."
+          },
+          "description": "The card services to execute before the action.",
+          "nullable": true
+        },
+        "servicesAfter": {
+          "type": "array",
+          "title": "Services After",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/CardSerialNumberService"
+              },
+              {
+                "$ref": "#/definitions/ChangeActionPropertyService"
+              },
+              {
+                "$ref": "#/definitions/CryptoDataService"
+              },
+              {
+                "$ref": "#/definitions/ParseAccessControlDataService"
+              },
+              {
+                "$ref": "#/definitions/PrepareAccessControlDataService"
+              },
+              {
+                "$ref": "#/definitions/UpdateBufferService"
+              }
+            ],
+            "description": "Base class for encoding service properties."
+          },
+          "description": "The card services to execute after the action.",
+          "nullable": true
+        },
+        "onSuccess": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionTrigger"
+            }
+          ],
+          "title": "On Success",
+          "description": "The action to trigger on action execution success."
+        },
+        "onFailure": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionTrigger"
+            }
+          ],
+          "title": "On Failure",
+          "description": "The action to trigger on action execution failure."
+        }
+      },
+      "description": "Base class for Encoding Action Properties"
+    },
+    "EncodingServiceBufferBehavior": {
+      "enum": [
+        "doNothing",
+        "overwrite",
+        "append",
+        "prepend"
+      ],
+      "type": "string",
+      "description": "Buffer behavior on the shared temporary buffer from encoding service.",
+      "default": "overwrite"
+    },
+    "EncodingServiceProperties": {
+      "required": [
+        "$type"
+      ],
+      "type": "object",
+      "properties": {
+        "bufferBehavior": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncodingServiceBufferBehavior"
+            }
+          ],
+          "title": "Buffer Behavior",
+          "description": "The behavior on the temporary buffer shared between services and actions."
+        },
+        "copyBufferToField": {
+          "type": "string",
+          "title": "Copy Buffer to Field",
+          "description": "Copy the buffer, after service execution, to a credential field.",
+          "nullable": true
+        },
+        "fieldNamePrefix": {
+          "type": "string",
+          "title": "Field Name Prefix",
+          "description": "An optional prefix to apply to field names of the service.",
+          "nullable": true
+        }
+      },
+      "description": "Base class for encoding service properties."
+    },
+    "EncryptionMode": {
+      "enum": [
+        "plain",
+        "mac",
+        "encrypt",
+        "unknown"
+      ],
+      "type": "string",
+      "description": "The communication encryption mode."
+    },
+    "FidSupport": {
+      "enum": [
+        "disabled",
+        "enabled"
+      ],
+      "type": "string",
+      "description": "FID Support"
+    },
+    "KeyDiversification": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "an0945",
+            "an10922",
+            "sagem",
+            "omnitech"
+          ],
+          "type": "string",
+          "title": "Algorithm",
+          "description": "The diversification algorithm.",
+          "nullable": true
+        }
+      },
+      "dependencies": {
+        "algorithm": {
+          "oneOf": [
+            {
+              "properties": {
+                "algorithm": {
+                  "enum": [
+                    "an0945",
+                    "sagem",
+                    "omnitech"
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "algorithm": {
+                  "enum": [
+                    "an10922"
+                  ]
+                },
+                "input": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/DivInputFragment"
+                  },
+                  "title": "Div Input",
+                  "description": "Div Input fragments to use."
+                },
+                "revertAID": {
+                  "type": "boolean",
+                  "title": "Revert AID",
+                  "description": "Use revert AID.",
+                  "nullable": true
+                },
+                "forceK2Use": {
+                  "type": "boolean",
+                  "title": "Force K2",
+                  "description": "Force K2 use.",
+                  "nullable": true
+                },
+                "systemIdentifier": {
+                  "type": "string",
+                  "title": "System Identifier",
+                  "description": "The System Identifier.",
+                  "nullable": true
+                }
+              }
+            }
+          ]
+        }
+      },
+      "description": "Key Diversification details."
+    },
+    "KeyReference": {
+      "type": "object",
+      "properties": {
+        "keyId": {
+          "type": "string",
+          "description": "The key identifier.",
+          "nullable": true
+        },
+        "diversification": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyDiversification"
+            }
+          ],
+          "title": "Key Diversification",
+          "description": "Optional key diversification."
+        }
+      },
+      "additionalProperties": false,
+      "description": "The key reference.",
+      "nullable": true
+    },
+    "Nothing": {
+      "type": "object",
+      "title": "Nothing",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Nothing" ],
+          "default": "Nothing"
+        }
+      },
+      "description": "Do nothing. Action placeholder for delayed services execution."
+    },
+    "PaddingMode": {
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "type": "integer",
+      "format": "int32"
+    },
+    "ParseAccessControlDataService": {
+      "type": "object",
+      "title": "Parse Access Control Data",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AccessControlDataService"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "ParseAccessControlDataService" ],
+          "default": "ParseAccessControlDataService"
+        }
+      },
+      "description": "Parse Access Control data encoding service, previously read or prepared."
+    },
+    "PrepareAccessControlDataService": {
+      "type": "object",
+      "title": "Prepare Access Control Data",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AccessControlDataService"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "PrepareAccessControlDataService" ],
+          "default": "PrepareAccessControlDataService"
+        }
+      },
+      "description": "Prepare Access Control data encoding service, for further writing."
+    },
+    "SAMProperties": {
+      "type": "object",
+      "properties": {
+        "unlockKeyNo": {
+          "type": "integer",
+          "title": "Unlock Key No",
+          "description": "The SAM unlock key number.",
+          "format": "int32"
+        },
+        "unlockKey": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "title": "Unlock Key",
+          "description": "The SAM unlock key details."
+        }
+      },
+      "additionalProperties": false,
+      "description": "SAM properties."
+    },
+    "TaskAccessRights": {
+      "enum": [
+        "key0",
+        "key1",
+        "key2",
+        "key3",
+        "key4",
+        "key5",
+        "key6",
+        "key7",
+        "key8",
+        "key9",
+        "key10",
+        "key11",
+        "key12",
+        "key13",
+        "free",
+        "never"
+      ],
+      "type": "string",
+      "description": "Key Reference for Access Rights"
+    },
+    "UltralightC.Authenticate": {
+      "type": "object",
+      "title": "UltralightC.Authenticate",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UltralightC.Authenticate" ],
+          "default": "UltralightC.Authenticate"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for authentication."
+        }
+      },
+      "description": "Authenticate."
+    },
+    "UltralightC.ChangeKey": {
+      "type": "object",
+      "title": "UltralightC.ChangeKey",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UltralightC.ChangeKey" ],
+          "default": "UltralightC.ChangeKey"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The new key."
+        }
+      },
+      "description": "Change the PICC key."
+    },
+    "UltralightC.LockPage": {
+      "type": "object",
+      "title": "UltralightC.LockPage",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UltralightC.LockPage" ],
+          "default": "UltralightC.LockPage"
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number.",
+          "format": "int32"
+        }
+      },
+      "description": "Lock a page."
+    },
+    "UltralightC.ReadPage": {
+      "type": "object",
+      "title": "UltralightC.ReadPage",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UltralightC.ReadPage" ],
+          "default": "UltralightC.ReadPage"
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number.",
+          "format": "int32"
+        }
+      },
+      "description": "Read data from a page."
+    },
+    "UltralightC.UltralightCActionProperties": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingActionProperties"
+        }
+      ],
+      "description": "Base class for Ultralight C Encoding Action Properties"
+    },
+    "UltralightC.WritePage": {
+      "type": "object",
+      "title": "UltralightC.WritePage",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UltralightC.WritePage" ],
+          "default": "UltralightC.WritePage"
+        },
+        "page": {
+          "type": "integer",
+          "description": "The page number.",
+          "format": "int32"
+        }
+      },
+      "description": "Write data to a page."
+    },
+    "UpdateBufferService": {
+      "type": "object",
+      "title": "Update Buffer",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "UpdateBufferService" ],
+          "default": "UpdateBufferService"
+        },
+        "fromField": {
+          "type": "string",
+          "title": "From Field",
+          "description": "The credential field containing data.",
+          "nullable": true
+        },
+        "isDataRequired": {
+          "type": "boolean",
+          "description": "True if data is required (will throw), false otherwise (will be ignored)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Update buffer encoding service properties."
+    }
+  }
+}
