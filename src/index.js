@@ -1,19 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import { EncodingTemplate } from "./lib";
-
-i18n.use(initReactI18next)
-	.init({
-		resources: {
-			en: {
-				translation: require('./i18n/en.json')
-			}
-		},
-		lng: 'en',
-		fallbackLng: 'en'
-	})
 
 const App = () => (
   <div style={{ width: 640, margin: "15px auto" }}>

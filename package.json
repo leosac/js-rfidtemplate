@@ -4,6 +4,10 @@
   "license": "AGPL-3.0-only",
   "organization": "LEOSAC",
   "homepage": "https://leosac.com",
+  "main": "dist/rfidtemplate.js",
+  "directories": {
+    "example": "public"
+  },
   "keywords": [
     "rfid",
     "card",
@@ -22,17 +26,27 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^4.6.2",
-    "i18next": "^22.4.9",
-    "react": "^18.2.0",
     "react-bootstrap": "^1.6.5",
-    "react-dom": "^18.2.0",
-    "react-i18next": "^12.1.5",
     "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack",
+    "build-app": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
