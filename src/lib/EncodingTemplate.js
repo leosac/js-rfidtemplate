@@ -6,11 +6,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./EncodingTemplate.css";
 
 import schema from '../json-schema.json';
-import uiSchema from "../ui-schema.json";
+import data from '../default-template.json';
+import uiSchema from "./ui-schema.js";
+import uiTemplates from "./ui-templates.js";
 
 class EncodingTemplate extends React.Component {
 	render() {
-		return (<Form schema={schema} validator={validator} uiSchema={uiSchema} />);
+		return (<Form schema={schema} templates={uiTemplates} validator={validator} uiSchema={uiSchema} formData={data} />);
 	}
 }
 
