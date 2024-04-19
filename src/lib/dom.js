@@ -13,7 +13,7 @@ function createRfidTemplate(domContainer, props) {
 
 document.querySelectorAll('.rfidtemplate')
   .forEach(domContainer => {
-    createCardEditor(domContainer);
+    createRfidTemplate(domContainer);
   });
 
 export { createRfidTemplate };
