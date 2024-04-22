@@ -252,17 +252,6 @@
         }
       ]  
     },
-    "CipherMode": {
-      "enum": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "type": "integer",
-      "format": "int32"
-    },
     "CredentialKey": {
       "required": [
         "name"
@@ -367,45 +356,44 @@
           "nullable": true
         }
       },
-      "additionalProperties": false,
       "description": "Crypto encoding service properties."
-    },
-    "CryptoOperation": {
-      "enum": [
-        0,
-        1,
-        2
-      ],
-      "type": "integer",
-      "format": "int32"
     },
     "CryptoProperties": {
       "type": "object",
       "properties": {
         "operation": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/CryptoOperation"
-            }
-          ]
+          "enum": [
+            "encrypt",
+            "decrypt",
+            "sign"
+          ],
+          "type": "string"
         },
         "hashAlgorithm": {
           "type": "string",
           "nullable": true
         },
         "cipherMode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/CipherMode"
-            }
-          ]
+          "enum": [
+            "cbc",
+            "ecb",
+            "ofb",
+            "cfb",
+            "cts"
+          ],
+          "type": "string",
+          "nullable": true
         },
         "paddingMode": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/PaddingMode"
-            }
-          ]
+          "enum": [
+            "none",
+            "pkcs7",
+            "zeros",
+            "ansix923",
+            "iso10126"
+          ],
+          "type": "string",
+          "nullable": true
         }
       },
       "additionalProperties": false
@@ -1994,17 +1982,6 @@
         }
       },
       "description": "Do nothing. Action placeholder for delayed services execution."
-    },
-    "PaddingMode": {
-      "enum": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "type": "integer",
-      "format": "int32"
     },
     "ParseAccessControlDataService": {
       "type": "object",
