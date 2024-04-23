@@ -1950,8 +1950,10 @@
       "properties": {
         "keyId": {
           "type": "string",
+          "title": "Key Id",
           "description": "The key identifier.",
-          "nullable": true
+          "nullable": true,
+          "x-key": true
         },
         "diversification": {
           "allOf": [

@@ -9,6 +9,7 @@ import schema from '../json-schema.json';
 import data from '../default-template.json';
 import uiSchema from "./ui-schema.js";
 import uiTemplates from "./ui-templates.js";
+import {keys, uiWidgets} from "./ui-widgets.js";
 
 class EncodingTemplate extends React.Component {
 
@@ -44,9 +45,10 @@ class EncodingTemplate extends React.Component {
 	render() {
 		return (<Form ref={this.formRef}
 				      schema={schema}
-					  templates={uiTemplates}
 					  validator={validator}
 					  uiSchema={uiSchema}
+					  templates={uiTemplates}
+					  widgets={uiWidgets}
 					  formData={this.state.template}
 					  onChange={this.props.onEdit}
 					  onSubmit={this.props.onSubmit} />);
@@ -57,4 +59,4 @@ EncodingTemplate.defaultProps = {
 	onSubmit: undefined
 }
 
-export default EncodingTemplate;
+export { EncodingTemplate, keys };

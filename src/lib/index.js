@@ -1,2 +1,2 @@
-import EncodingTemplate from "./EncodingTemplate";
-export { EncodingTemplate };
+import { EncodingTemplate, keys } from "./EncodingTemplate";
+export { EncodingTemplate, keys };
