@@ -37,9 +37,19 @@ class EncodingTemplate extends React.Component {
             console.error('JsRfidTemplate : onSubmit option is not a function, option removed.');
             delete this.props.onSubmit;
         }
+
+		//Check if "onLoaded" option is a function
+        if (this.props.onLoaded && typeof this.props.onLoaded !== "function")
+        {
+            console.error('JsRfidTemplate : onLoaded option is not a function, option removed.');
+            delete this.props.onLoaded;
+        }
 	}
 
 	componentDidMount() {
+		if (this.props.onLoaded) {
+			this.props.onLoaded(this);
+		}
 	}
 
 	render() {
@@ -56,7 +66,8 @@ class EncodingTemplate extends React.Component {
 }
 
 EncodingTemplate.defaultProps = {
-	onSubmit: undefined
+	onSubmit: undefined,
+	onLoaded: undefined
 }
 
 export { EncodingTemplate, keys };
