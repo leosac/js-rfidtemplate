@@ -123,6 +123,50 @@
       "required": [
         "$type"
       ],
+      "discriminator": {
+        "propertyName": "$type",
+        "mapping": {
+          "Nothing": "#/definitions/Nothing",
+          "UltralightC.Authenticate": "#/definitions/UltralightC.Authenticate",
+          "UltralightC.ChangeKey": "#/definitions/UltralightC.ChangeKey",
+          "UltralightC.LockPage": "#/definitions/UltralightC.LockPage",
+          "UltralightC.ReadPage": "#/definitions/UltralightC.ReadPage",
+          "UltralightC.WritePage": "#/definitions/UltralightC.WritePage",
+          "DESFire.AbortTransaction": "#/definitions/DESFire.AbortTransaction",
+          "DESFire.Authenticate": "#/definitions/DESFire.Authenticate",
+          "DESFire.AuthenticateAES": "#/definitions/DESFire.AuthenticateAES",
+          "DESFire.AuthenticateEV2First": "#/definitions/DESFire.AuthenticateEV2First",
+          "DESFire.ChangeFileSettings": "#/definitions/DESFire.ChangeFileSettings",
+          "DESFire.CommitTransaction": "#/definitions/DESFire.CommitTransaction",
+          "DESFire.CreateApplication": "#/definitions/DESFire.CreateApplication",
+          "DESFire.CreateApplicationEV1": "#/definitions/DESFire.CreateApplicationEV1",
+          "DESFire.CreateApplicationEV2": "#/definitions/DESFire.CreateApplicationEV2",
+          "DESFire.CreateBackupFile": "#/definitions/DESFire.CreateBackupFile",
+          "DESFire.CreateCyclicRecordFile": "#/definitions/DESFire.CreateCyclicRecordFile",
+          "DESFire.CreateDelegatedApplication": "#/definitions/DESFire.CreateDelegatedApplication",
+          "DESFire.CreateLinearRecordFile": "#/definitions/DESFire.CreateLinearRecordFile",
+          "DESFire.CreateStdDataFile": "#/definitions/DESFire.CreateStdDataFile",
+          "DESFire.CreateStdDataFileEV1": "#/definitions/DESFire.CreateStdDataFileEV1",
+          "DESFire.CreateTransactionMACFile": "#/definitions/DESFire.CreateTransactionMACFile",
+          "DESFire.CreateValueFile": "#/definitions/DESFire.CreateValueFile",
+          "DESFire.Credit": "#/definitions/DESFire.Credit",
+          "DESFire.Debit": "#/definitions/DESFire.Debit",
+          "DESFire.DeleteApplication": "#/definitions/DESFire.DeleteApplication",
+          "DESFire.DeleteFile": "#/definitions/DESFire.DeleteFile",
+          "DESFire.Erase": "#/definitions/DESFire.Erase",
+          "DESFire.FinalizeKeySet": "#/definitions/DESFire.FinalizeKeySet",
+          "DESFire.InitializeKeySet": "#/definitions/DESFire.InitializeKeySet",
+          "DESFire.ProximityCheck": "#/definitions/DESFire.ProximityCheck",
+          "DESFire.ReadData": "#/definitions/DESFire.ReadData",
+          "DESFire.RollKeySet": "#/definitions/DESFire.RollKeySet",
+          "DESFire.SelectApplication": "#/definitions/DESFire.SelectApplication",
+          "DESFire.SetConfiguration": "#/definitions/DESFire.SetConfiguration",
+          "DESFire.SetConfigurationEV2": "#/definitions/DESFire.SetConfigurationEV2",
+          "DESFire.SetConfigurationMessaging": "#/definitions/DESFire.SetConfigurationMessaging",
+          "DESFire.WriteData": "#/definitions/DESFire.WriteData",
+          "DESFire.WriteRecord": "#/definitions/DESFire.WriteRecord"
+        }
+      },
       "oneOf": [
         {
           "$ref": "#/definitions/Nothing"
@@ -251,6 +295,42 @@
           "$ref": "#/definitions/DESFire.WriteRecord"
         }
       ]  
+    },
+    "ChipService": {
+        "required": [
+        "$type"
+      ],
+      "discriminator": {
+        "propertyName": "$type",
+        "mapping": {
+          "CardSerialNumberService": "#/definitions/CardSerialNumberService",
+          "ChangeActionPropertyService": "#/definitions/ChangeActionPropertyService",
+          "CryptoDataService": "#/definitions/CryptoDataService",
+          "ParseAccessControlDataService": "#/definitions/ParseAccessControlDataService",
+          "PrepareAccessControlDataService": "#/definitions/PrepareAccessControlDataService",
+          "UpdateBufferService": "#/definitions/UpdateBufferService"
+        }
+      },
+      "oneOf": [
+          {
+            "$ref": "#/definitions/CardSerialNumberService"
+          },
+          {
+            "$ref": "#/definitions/ChangeActionPropertyService"
+          },
+          {
+            "$ref": "#/definitions/CryptoDataService"
+          },
+          {
+            "$ref": "#/definitions/ParseAccessControlDataService"
+          },
+          {
+            "$ref": "#/definitions/PrepareAccessControlDataService"
+          },
+          {
+            "$ref": "#/definitions/UpdateBufferService"
+          }
+        ]
     },
     "CredentialKey": {
       "required": [
@@ -1741,26 +1821,7 @@
           "type": "array",
           "title": "Services Before",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/CardSerialNumberService"
-              },
-              {
-                "$ref": "#/definitions/ChangeActionPropertyService"
-              },
-              {
-                "$ref": "#/definitions/CryptoDataService"
-              },
-              {
-                "$ref": "#/definitions/ParseAccessControlDataService"
-              },
-              {
-                "$ref": "#/definitions/PrepareAccessControlDataService"
-              },
-              {
-                "$ref": "#/definitions/UpdateBufferService"
-              }
-            ],
+            "$ref": "#/definitions/ChipService",
             "description": "Base class for encoding service properties."
           },
           "description": "The card services to execute before the action.",
@@ -1770,26 +1831,7 @@
           "type": "array",
           "title": "Services After",
           "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/CardSerialNumberService"
-              },
-              {
-                "$ref": "#/definitions/ChangeActionPropertyService"
-              },
-              {
-                "$ref": "#/definitions/CryptoDataService"
-              },
-              {
-                "$ref": "#/definitions/ParseAccessControlDataService"
-              },
-              {
-                "$ref": "#/definitions/PrepareAccessControlDataService"
-              },
-              {
-                "$ref": "#/definitions/UpdateBufferService"
-              }
-            ],
+            "$ref": "#/definitions/ChipService",
             "description": "Base class for encoding service properties."
           },
           "description": "The card services to execute after the action.",
