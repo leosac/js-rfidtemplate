@@ -28,21 +28,86 @@
   },
   "description": "Content definition for an encoding fragment template.",
   "definitions": {
+    "AccessControlDataField": {
+      "required": [
+      "$type"
+    ],
+    "discriminator": {
+      "propertyName": "$type",
+      "mapping": {
+        "BinaryDataField": "#/definitions/BinaryDataField",
+        "NumberDataField": "#/definitions/NumberDataField",
+        "ParityDataField": "#/definitions/ParityDataField",
+        "StringDataField": "#/definitions/StringDataField"
+      }
+    },
+    "oneOf": [
+        {
+          "$ref": "#/definitions/BinaryDataField"
+        },
+        {
+          "$ref": "#/definitions/NumberDataField"
+        },
+        {
+          "$ref": "#/definitions/ParityDataField"
+        },
+        {
+          "$ref": "#/definitions/StringDataField"
+        }
+      ]
+  },
     "AccessControlDataService": {
       "type": "object",
-      "allOf": [
+      "anyOf": [
         {
-          "$ref": "#/definitions/EncodingServiceProperties"
+          "title": "Format Definition",
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncodingServiceProperties"
+            }
+          ],
+          "properties": {
+            "formatDefinition": {
+              "type": "object",
+              "title": "Format",
+              "description": "The definition of the access control format to use.",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "Name",
+                  "description": "The access control format name."
+                },
+                "fields": {
+                  "type": "array",
+                  "title": "Fields",
+                  "description": "Fields of the format",
+                  "items": {
+                    "$ref": "#/definitions/AccessControlDataField"
+                  }
+                }
+              },
+              "nullable": true
+            }
+          }
+        },
+        {
+          "title": "Format (XML)",
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncodingServiceProperties"
+            }
+          ],
+          "properties": {
+            "format": {
+              "type": "string",
+              "title": "Format (XML)",
+              "description": "The XML description of the access control format to use.",
+              "nullable": true
+            }
+          }
         }
       ],
-      "properties": {
-        "format": {
-          "type": "string",
-          "description": "The access control format to use.",
-          "nullable": true
-        }
-      },
-      "description": "The base access control data encoding service properties."
+      "description": "Access control data encoding service properties."
     },
     "ActionTrigger": {
       "type": "object",
@@ -52,7 +117,7 @@
           "title": "Run Actions",
           "items": {
             "$ref": "#/definitions/ChipAction",
-            "description": "Base class for Encoding Action Properties"
+            "description": "Encoding Action Properties"
           },
           "description": "The following action to execute.",
           "nullable": true
@@ -71,6 +136,35 @@
         }
       },
       "description": "Action Trigger definition"
+    },
+    "BinaryDataField": {
+      "type": "object",
+      "title": "Binary Data Field",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValueDataField"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "BinaryDataField" ],
+          "default": "BinaryDataField"
+        },
+        "paddingChar": {
+          "type": "string",
+          "title": "Padding Byte",
+          "description": "The padding byte (2 hexadecimal characters).",
+          "maxLength": 2,
+          "pattern": "^[a-fA-F0-9]+$"
+        },
+        "value": {
+          "type": "string",
+          "title": "Value",
+          "description": "Hexstring representing the binary value.",
+          "pattern": "^[a-fA-F0-9]+$"
+        }
+      },
+      "description": "A field with binary data."
     },
     "CardSerialNumberService": {
       "type": "object",
@@ -477,6 +571,19 @@
         }
       },
       "additionalProperties": false
+    },
+    "DataFieldBase": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name",
+          "description": "The field name"
+        }
+      }
     },
     "DESFire.AbortTransaction": {
       "type": "object",
@@ -2011,6 +2118,28 @@
       "description": "The key reference.",
       "nullable": true
     },
+    "NumberDataField": {
+      "type": "object",
+      "title": "Number Data Field",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValueDataField"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "NumberDataField" ],
+          "default": "NumberDataField"
+        },
+        "value": {
+          "type": "integer",
+          "title": "Value",
+          "description": "A numeric value.",
+          "format": "int64"
+        }
+      },
+      "description": "A field with numeric value."
+    },
     "Nothing": {
       "type": "object",
       "title": "Nothing",
@@ -2026,6 +2155,37 @@
         }
       },
       "description": "Do nothing. Action placeholder for delayed services execution."
+    },
+    "ParityDataField": {
+      "type": "object",
+      "title": "Parity Data Field",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataFieldBase"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "ParityDataField" ],
+          "default": "ParityDataField"
+        },
+        "parityType": {
+          "type": "string",
+          "enum": ["even", "odd"],
+          "title": "Parity Type",
+          "description": "The parity type.",
+          "default": "even"
+        },
+        "bits": {
+          "type": "array",
+          "title": "Bits",
+          "description": "Bits used for parity calculation.",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "A parity field."
     },
     "ParseAccessControlDataService": {
       "type": "object",
@@ -2080,6 +2240,40 @@
       },
       "additionalProperties": false,
       "description": "SAM properties."
+    },
+    "StringDataField": {
+      "type": "object",
+      "title": "String Data Field",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ValueDataField"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "StringDataField" ],
+          "default": "StringDataField"
+        },
+        "charset": {
+          "type": "string",
+          "enum": ["ascii", "utf8"],
+          "title": "Charset",
+          "description": "The string charset.",
+          "default": "ascii"
+        },
+        "paddingChar": {
+          "type": "string",
+          "title": "Padding Char",
+          "description": "The padding character.",
+          "maxLength": 1
+        },
+        "value": {
+          "type": "string",
+          "title": "Value",
+          "description": "The string value."
+        }
+      },
+      "description": "A field with string data."
     },
     "TaskAccessRights": {
       "enum": [
@@ -2249,6 +2443,46 @@
       },
       "additionalProperties": false,
       "description": "Update buffer encoding service properties."
+    },
+    "ValueDataField": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DataFieldBase"
+        }
+      ],
+      "properties": {
+        "isFixedField": {
+          "type": "boolean",
+          "title": "Is Fixed Field",
+          "description": "The field is a fixed value field."
+        },
+        "isIdentifier": {
+          "type": "boolean",
+          "title": "Is Identifier",
+          "description": "The field is an identifier."
+        },
+        "length": {
+          "type": "integer",
+          "title": "Length",
+          "description": "The field length (in bits).",
+          "default": 0
+        },
+        "dataType": {
+          "type": "string",
+          "enum": ["bcdByte", "bcdNibble", "binary"],
+          "title": "Data Type",
+          "description": "The field data type.",
+          "default": "binary"
+        },
+        "dataRepresentation": {
+          "type": "string",
+          "enum": ["bigEndian", "littleEndian", "none"],
+          "title": "Data Representation",
+          "description": "The field data representation.",
+          "default": "bigEndian"
+        }
+      }
     }
   }
 }
