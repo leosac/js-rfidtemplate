@@ -13,7 +13,7 @@ function AccordionArrayFieldTemplate(props) {
           <Card key={'card_' + element.key}>
             <Accordion.Toggle as={Card.Header} eventKey={element.key}>
               <div className="row">
-                <div className="col-9">
+                <div className="col-8">
                   {element.children.props.title}
                   {(element.children.props.formData['$type']) && (
                     <>
@@ -21,7 +21,7 @@ function AccordionArrayFieldTemplate(props) {
                     </>
                   )}
                 </div>
-                <div className="col-3 text-right">
+                <div className="col-4 text-right">
                 {element.hasMoveUp && (
                   <span className="m-0 p-0">
                     <button title="Move up" style={{flex: '1 1 0%', paddingLeft: '6px', paddingRight: '6px', fontWeight: 'bold'}} disabled={element.index === 0} type="button" className="btn btn-light btn-sm" onClick={element.onReorderClick(element.index, element.index - 1)}>
@@ -39,7 +39,7 @@ function AccordionArrayFieldTemplate(props) {
                 {element.hasCopy && (
                   <span className="m-0 p-0">
                     <button title="Copy" style={{flex: '1 1 0%', paddingLeft: '6px', paddingRight: '6px', fontWeight: 'bold'}} type="button" className="btn btn-light btn-sm" onClick={element.onCopyIndexClick(element.index)}>
-                      <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3zzzz.org/2000/svg"><path d="M352 115h90c3.3 0 6-2.7 6-6 0-8.2-3.7-16-10-21.3l-77.1-64.2c-4.9-4.1-14.2-7.4-20.6-7.4-4.1 0-7.4 3.3-7.4 7.4V96c.1 10.5 8.6 19 19.1 19z"></path><path d="M307 96V16H176c-17.6 0-32 14.4-32 32v336c0 17.6 14.4 32 32 32h240c17.6 0 32-14.4 32-32V141h-96c-24.8 0-45-20.2-45-45z"></path><path d="M116 412V80H96c-17.6 0-32 14.4-32 32v352c0 17.6 14.4 32 32 32h256c17.6 0 32-14.4 32-32v-20H148c-17.6 0-32-14.4-32-32z"></path></svg>
+                      <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M352 115h90c3.3 0 6-2.7 6-6 0-8.2-3.7-16-10-21.3l-77.1-64.2c-4.9-4.1-14.2-7.4-20.6-7.4-4.1 0-7.4 3.3-7.4 7.4V96c.1 10.5 8.6 19 19.1 19z"></path><path d="M307 96V16H176c-17.6 0-32 14.4-32 32v336c0 17.6 14.4 32 32 32h240c17.6 0 32-14.4 32-32V141h-96c-24.8 0-45-20.2-45-45z"></path><path d="M116 412V80H96c-17.6 0-32 14.4-32 32v352c0 17.6 14.4 32 32 32h256c17.6 0 32-14.4 32-32v-20H148c-17.6 0-32-14.4-32-32z"></path></svg>
                     </button>
                   </span>
                 )}
@@ -72,8 +72,80 @@ function AccordionArrayFieldTemplate(props) {
   );
 }
 
+function BasicFieldTemplate(props) {
+  let classNames = props.classNames;
+  if (props.schema['x-hidden']) {
+    classNames += " d-none";
+  }
+  return (
+    <div className={classNames} style={props.style}>
+      {props.displayLabel && (
+        <label className="form-label" htmlFor={props.id}>
+          {props.label}
+          {props.required ? '*' : null}
+        </label>
+      )}
+      {props.children}
+      {props.displayLabel && (
+        <small className="text-muted form-text">{props.description}</small>
+      )}
+      {!props.hideError && props.errors}
+      {props.help}
+    </div>
+  );
+}
+
+function ObjectFieldTemplate(props) {
+  if (props.schema.properties && props.schema.properties['$type']) {
+    return (
+      <div>
+        <div>
+          <h5>{props.title}</h5>
+          <hr className="border-0 bg-secondary" style={{height: '1px'}}></hr>
+        </div>
+        <div>
+          <div className="mb-3">{props.description}</div>
+        </div>
+        <div className="p-0 container-fluid">
+          {props.properties.map((element) => (
+            <div className="row">
+              <div className="col-12">
+                {element.content}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <Card>
+        <Card.Header>
+          <h5>{props.title}</h5>
+        </Card.Header>
+        <Card.Body>
+          <div>
+            <div className="mb-3">{props.description}</div>
+          </div>
+          <div className="p-0 container-fluid">
+            {props.properties.map((element) => (
+              <div className="row">
+                <div className="col-12">
+                  {element.content}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card.Body>
+      </Card>
+    );
+  }
+}
+
 const uiTemplates = {
-  ArrayFieldTemplate: AccordionArrayFieldTemplate
+  ArrayFieldTemplate: AccordionArrayFieldTemplate,
+  FieldTemplate: BasicFieldTemplate,
+  ObjectFieldTemplate: ObjectFieldTemplate
 };
 
 export default uiTemplates;

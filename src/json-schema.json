@@ -35,10 +35,10 @@
     "discriminator": {
       "propertyName": "$type",
       "mapping": {
-        "BinaryDataField": "#/definitions/BinaryDataField",
-        "NumberDataField": "#/definitions/NumberDataField",
-        "ParityDataField": "#/definitions/ParityDataField",
-        "StringDataField": "#/definitions/StringDataField"
+        "Binary": "#/definitions/BinaryDataField",
+        "Number": "#/definitions/NumberDataField",
+        "Parity": "#/definitions/ParityDataField",
+        "String": "#/definitions/StringDataField"
       }
     },
     "oneOf": [
@@ -68,30 +68,64 @@
           ],
           "properties": {
             "formatDefinition": {
-              "type": "object",
               "title": "Format",
               "description": "The definition of the access control format to use.",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "title": "Name",
-                  "description": "The access control format name."
-                },
-                "fields": {
-                  "type": "array",
-                  "title": "Fields",
-                  "description": "Fields of the format",
-                  "items": {
-                    "$ref": "#/definitions/AccessControlDataField"
-                  }
+              "required": [
+                "$type"
+              ],
+              "discriminator": {
+                "propertyName": "$type",
+                "mapping": {
+                  "Binary32": "#/definitions/Binary32AccessControlFormat",
+                  "Binary56": "#/definitions/Binary56AccessControlFormat",
+                  "Binary64": "#/definitions/Binary64AccessControlFormat",
+                  "Custom": "#/definitions/CustomAccessControlFormat",
+                  "Wiegand26": "#/definitions/Wiegand26AccessControlFormat",
+                  "Wiegand34": "#/definitions/Wiegand34AccessControlFormat",
+                  "Wiegand34WithFacility": "#/definitions/Wiegand34WithFacilityAccessControlFormat",
+                  "Wiegand35": "#/definitions/Wiegand35AccessControlFormat",
+                  "Wiegand37": "#/definitions/Wiegand37AccessControlFormat",
+                  "Wiegand37WithFacility": "#/definitions/Wiegand37WithFacilityAccessControlFormat"
                 }
               },
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Binary32AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Binary56AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Binary64AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/CustomAccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand26AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand34AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand34WithFacilityAccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand35AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand37AccessControlFormat"
+                },
+                {
+                  "$ref": "#/definitions/Wiegand37WithFacilityAccessControlFormat"
+                }
+              ],
               "nullable": true
             }
           }
         },
         {
-          "title": "Format (XML)",
+          "title": "XML Format (deprecated)",
           "allOf": [
             {
               "$ref": "#/definitions/EncodingServiceProperties"
@@ -137,6 +171,39 @@
       },
       "description": "Action Trigger definition"
     },
+    "Binary32AccessControlFormat": {
+      "type": "object",
+      "title": "32-bit",
+      "properties": {
+        "$type": {
+          "enum": [ "Binary32" ],
+          "default": "Binary32",
+          "x-hidden": true
+        }
+      }
+    },
+    "Binary56AccessControlFormat": {
+      "type": "object",
+      "title": "56-bit",
+      "properties": {
+        "$type": {
+          "enum": [ "Binary56" ],
+          "default": "Binary56",
+          "x-hidden": true
+        }
+      }
+    },
+    "Binary64AccessControlFormat": {
+      "type": "object",
+      "title": "64-bit",
+      "properties": {
+        "$type": {
+          "enum": [ "Binary64" ],
+          "default": "Binary64",
+          "x-hidden": true
+        }
+      }
+    },
     "BinaryDataField": {
       "type": "object",
       "title": "Binary Data Field",
@@ -147,8 +214,9 @@
       ],
       "properties": {
         "$type": {
-          "enum": [ "BinaryDataField" ],
-          "default": "BinaryDataField"
+          "enum": [ "Binary" ],
+          "default": "Binary",
+          "x-hidden": true
         },
         "paddingChar": {
           "type": "string",
@@ -177,7 +245,8 @@
       "properties": {
         "$type": {
           "enum": [ "CardSerialNumberService" ],
-          "default": "CardSerialNumberService"
+          "default": "CardSerialNumberService",
+          "x-hidden": true
         },
         "checkCSN": {
           "type": "boolean",
@@ -198,7 +267,8 @@
       "properties": {
         "$type": {
           "enum": [ "ChangeActionPropertyService" ],
-          "default": "ChangeActionPropertyService"
+          "default": "ChangeActionPropertyService",
+          "x-hidden": true
         },
         "propertyName": {
           "type": "string",
@@ -391,7 +461,7 @@
       ]  
     },
     "ChipService": {
-        "required": [
+      "required": [
         "$type"
       ],
       "discriminator": {
@@ -506,7 +576,8 @@
       "properties": {
         "$type": {
           "enum": [ "CryptoDataService" ],
-          "default": "CryptoDataService"
+          "default": "CryptoDataService",
+          "x-hidden": true
         },
         "key": {
           "allOf": [
@@ -572,6 +643,30 @@
       },
       "additionalProperties": false
     },
+    "CustomAccessControlFormat": {
+      "type": "object",
+      "title": "Custom",
+      "properties": {
+        "$type": {
+          "enum": [ "Custom" ],
+          "default": "Custom",
+          "x-hidden": true
+        },
+        "name": {
+          "type": "string",
+          "title": "Name",
+          "description": "The access control format name."
+        },
+        "fields": {
+          "type": "array",
+          "title": "Fields",
+          "description": "Fields of the format",
+          "items": {
+            "$ref": "#/definitions/AccessControlDataField"
+          }
+        }
+      }
+    },
     "DataFieldBase": {
       "type": "object",
       "required": [
@@ -596,7 +691,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.AbortTransaction" ],
-          "default": "DESFire.AbortTransaction"
+          "default": "DESFire.AbortTransaction",
+          "x-hidden": true
         }
       },
       "description": "Abort a previously started transaction."
@@ -612,7 +708,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.Authenticate" ],
-          "default": "DESFire.Authenticate"
+          "default": "DESFire.Authenticate",
+          "x-hidden": true
         },
         "keyNo": {
           "type": "integer",
@@ -642,7 +739,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.AuthenticateAES" ],
-          "default": "DESFire.AuthenticateAES"
+          "default": "DESFire.AuthenticateAES",
+          "x-hidden": true
         },
         "keyNo": {
           "type": "integer",
@@ -672,7 +770,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.AuthenticateEV2First" ],
-          "default": "DESFire.AuthenticateEV2First"
+          "default": "DESFire.AuthenticateEV2First",
+          "x-hidden": true
         },
         "keyNo": {
           "type": "integer",
@@ -702,7 +801,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ChangeFileSettings" ],
-          "default": "DESFire.ChangeFileSettings"
+          "default": "DESFire.ChangeFileSettings",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -778,7 +878,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ChangeKey" ],
-          "default": "DESFire.ChangeKey"
+          "default": "DESFire.ChangeKey",
+          "x-hidden": true
         }
       },
       "description": "Change a PICC key."
@@ -794,7 +895,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ChangeKeyEV2" ],
-          "default": "DESFire.ChangeKeyEV2"
+          "default": "DESFire.ChangeKeyEV2",
+          "x-hidden": true
         },
         "keySet": {
           "type": "integer",
@@ -815,7 +917,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ChangeKeySettings" ],
-          "default": "DESFire.ChangeKeySettings"
+          "default": "DESFire.ChangeKeySettings",
+          "x-hidden": true
         },
         "keySettings": {
           "allOf": [
@@ -839,7 +942,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CommitTransaction" ],
-          "default": "DESFire.CommitTransaction"
+          "default": "DESFire.CommitTransaction",
+          "x-hidden": true
         }
       },
       "description": "Commit a previously started transaction."
@@ -886,7 +990,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateApplication" ],
-          "default": "DESFire.CreateApplication"
+          "default": "DESFire.CreateApplication",
+          "x-hidden": true
         }
       },
       "description": "Create a new application."
@@ -940,7 +1045,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateApplicationEV1" ],
-          "default": "DESFire.CreateApplicationEV1"
+          "default": "DESFire.CreateApplicationEV1",
+          "x-hidden": true
         }
       },
       "description": "Create a new EV1 application."
@@ -994,7 +1100,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateApplicationEV2" ],
-          "default": "DESFire.CreateApplicationEV2"
+          "default": "DESFire.CreateApplicationEV2",
+          "x-hidden": true
         }
       },
       "description": "Create a new EV2 application."
@@ -1010,7 +1117,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateBackupFile" ],
-          "default": "DESFire.CreateBackupFile"
+          "default": "DESFire.CreateBackupFile",
+          "x-hidden": true
         },
         "fileSize": {
           "type": "integer",
@@ -1031,7 +1139,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateCyclicRecordFile" ],
-          "default": "DESFire.CreateCyclicRecordFile"
+          "default": "DESFire.CreateCyclicRecordFile",
+          "x-hidden": true
         },
         "recordSize": {
           "type": "integer",
@@ -1058,7 +1167,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateDelegatedApplication" ],
-          "default": "DESFire.CreateDelegatedApplication"
+          "default": "DESFire.CreateDelegatedApplication",
+          "x-hidden": true
         },
         "damSlotNo": {
           "type": "integer",
@@ -1186,7 +1296,7 @@
           "description": "The file access rights."
         }
       },
-      "description": "Base class for file creation."
+      "description": "File creation properties."
     },
     "DESFire.CreateLinearRecordFile": {
       "type": "object",
@@ -1199,7 +1309,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateLinearRecordFile" ],
-          "default": "DESFire.CreateLinearRecordFile"
+          "default": "DESFire.CreateLinearRecordFile",
+          "x-hidden": true
         },
         "recordSize": {
           "type": "integer",
@@ -1244,7 +1355,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateStdDataFile" ],
-          "default": "DESFire.CreateStdDataFile"
+          "default": "DESFire.CreateStdDataFile",
+          "x-hidden": true
         }
       },
       "description": "Create a new standard data file."
@@ -1260,7 +1372,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateStdDataFileEV1" ],
-          "default": "DESFire.CreateStdDataFileEV1"
+          "default": "DESFire.CreateStdDataFileEV1",
+          "x-hidden": true
         },
         "isoFID": {
           "type": "integer",
@@ -1283,7 +1396,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateTransactionMACFile" ],
-          "default": "DESFire.CreateTransactionMACFile"
+          "default": "DESFire.CreateTransactionMACFile",
+          "x-hidden": true
         },
         "key": {
           "allOf": [
@@ -1312,7 +1426,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateValueFile" ],
-          "default": "DESFire.CreateValueFile"
+          "default": "DESFire.CreateValueFile",
+          "x-hidden": true
         },
         "lowerLimit": {
           "type": "integer",
@@ -1351,7 +1466,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.Credit" ],
-          "default": "DESFire.Credit"
+          "default": "DESFire.Credit",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1381,7 +1497,7 @@
           "$ref": "#/definitions/EncodingActionProperties"
         }
       ],
-      "description": "Base class for DESFire Encoding Action Properties"
+      "description": "DESFire Encoding Action Properties"
     },
     "DESFire.Debit": {
       "type": "object",
@@ -1394,7 +1510,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.Debit" ],
-          "default": "DESFire.Debit"
+          "default": "DESFire.Debit",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1428,7 +1545,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.DeleteApplication" ],
-          "default": "DESFire.DeleteApplication"
+          "default": "DESFire.DeleteApplication",
+          "x-hidden": true
         },
         "aid": {
           "type": "integer",
@@ -1449,7 +1567,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.DeleteFile" ],
-          "default": "DESFire.DeleteFile"
+          "default": "DESFire.DeleteFile",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1470,7 +1589,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.Erase" ],
-          "default": "DESFire.Erase"
+          "default": "DESFire.Erase",
+          "x-hidden": true
         }
       },
       "description": "Erase the PICC."
@@ -1486,7 +1606,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.FinalizeKeySet" ],
-          "default": "DESFire.FinalizeKeySet"
+          "default": "DESFire.FinalizeKeySet",
+          "x-hidden": true
         },
         "keySetNo": {
           "type": "integer",
@@ -1512,7 +1633,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.InitializeKeySet" ],
-          "default": "DESFire.InitializeKeySet"
+          "default": "DESFire.InitializeKeySet",
+          "x-hidden": true
         },
         "keySetNo": {
           "type": "integer",
@@ -1541,7 +1663,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ProximityCheck" ],
-          "default": "DESFire.ProximityCheck"
+          "default": "DESFire.ProximityCheck",
+          "x-hidden": true
         },
         "key": {
           "allOf": [
@@ -1570,7 +1693,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.ReadData" ],
-          "default": "DESFire.ReadData"
+          "default": "DESFire.ReadData",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1609,7 +1733,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.RollKeySet" ],
-          "default": "DESFire.RollKeySet"
+          "default": "DESFire.RollKeySet",
+          "x-hidden": true
         },
         "keySetNo": {
           "type": "integer",
@@ -1630,7 +1755,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.SelectApplication" ],
-          "default": "DESFire.SelectApplication"
+          "default": "DESFire.SelectApplication",
+          "x-hidden": true
         },
         "aid": {
           "type": "integer",
@@ -1677,7 +1803,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.SetConfiguration" ],
-          "default": "DESFire.SetConfiguration"
+          "default": "DESFire.SetConfiguration",
+          "x-hidden": true
         }
       },
       "description": "Set new PICC configuration."
@@ -1693,7 +1820,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.SetConfigurationEV2" ],
-          "default": "DESFire.SetConfigurationEV2"
+          "default": "DESFire.SetConfigurationEV2",
+          "x-hidden": true
         },
         "pcMandatoryEnabled": {
           "type": "boolean",
@@ -1717,7 +1845,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.SetConfigurationMessaging" ],
-          "default": "DESFire.SetConfigurationMessaging"
+          "default": "DESFire.SetConfigurationMessaging",
+          "x-hidden": true
         },
         "d40SecureMessagingEnabled": {
           "type": "boolean",
@@ -1745,7 +1874,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.WriteData" ],
-          "default": "DESFire.WriteData"
+          "default": "DESFire.WriteData",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1785,7 +1915,8 @@
       "properties": {
         "$type": {
           "enum": [ "DESFire.WriteRecord" ],
-          "default": "DESFire.WriteRecord"
+          "default": "DESFire.WriteRecord",
+          "x-hidden": true
         },
         "fileNo": {
           "type": "integer",
@@ -1922,14 +2053,15 @@
         "group": {
           "type": "string",
           "description": "The optional action group, mainly used to regroup visually several operations.",
-          "nullable": true
+          "nullable": true,
+          "x-hidden": true
         },
         "servicesBefore": {
           "type": "array",
           "title": "Services Before",
           "items": {
             "$ref": "#/definitions/ChipService",
-            "description": "Base class for encoding service properties."
+            "description": "Encoding service properties."
           },
           "description": "The card services to execute before the action.",
           "nullable": true
@@ -1939,7 +2071,7 @@
           "title": "Services After",
           "items": {
             "$ref": "#/definitions/ChipService",
-            "description": "Base class for encoding service properties."
+            "description": "Encoding service properties."
           },
           "description": "The card services to execute after the action.",
           "nullable": true
@@ -1963,7 +2095,7 @@
           "description": "The action to trigger on action execution failure."
         }
       },
-      "description": "Base class for Encoding Action Properties"
+      "description": "Encoding Action Properties"
     },
     "EncodingServiceBufferBehavior": {
       "enum": [
@@ -2004,7 +2136,7 @@
           "nullable": true
         }
       },
-      "description": "Base class for encoding service properties."
+      "description": "Encoding service properties."
     },
     "EncryptionMode": {
       "enum": [
@@ -2128,8 +2260,9 @@
       ],
       "properties": {
         "$type": {
-          "enum": [ "NumberDataField" ],
-          "default": "NumberDataField"
+          "enum": [ "Number" ],
+          "default": "Number",
+          "x-hidden": true
         },
         "value": {
           "type": "integer",
@@ -2151,7 +2284,8 @@
       "properties": {
         "$type": {
           "enum": [ "Nothing" ],
-          "default": "Nothing"
+          "default": "Nothing",
+          "x-hidden": true
         }
       },
       "description": "Do nothing. Action placeholder for delayed services execution."
@@ -2166,8 +2300,8 @@
       ],
       "properties": {
         "$type": {
-          "enum": [ "ParityDataField" ],
-          "default": "ParityDataField"
+          "enum": [ "Parity" ],
+          "default": "Parity"
         },
         "parityType": {
           "type": "string",
@@ -2198,7 +2332,8 @@
       "properties": {
         "$type": {
           "enum": [ "ParseAccessControlDataService" ],
-          "default": "ParseAccessControlDataService"
+          "default": "ParseAccessControlDataService",
+          "x-hidden": true
         }
       },
       "description": "Parse Access Control data encoding service, previously read or prepared."
@@ -2214,7 +2349,8 @@
       "properties": {
         "$type": {
           "enum": [ "PrepareAccessControlDataService" ],
-          "default": "PrepareAccessControlDataService"
+          "default": "PrepareAccessControlDataService",
+          "x-hidden": true
         }
       },
       "description": "Prepare Access Control data encoding service, for further writing."
@@ -2251,8 +2387,9 @@
       ],
       "properties": {
         "$type": {
-          "enum": [ "StringDataField" ],
-          "default": "StringDataField"
+          "enum": [ "String" ],
+          "default": "String",
+          "x-hidden": true
         },
         "charset": {
           "type": "string",
@@ -2308,7 +2445,8 @@
       "properties": {
         "$type": {
           "enum": [ "UltralightC.Authenticate" ],
-          "default": "UltralightC.Authenticate"
+          "default": "UltralightC.Authenticate",
+          "x-hidden": true
         },
         "key": {
           "allOf": [
@@ -2332,7 +2470,8 @@
       "properties": {
         "$type": {
           "enum": [ "UltralightC.ChangeKey" ],
-          "default": "UltralightC.ChangeKey"
+          "default": "UltralightC.ChangeKey",
+          "x-hidden": true
         },
         "key": {
           "allOf": [
@@ -2356,7 +2495,8 @@
       "properties": {
         "$type": {
           "enum": [ "UltralightC.LockPage" ],
-          "default": "UltralightC.LockPage"
+          "default": "UltralightC.LockPage",
+          "x-hidden": true
         },
         "page": {
           "type": "integer",
@@ -2377,7 +2517,8 @@
       "properties": {
         "$type": {
           "enum": [ "UltralightC.ReadPage" ],
-          "default": "UltralightC.ReadPage"
+          "default": "UltralightC.ReadPage",
+          "x-hidden": true
         },
         "page": {
           "type": "integer",
@@ -2394,7 +2535,7 @@
           "$ref": "#/definitions/EncodingActionProperties"
         }
       ],
-      "description": "Base class for Ultralight C Encoding Action Properties"
+      "description": "Ultralight C Encoding Action Properties"
     },
     "UltralightC.WritePage": {
       "type": "object",
@@ -2407,7 +2548,8 @@
       "properties": {
         "$type": {
           "enum": [ "UltralightC.WritePage" ],
-          "default": "UltralightC.WritePage"
+          "default": "UltralightC.WritePage",
+          "x-hidden": true
         },
         "page": {
           "type": "integer",
@@ -2428,7 +2570,8 @@
       "properties": {
         "$type": {
           "enum": [ "UpdateBufferService" ],
-          "default": "UpdateBufferService"
+          "default": "UpdateBufferService",
+          "x-hidden": true
         },
         "fromField": {
           "type": "string",
@@ -2481,6 +2624,92 @@
           "title": "Data Representation",
           "description": "The field data representation.",
           "default": "bigEndian"
+        }
+      }
+    },
+    "Wiegand26AccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 26",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand26" ],
+          "default": "Wiegand26",
+          "x-hidden": true
+        },
+        "facilityCode": {
+          "type": "integer",
+          "title": "Facility Code",
+          "description": "The facility code."
+        }
+      }
+    },
+    "Wiegand34AccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 34",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand34" ],
+          "default": "Wiegand34",
+          "x-hidden": true
+        }
+      }
+    },
+    "Wiegand34WithFacilityAccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 34 with Facility Code",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand34WithFacility" ],
+          "default": "Wiegand34WithFacility",
+          "x-hidden": true
+        },
+        "facilityCode": {
+          "type": "integer",
+          "title": "Facility Code",
+          "description": "The facility code."
+        }
+      }
+    },
+    "Wiegand35AccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 35",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand35" ],
+          "default": "Wiegand35",
+          "x-hidden": true
+        },
+        "companyCode": {
+          "type": "integer",
+          "title": "Company Code",
+          "description": "The company code."
+        }
+      }
+    },
+    "Wiegand37AccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 37",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand37" ],
+          "default": "Wiegand37",
+          "x-hidden": true
+        }
+      }
+    },
+    "Wiegand37WithFacilityAccessControlFormat": {
+      "type": "object",
+      "title": "Wiegand 37 with Facility Code",
+      "properties": {
+        "$type": {
+          "enum": [ "Wiegand37WithFacility" ],
+          "default": "Wiegand37WithFacility",
+          "x-hidden": true
+        },
+        "facilityCode": {
+          "type": "integer",
+          "title": "Facility Code",
+          "description": "The facility code."
         }
       }
     }
