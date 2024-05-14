@@ -96,13 +96,15 @@ function BasicFieldTemplate(props) {
 }
 
 function ObjectFieldTemplate(props) {
-  if (props.schema.properties && props.schema.properties['$type']) {
+  if ((props.schema.properties && props.schema.properties['$type']) || !props.title) {
     return (
       <div>
-        <div>
-          <h5>{props.title}</h5>
-          <hr className="border-0 bg-secondary" style={{height: '1px'}}></hr>
-        </div>
+        {props.title && (
+          <div>
+            <h5>{props.title}</h5>
+            <hr className="border-0 bg-secondary" style={{height: '1px'}}></hr>
+          </div>
+        )}
         <div>
           <div className="mb-3">{props.description}</div>
         </div>
@@ -119,25 +121,29 @@ function ObjectFieldTemplate(props) {
     );
   } else {
     return (
-      <Card>
-        <Card.Header>
-          <h5>{props.title}</h5>
-        </Card.Header>
-        <Card.Body>
-          <div>
-            <div className="mb-3">{props.description}</div>
-          </div>
-          <div className="p-0 container-fluid">
-            {props.properties.map((element) => (
-              <div className="row">
-                <div className="col-12">
-                  {element.content}
-                </div>
+      <Accordion>
+        <Card>
+          <Accordion.Toggle as={Card.Header} eventKey="0">
+            <h5>{props.title}</h5>
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <div>
+                <div className="mb-3">{props.description}</div>
               </div>
-            ))}
-          </div>
-        </Card.Body>
-      </Card>
+              <div className="p-0 container-fluid">
+                {props.properties.map((element) => (
+                  <div className="row">
+                    <div className="col-12">
+                      {element.content}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
     );
   }
 }
