@@ -806,6 +806,7 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number to change settings for.",
           "format": "int32"
         },
@@ -815,6 +816,7 @@
               "$ref": "#/definitions/EncryptionMode"
             }
           ],
+          "title": "Encryption Mode",
           "description": "The new security communication with the file."
         },
         "accessRights": {
@@ -823,10 +825,12 @@
               "$ref": "#/definitions/DESFireAccessRights"
             }
           ],
+          "title": "Access Rights",
           "description": "The new file access rights."
         },
         "plain": {
           "type": "boolean",
+          "title": "Plain",
           "description": "True if the communication is in plain mode, false otherwise."
         }
       },
@@ -926,6 +930,7 @@
               "$ref": "#/definitions/DESFireKeySettings"
             }
           ],
+          "title": "Key Settings",
           "description": "The new key settings."
         }
       },
@@ -1776,11 +1781,13 @@
       "properties": {
         "formatCardEnabled": {
           "type": "boolean",
+          "title": "Allow Card Format",
           "description": "True to enable format/erase operation, false otherwise."
         },
         "randomIdEnabled": {
           "type": "boolean",
-          "description": "True to enable Random ID/CSN, false otherwise."
+          "title": "Random UID/CSN",
+          "description": "True to enable Random UID/CSN, false otherwise."
         },
         "defaultKey": {
           "allOf": [
@@ -1788,6 +1795,7 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Default Key",
           "description": "Optionally define a new default key."
         }
       }
@@ -1825,10 +1833,12 @@
         },
         "pcMandatoryEnabled": {
           "type": "boolean",
+          "title": "Required Proximity Check",
           "description": "True to enforce Proximity Check, false otherwise."
         },
         "authVCMandatoryEnabled": {
           "type": "boolean",
+          "title": "Required Virtual Card authentication",
           "description": "True to enforce Virtual Card authentication, false otherwise."
         }
       },
@@ -1850,15 +1860,18 @@
         },
         "d40SecureMessagingEnabled": {
           "type": "boolean",
+          "title": "D40 Secure Messaging",
           "description": "True to enable D40 secure messaging, false otherwise."
         },
         "eV1SecureMessagingEnabled": {
           "type": "boolean",
+          "title": "EV1 Secure Messaging",
           "description": "True to enable EV1 secure messaging, false otherwise."
         },
         "eV2ChainedWritingEnabled": {
           "type": "boolean",
-          "description": "True to enable EV2 chanined writing, false otherwise."
+          "title": "EV2 Chained Writing",
+          "description": "True to enable EV2 chained writing, false otherwise."
         }
       },
       "description": "Set global secure messaging configuration."
@@ -1996,6 +2009,16 @@
         "default",
         "changeKeyWithTargetedKeyNo",
         "changeKeyFrozen"
+      ],
+      "enumNames": [
+        "Change Key with the Master Key",
+        "Allow to change the Master Key",
+        "Free listing without the Master Key",
+        "Free Create and Delete without the Master Key",
+        "Configuration is Changeable",
+        "Default",
+        "Change Key with targeted Key No",
+        "Change Key is frozen"
       ],
       "type": "string",
       "description": "DESFire Key Settings"
