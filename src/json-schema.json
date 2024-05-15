@@ -11,6 +11,22 @@
       "description": "The first encoding action to execute."
     },
     "forceCardType": {
+      "enum": [
+        "Mifare",
+        "DESFire",
+        "DESFireEV1",
+        "DESFireEV2",
+        "DESFireEV3",
+        "MifareUltralightC"
+      ],
+      "enumNames": [
+        "MIFARE Classic",
+        "MIFARE DESFire",
+        "MIFARE DESFire EV1",
+        "MIFARE DESFire EV2",
+        "MIFARE DESFire EV3",
+        "MIFARE Ultralight C"
+      ],
       "type": "string",
       "title": "Force Card Type",
       "description": "Force the card type to use (optional).",
@@ -272,11 +288,13 @@
         },
         "propertyName": {
           "type": "string",
+          "title": "Property Name",
           "description": "The action property name to update.",
           "nullable": true
         },
         "sourceField": {
           "type": "string",
+          "title": "Source Field",
           "description": "The data field name from where to get the updated data.",
           "nullable": true
         }
@@ -585,6 +603,7 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The key to use fo the crypto operation."
         },
         "crypto": {
@@ -593,10 +612,12 @@
               "$ref": "#/definitions/CryptoProperties"
             }
           ],
+          "title": "Crypto Properties",
           "description": "The cryptographic properties."
         },
         "initializationVectorField": {
           "type": "string",
+          "title": "Initialization Vector Field",
           "description": "A credential field to use as Initialization Vector.",
           "nullable": true
         }
@@ -612,11 +633,18 @@
             "decrypt",
             "sign"
           ],
+          "enumNames": [
+            "Encrypt",
+            "Decrypt",
+            "Sign"
+          ],
+          "title": "Operation",
           "type": "string"
         },
         "hashAlgorithm": {
           "type": "string",
-          "nullable": true
+          "nullable": true,
+          "title": "Hash Algorithm"
         },
         "cipherMode": {
           "enum": [
@@ -627,7 +655,8 @@
             "cts"
           ],
           "type": "string",
-          "nullable": true
+          "nullable": true,
+          "title": "Cipher Mode"
         },
         "paddingMode": {
           "enum": [
@@ -638,7 +667,8 @@
             "iso10126"
           ],
           "type": "string",
-          "nullable": true
+          "nullable": true,
+          "title": "Padding Mode"
         }
       },
       "additionalProperties": false
@@ -744,6 +774,7 @@
         },
         "keyNo": {
           "type": "integer",
+          "title": "Key No",
           "description": "The PICC key number.",
           "format": "int32",
           "default": 0
@@ -754,6 +785,7 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The key to use for authentication."
         }
       },
@@ -775,6 +807,7 @@
         },
         "keyNo": {
           "type": "integer",
+          "title": "Key No",
           "description": "The PICC key number.",
           "format": "int32",
           "default": 0
@@ -785,6 +818,7 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The key to use for authentication."
         }
       },
@@ -904,6 +938,7 @@
         },
         "keySet": {
           "type": "integer",
+          "title": "KeySet",
           "description": "The KeySet number.",
           "format": "int32"
         }
@@ -963,6 +998,7 @@
       "properties": {
         "aid": {
           "type": "integer",
+          "title": "Application Id",
           "description": "The new application identifier.",
           "format": "int32",
           "default": 0
@@ -973,11 +1009,13 @@
               "$ref": "#/definitions/DESFireKeySettings"
             }
           ],
+          "title": "Key Settings",
           "description": "The key settings for the new application.",
           "default": "default"
         },
         "maxNbKeys": {
           "type": "integer",
+          "title": "Max number of keys",
           "description": "Number of PICC keys inside the application.",
           "format": "int32",
           "default": 2
@@ -1015,6 +1053,7 @@
               "$ref": "#/definitions/DESFireKeyType"
             }
           ],
+          "title": "Key Type",
           "description": "The key type.",
           "default": "aes128"
         },
@@ -1024,16 +1063,19 @@
               "$ref": "#/definitions/FidSupport"
             }
           ],
+          "title": "FID Support",
           "description": "FID Support."
         },
         "isoFID": {
           "type": "integer",
+          "title": "ISO FID",
           "description": "Optional ISO FID.",
           "format": "int32",
           "nullable": true
         },
         "isoDFName": {
           "type": "string",
+          "title": "ISO DF Name",
           "description": "Optional ISO DF Name.",
           "nullable": true
         }
@@ -1066,30 +1108,36 @@
       "properties": {
         "numberKeySets": {
           "type": "integer",
+          "title": "Number of KeySets",
           "description": "Number of keysets on the application.",
           "format": "int32"
         },
         "maxKeySize": {
           "type": "integer",
+          "title": "Max key size",
           "description": "Max key size.",
           "format": "int32"
         },
         "actualKeySetVersion": {
           "type": "integer",
+          "title": "Current KeySet version",
           "description": "The current keyset version.",
           "format": "int32"
         },
         "rollKeyNo": {
           "type": "integer",
+          "title": "Rolling Key No",
           "description": "The key number for keyset rolling.",
           "format": "int32"
         },
         "specificCapabilityData": {
           "type": "boolean",
+          "title": "Specific Capability Data",
           "description": "True to enable application specific capability data, false otherwise."
         },
         "specificVCKeys": {
           "type": "boolean",
+          "title": "Specific Virtual Card Keys",
           "description": "True to enable application specific virtual card keys (including proximity check), false otherwise."
         }
       }
@@ -1127,6 +1175,7 @@
         },
         "fileSize": {
           "type": "integer",
+          "title": "File Size",
           "description": "The new file size (in bytes).",
           "format": "int32"
         }
@@ -1149,11 +1198,13 @@
         },
         "recordSize": {
           "type": "integer",
+          "title": "Record Size",
           "description": "Size of a record (in bytes).",
           "format": "int32"
         },
         "maxNumberOfRecords": {
           "type": "integer",
+          "title": "Max number of records",
           "description": "Maximal number of records inside the file.",
           "format": "int32"
         }
@@ -1166,7 +1217,7 @@
       "title": "DESFire.CreateDelegatedApplication",
       "allOf": [
         {
-          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+          "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
         }
       ],
       "properties": {
@@ -1177,91 +1228,21 @@
         },
         "damSlotNo": {
           "type": "integer",
+          "title": "DAM Slot No",
           "description": "The DAM slot number.",
           "format": "int32"
         },
         "damSlotVersion": {
           "type": "integer",
+          "title": "DAM Slot Version",
           "description": "The DAM slot version.",
           "format": "int32"
         },
         "quotaLimit": {
           "type": "integer",
+          "title": "Quota Limit",
           "description": "A quota limit for the DAM.",
           "format": "int32"
-        },
-        "aid": {
-          "type": "integer",
-          "description": "The new application identifier.",
-          "format": "int32"
-        },
-        "keySettings": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DESFireKeySettings"
-            }
-          ],
-          "description": "The key settings for the new application."
-        },
-        "maxNbKeys": {
-          "type": "integer",
-          "description": "Number of PICC keys inside the application.",
-          "format": "int32"
-        },
-        "keyType": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DESFireKeyType"
-            }
-          ],
-          "description": "The key type."
-        },
-        "fidSupport": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/FidSupport"
-            }
-          ],
-          "description": "FID Support."
-        },
-        "isoFID": {
-          "type": "integer",
-          "description": "Optional ISO FID.",
-          "format": "int32",
-          "nullable": true
-        },
-        "isoDFName": {
-          "type": "string",
-          "description": "Optional ISO DF Name.",
-          "nullable": true
-        },
-        "numberKeySets": {
-          "type": "integer",
-          "description": "Number of keysets on the application.",
-          "format": "int32"
-        },
-        "maxKeySize": {
-          "type": "integer",
-          "description": "Max key size.",
-          "format": "int32"
-        },
-        "actualKeySetVersion": {
-          "type": "integer",
-          "description": "The current keyset version.",
-          "format": "int32"
-        },
-        "rollKeyNo": {
-          "type": "integer",
-          "description": "The key number for keyset rolling.",
-          "format": "int32"
-        },
-        "specificCapabilityData": {
-          "type": "boolean",
-          "description": "True to enable application specific capability data, false otherwise."
-        },
-        "specificVCKeys": {
-          "type": "boolean",
-          "description": "True to enable application specific virtual card keys (including proximity check), false otherwise."
         }
       },
       "description": "Create a delegated application."
@@ -1410,10 +1391,12 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The transaction MAC key."
         },
         "keyVersion": {
           "type": "integer",
+          "title": "Key Version",
           "description": "The transaction MAC key version.",
           "format": "int32"
         }
@@ -1476,11 +1459,13 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number.",
           "format": "int32"
         },
         "value": {
           "type": "integer",
+          "title": "Value",
           "description": "The value to debit.",
           "format": "int32"
         },
@@ -1490,6 +1475,7 @@
               "$ref": "#/definitions/EncryptionMode"
             }
           ],
+          "title": "Encryption Mode",
           "description": "The communication encryption mode with the file."
         }
       },
@@ -1520,11 +1506,13 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number.",
           "format": "int32"
         },
         "value": {
           "type": "integer",
+          "title": "Value",
           "description": "The value to credit.",
           "format": "int32"
         },
@@ -1534,6 +1522,7 @@
               "$ref": "#/definitions/EncryptionMode"
             }
           ],
+          "title": "Encryption Mode",
           "description": "The communication encryption mode with the file."
         }
       },
@@ -1555,6 +1544,7 @@
         },
         "aid": {
           "type": "integer",
+          "title": "Application Id",
           "description": "The targeted application identifier.",
           "format": "int32"
         }
@@ -1577,6 +1567,7 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number.",
           "format": "int32"
         }
@@ -1616,11 +1607,13 @@
         },
         "keySetNo": {
           "type": "integer",
+          "title": "KeySet No",
           "description": "The keyset number.",
           "format": "int32"
         },
         "keySetVersion": {
           "type": "integer",
+          "title": "KeySet Version",
           "description": "The keyset version.",
           "format": "int32"
         }
@@ -1643,6 +1636,7 @@
         },
         "keySetNo": {
           "type": "integer",
+          "title": "KeySet No",
           "description": "The keyset number.",
           "format": "int32"
         },
@@ -1652,6 +1646,7 @@
               "$ref": "#/definitions/DESFireKeyType"
             }
           ],
+          "title": "Key Type",
           "description": "The key type."
         }
       },
@@ -1677,10 +1672,13 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The key to use for proximity check authentication."
         },
         "chunkSize": {
+          "enum": [1, 2, 4],
           "type": "integer",
+          "title": "Chunk Size",
           "description": "The chunk size. This value must be either 1, 2 or 4",
           "format": "int32"
         }
@@ -1703,16 +1701,19 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number.",
           "format": "int32"
         },
         "offset": {
           "type": "integer",
+          "title": "Offset",
           "description": "The offset.",
           "format": "int32"
         },
         "byteLength": {
           "type": "integer",
+          "title": "Length",
           "description": "Number of bytes to read.",
           "format": "int32"
         },
@@ -1722,6 +1723,7 @@
               "$ref": "#/definitions/EncryptionMode"
             }
           ],
+          "title": "Encryption Mode",
           "description": "The communication encryption mode with the file."
         }
       },
@@ -1743,6 +1745,7 @@
         },
         "keySetNo": {
           "type": "integer",
+          "title": "KeySet No",
           "description": "The keyset number.",
           "format": "int32"
         }
@@ -1765,6 +1768,7 @@
         },
         "aid": {
           "type": "integer",
+          "title": "Application Id",
           "description": "The targeted application identifier.",
           "format": "int32"
         }
@@ -1933,11 +1937,13 @@
         },
         "fileNo": {
           "type": "integer",
+          "title": "File No",
           "description": "The targeted file number.",
           "format": "int32"
         },
         "offset": {
           "type": "integer",
+          "title": "Offset",
           "description": "The offset.",
           "format": "int32"
         },
@@ -1947,6 +1953,7 @@
               "$ref": "#/definitions/EncryptionMode"
             }
           ],
+          "title": "Encryption Mode",
           "description": "The communication encryption mode with the file."
         }
       },
@@ -2127,6 +2134,12 @@
         "append",
         "prepend"
       ],
+      "enumNames": [
+        "Do Nothing",
+        "Overwrite",
+        "Append",
+        "Preprend"
+      ],
       "type": "string",
       "description": "Buffer behavior on the shared temporary buffer from encoding service.",
       "default": "overwrite"
@@ -2168,7 +2181,14 @@
         "encrypt",
         "unknown"
       ],
+      "enumNames": [
+        "Plain",
+        "MAC",
+        "Encrypt",
+        "Unknown"
+      ],
       "type": "string",
+      "title": "Encryption Mode",
       "description": "The communication encryption mode."
     },
     "FidSupport": {
@@ -2604,6 +2624,7 @@
         },
         "isDataRequired": {
           "type": "boolean",
+          "title": "Data Required",
           "description": "True if data is required (will throw), false otherwise (will be ignored)."
         }
       },

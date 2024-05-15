@@ -20,6 +20,11 @@ function AccordionArrayFieldTemplate(props) {
                       : {element.children.props.formData['$type']}
                     </>
                   )}
+                  {(element.children.props.formData['label']) && (
+                    <>
+                      - {element.children.props.formData['label']}
+                    </>
+                  )}
                 </div>
                 <div className="col-4 text-right">
                 {element.hasMoveUp && (
