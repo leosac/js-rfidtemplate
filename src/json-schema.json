@@ -712,7 +712,7 @@
     },
     "DESFire.AbortTransaction": {
       "type": "object",
-      "title": "DESFire.AbortTransaction",
+      "title": "DESFire - Abort Transaction",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -729,7 +729,7 @@
     },
     "DESFire.Authenticate": {
       "type": "object",
-      "title": "DESFire.Authenticate",
+      "title": "DESFire - Authenticate",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -760,7 +760,7 @@
     },
     "DESFire.AuthenticateAES": {
       "type": "object",
-      "title": "DESFire.AuthenticateAES",
+      "title": "DESFire - Authenticate AES",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -793,7 +793,7 @@
     },
     "DESFire.AuthenticateEV2First": {
       "type": "object",
-      "title": "DESFire.AuthenticateEV2First",
+      "title": "DESFire - Authenticate EV2 First",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -826,7 +826,7 @@
     },
     "DESFire.ChangeFileSettings": {
       "type": "object",
-      "title": "DESFire.ChangeFileSettings",
+      "title": "DESFire - Change File Settings",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -907,7 +907,7 @@
     },
     "DESFire.ChangeKey": {
       "type": "object",
-      "title": "DESFire.ChangeKey",
+      "title": "DESFire - Change Key",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.ChangeKeyBase"
@@ -924,7 +924,7 @@
     },
     "DESFire.ChangeKeyEV2": {
       "type": "object",
-      "title": "DESFire.ChangeKeyEV2",
+      "title": "DESFire - Change Key EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.ChangeKeyBase"
@@ -947,7 +947,7 @@
     },
     "DESFire.ChangeKeySettings": {
       "type": "object",
-      "title": "DESFire.ChangeKeySettings",
+      "title": "DESFire - Change Key Settings",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -973,7 +973,7 @@
     },
     "DESFire.CommitTransaction": {
       "type": "object",
-      "title": "DESFire.CommitTransaction",
+      "title": "DESFire - Commit Transaction",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1024,7 +1024,7 @@
     },
     "DESFire.CreateApplication": {
       "type": "object",
-      "title": "DESFire.CreateApplication",
+      "title": "DESFire - Create Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationBase"
@@ -1083,7 +1083,7 @@
     },
     "DESFire.CreateApplicationEV1": {
       "type": "object",
-      "title": "DESFire.CreateApplicationEV1",
+      "title": "DESFire - Create Application EV1",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV1Base"
@@ -1144,7 +1144,7 @@
     },
     "DESFire.CreateApplicationEV2": {
       "type": "object",
-      "title": "DESFire.CreateApplicationEV2",
+      "title": "DESFire - Create Application EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
@@ -1161,7 +1161,7 @@
     },
     "DESFire.CreateBackupFile": {
       "type": "object",
-      "title": "DESFire.CreateBackupFile",
+      "title": "DESFire - Create Backup File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1184,7 +1184,7 @@
     },
     "DESFire.CreateCyclicRecordFile": {
       "type": "object",
-      "title": "DESFire.CreateCyclicRecordFile",
+      "title": "DESFire - Create Cyclic Record File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1214,7 +1214,7 @@
     },
     "DESFire.CreateDelegatedApplication": {
       "type": "object",
-      "title": "DESFire.CreateDelegatedApplication",
+      "title": "DESFire - Create Delegated Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
@@ -1286,7 +1286,7 @@
     },
     "DESFire.CreateLinearRecordFile": {
       "type": "object",
-      "title": "DESFire.CreateLinearRecordFile",
+      "title": "DESFire - Create Linear Record File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1332,7 +1332,7 @@
     },
     "DESFire.CreateStdDataFile": {
       "type": "object",
-      "title": "DESFire.CreateStdDataFile",
+      "title": "DESFire - Create Standard Data File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
@@ -1349,7 +1349,7 @@
     },
     "DESFire.CreateStdDataFileEV1": {
       "type": "object",
-      "title": "DESFire.CreateStdDataFileEV1",
+      "title": "DESFire - Create Standard Data File EV1",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
@@ -1373,7 +1373,7 @@
     },
     "DESFire.CreateTransactionMACFile": {
       "type": "object",
-      "title": "DESFire.CreateTransactionMACFile",
+      "title": "DESFire - Create Transaction MAC File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1405,7 +1405,7 @@
     },
     "DESFire.CreateValueFile": {
       "type": "object",
-      "title": "DESFire.CreateValueFile",
+      "title": "DESFire - Create Value File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1445,7 +1445,7 @@
     },
     "DESFire.Credit": {
       "type": "object",
-      "title": "DESFire.Credit",
+      "title": "DESFire - Credit",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1492,7 +1492,7 @@
     },
     "DESFire.Debit": {
       "type": "object",
-      "title": "DESFire.Debit",
+      "title": "DESFire - Debit",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1530,7 +1530,7 @@
     },
     "DESFire.DeleteApplication": {
       "type": "object",
-      "title": "DESFire.DeleteApplication",
+      "title": "DESFire - Delete Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1553,7 +1553,7 @@
     },
     "DESFire.DeleteFile": {
       "type": "object",
-      "title": "DESFire.DeleteFile",
+      "title": "DESFire - Delete File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1576,7 +1576,7 @@
     },
     "DESFire.Erase": {
       "type": "object",
-      "title": "DESFire.Erase",
+      "title": "DESFire - Erase",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1593,7 +1593,7 @@
     },
     "DESFire.FinalizeKeySet": {
       "type": "object",
-      "title": "DESFire.FinalizeKeySet",
+      "title": "DESFire - Finalize KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1622,7 +1622,7 @@
     },
     "DESFire.InitializeKeySet": {
       "type": "object",
-      "title": "DESFire.InitializeKeySet",
+      "title": "DESFire - Initialize KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1654,7 +1654,7 @@
     },
     "DESFire.ProximityCheck": {
       "type": "object",
-      "title": "DESFire.ProximityCheck",
+      "title": "DESFire - Proximity Check",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1687,7 +1687,7 @@
     },
     "DESFire.ReadData": {
       "type": "object",
-      "title": "DESFire.ReadData",
+      "title": "DESFire - Read Data",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1731,7 +1731,7 @@
     },
     "DESFire.RollKeySet": {
       "type": "object",
-      "title": "DESFire.RollKeySet",
+      "title": "DESFire - Roll KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1754,7 +1754,7 @@
     },
     "DESFire.SelectApplication": {
       "type": "object",
-      "title": "DESFire.SelectApplication",
+      "title": "DESFire - Select Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1806,7 +1806,7 @@
     },
     "DESFire.SetConfiguration": {
       "type": "object",
-      "title": "DESFire.SetConfiguration",
+      "title": "DESFire - Set Configuration",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.SetConfigurationBase"
@@ -1823,7 +1823,7 @@
     },
     "DESFire.SetConfigurationEV2": {
       "type": "object",
-      "title": "DESFire.SetConfigurationEV2",
+      "title": "DESFire - Set Configuration EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.SetConfigurationBase"
@@ -1850,7 +1850,7 @@
     },
     "DESFire.SetConfigurationMessaging": {
       "type": "object",
-      "title": "DESFire.SetConfigurationMessaging",
+      "title": "DESFire - Set Configuration Messaging",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1882,7 +1882,7 @@
     },
     "DESFire.WriteData": {
       "type": "object",
-      "title": "DESFire.WriteData",
+      "title": "DESFire - Write Data",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1923,7 +1923,7 @@
     },
     "DESFire.WriteRecord": {
       "type": "object",
-      "title": "DESFire.WriteRecord",
+      "title": "DESFire - Write Record",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -2479,7 +2479,7 @@
     },
     "UltralightC.Authenticate": {
       "type": "object",
-      "title": "UltralightC.Authenticate",
+      "title": "Ultralight C - Authenticate",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -2504,7 +2504,7 @@
     },
     "UltralightC.ChangeKey": {
       "type": "object",
-      "title": "UltralightC.ChangeKey",
+      "title": "Ultralight C - Change Key",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -2529,7 +2529,7 @@
     },
     "UltralightC.LockPage": {
       "type": "object",
-      "title": "UltralightC.LockPage",
+      "title": "Ultralight C - Lock Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -2551,7 +2551,7 @@
     },
     "UltralightC.ReadPage": {
       "type": "object",
-      "title": "UltralightC.ReadPage",
+      "title": "Ultralight C - Read Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -2582,7 +2582,7 @@
     },
     "UltralightC.WritePage": {
       "type": "object",
-      "title": "UltralightC.WritePage",
+      "title": "Ultralight C - Write Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
