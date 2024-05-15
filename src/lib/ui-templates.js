@@ -15,14 +15,18 @@ function AccordionArrayFieldTemplate(props) {
               <div className="row">
                 <div className="col-8">
                   {element.children.props.title}
-                  {(element.children.props.formData['$type']) && (
+                  {(element.children.props.formData) && (
                     <>
-                      : {element.children.props.formData['$type']}
-                    </>
-                  )}
-                  {(element.children.props.formData['label']) && (
-                    <>
-                      - {element.children.props.formData['label']}
+                      {(element.children.props.formData['$type']) && (
+                        <>
+                          : {element.children.props.formData['$type']}
+                        </>
+                      )}
+                      {(element.children.props.formData['label']) && (
+                        <>
+                          - {element.children.props.formData['label']}
+                        </>
+                      )}
                     </>
                   )}
                 </div>
