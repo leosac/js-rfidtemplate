@@ -743,6 +743,7 @@
         },
         "keyNo": {
           "type": "integer",
+          "title": "Key No",
           "description": "The PICC key number.",
           "format": "int32",
           "default": 0
@@ -753,6 +754,7 @@
               "$ref": "#/definitions/KeyReference"
             }
           ],
+          "title": "Key",
           "description": "The key to use for authentication."
         }
       },
@@ -961,11 +963,8 @@
         },
         "keySettings": {
           "allOf": [
-            {
-              "$ref": "#/definitions/DESFireKeySettings"
-            }
+            { "$ref": "#/definitions/DESFireKeySettingsOptions" }
           ],
-          "title": "Key Settings",
           "description": "The new key settings."
         }
       },
@@ -1006,7 +1005,7 @@
         "keySettings": {
           "allOf": [
             {
-              "$ref": "#/definitions/DESFireKeySettings"
+              "$ref": "#/definitions/DESFireKeySettingsOptions"
             }
           ],
           "title": "Key Settings",
@@ -2029,6 +2028,43 @@
       ],
       "type": "string",
       "description": "DESFire Key Settings"
+    },
+    "DESFireKeySettingsCleaned": {
+      "enum": [
+        "allowChangeMasterKey",
+        "freeListingWithoutMasterKey",
+        "freeCreateDeleteWithoutMasterKey",
+        "configurationChangeable",
+        "changeKeyWithTargetedKeyNo",
+        "changeKeyFrozen"
+      ],
+      "enumNames": [
+        "Allow to change the Master Key",
+        "Free listing without the Master Key",
+        "Free Create and Delete without the Master Key",
+        "Configuration is Changeable",
+        "Change Key with targeted Key No",
+        "Change Key is frozen"
+      ],
+      "type": "string",
+      "description": "DESFire Key Settings"
+    },
+    "DESFireKeySettingsOptions": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/DESFireKeySettings",
+          "title": "Key Settings (one, deprecated)"
+        },
+        {
+          "type": "array",
+          "title": "Key Settings (multiple)",
+          "items": {
+            "$ref": "#/definitions/DESFireKeySettingsCleaned"
+          },
+          "uniqueItems": true
+        }
+      ],
+      "title": "Key Settings"
     },
     "DESFireKeyType": {
       "enum": [
