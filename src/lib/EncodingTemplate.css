@@ -1,0 +1,12 @@
+.card-header .rotate-icon {
+    display: inline-block;
+    text-align: center;
+    margin-left: 15px;
+    padding: 5px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.card:has(> div.show,div.collapsing) > .card-header .rotate-icon {
+    transform: rotate(90deg);
+}
