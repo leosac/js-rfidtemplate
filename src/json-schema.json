@@ -84,6 +84,7 @@
           ],
           "properties": {
             "formatDefinition": {
+              "type": "object",
               "title": "Format",
               "description": "The definition of the access control format to use.",
               "required": [

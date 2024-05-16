@@ -41,9 +41,9 @@ const uiWidgets = {
                                 name={props.name}
                                 value={props.value}
                                 onChange={(event) => props.onChange(event.target.value)} />
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">0x</div>
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <div className="input-group-text">0x</div>
                                 </div>
                                 <input
                                     id={props.id + "_hex"}

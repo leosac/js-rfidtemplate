@@ -59,7 +59,7 @@ function AccordionArrayFieldTemplate(props) {
                       </button>
                     </span>
                   )}
-                  <span class="rotate-icon">&gt;</span>
+                  <span className="rotate-icon">&gt;</span>
                 </div>
               </div>
             </Accordion.Toggle>
@@ -139,7 +139,7 @@ function ObjectFieldTemplate(props) {
                 <h5>{props.title}</h5>
               </div>
               <div className="col-4 text-right">
-                <span class="rotate-icon">&gt;</span>
+                <span className="rotate-icon">&gt;</span>
               </div>
             </div>
           </Accordion.Toggle>
