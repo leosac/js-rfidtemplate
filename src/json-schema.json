@@ -779,7 +779,9 @@
           "title": "Key No",
           "description": "The PICC key number.",
           "format": "int32",
-          "default": 0
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
         },
         "key": {
           "allOf": [
@@ -885,7 +887,9 @@
           "title": "Key No",
           "description": "The PICC key number.",
           "format": "int32",
-          "default": 0
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
         },
         "key": {
           "allOf": [
@@ -1000,7 +1004,11 @@
           "title": "Application Id",
           "description": "The new application identifier.",
           "format": "int32",
-          "default": 0
+          "default": 1,
+          "minimum": 1,
+          "maximum": 16777215,
+          "x-hexinput": true,
+          "x-hexlength": 6
         },
         "keySettings": {
           "allOf": [
@@ -1199,13 +1207,17 @@
           "type": "integer",
           "title": "Record Size",
           "description": "Size of a record (in bytes).",
-          "format": "int32"
+          "format": "int32",
+          "minimum": 0
         },
         "maxNumberOfRecords": {
           "type": "integer",
           "title": "Max number of records",
           "description": "Maximal number of records inside the file.",
-          "format": "int32"
+          "format": "int32",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 255
         }
       },
       "additionalProperties": false,
@@ -1259,7 +1271,9 @@
           "title": "File No",
           "description": "The file number.",
           "format": "int32",
-          "default": 0
+          "default": 0,
+          "minimum": 0,
+          "maximum": 32
         },
         "encryptionMode": {
           "allOf": [
@@ -1460,7 +1474,9 @@
           "type": "integer",
           "title": "File No",
           "description": "The targeted file number.",
-          "format": "int32"
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 32
         },
         "value": {
           "type": "integer",
@@ -1507,7 +1523,9 @@
           "type": "integer",
           "title": "File No",
           "description": "The targeted file number.",
-          "format": "int32"
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 32
         },
         "value": {
           "type": "integer",
@@ -1545,7 +1563,12 @@
           "type": "integer",
           "title": "Application Id",
           "description": "The targeted application identifier.",
-          "format": "int32"
+          "format": "int32",
+          "default": 1,
+          "minimum": 1,
+          "maximum": 16777215,
+          "x-hexinput": true,
+          "x-hexlength": 6
         }
       },
       "description": "Delete an existing application."
@@ -1769,7 +1792,12 @@
           "type": "integer",
           "title": "Application Id",
           "description": "The targeted application identifier.",
-          "format": "int32"
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 16777215,
+          "x-hexinput": true,
+          "x-hexlength": 6
         }
       },
       "description": "Select an existing application."
@@ -1898,14 +1926,17 @@
           "title": "File No",
           "description": "The targeted file number.",
           "format": "int32",
-          "default": 0
+          "default": 0,
+          "minimum": 0,
+          "maximum": 32
         },
         "offset": {
           "type": "integer",
           "title": "Offset",
           "description": "The offset.",
           "format": "int32",
-          "default": 0
+          "default": 0,
+          "minimum": 0
         },
         "encryptionMode": {
           "allOf": [
@@ -1938,7 +1969,9 @@
           "type": "integer",
           "title": "File No",
           "description": "The targeted file number.",
-          "format": "int32"
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 32
         },
         "offset": {
           "type": "integer",
@@ -2689,7 +2722,8 @@
           "type": "integer",
           "title": "Length",
           "description": "The field length (in bits).",
-          "default": 0
+          "default": 0,
+          "minimum": 0
         },
         "dataType": {
           "type": "string",
