@@ -1,3 +1,5 @@
+import FormCheck from 'react-bootstrap/FormCheck';
+
 const keys = [];
 
 function getHex(number, padding = undefined) {
@@ -12,6 +14,23 @@ function getHex(number, padding = undefined) {
 }
 
 const uiWidgets = {
+    CheckboxWidget: function(props) {
+        return (
+            <>
+                <FormCheck
+                type="switch"
+                id={props.id}
+                name={props.name}
+                disabled={props.disabled}
+                label={props.label}
+                checked={props.value}
+                onChange={(event) => props.onChange(event.target.checked)} />
+                <small className="text-muted form-text">
+                    {props.schema.description}
+                </small>
+            </>
+        );
+    },
     TextWidget: function(props) {
         if (props.schema['x-key']) {
             return (
