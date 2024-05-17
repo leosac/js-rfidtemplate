@@ -3,7 +3,7 @@ const keys = [];
 function getHex(number, padding = undefined) {
     let hex = undefined;
     if (number !== undefined) {
-        hex = number.toString(16);
+        hex = Number(number).toString(16);
         if (padding !== undefined) {
             hex = hex.padStart(padding, '0');
         }
@@ -34,44 +34,56 @@ const uiWidgets = {
             if (props.schema.type === 'number' || props.schema.type === 'integer') {
                 if (props.schema['x-hexinput']) {
                     return (
-                        <>
-                            <input
-                                id={props.id}
-                                type='hidden'
-                                name={props.name}
-                                value={props.value}
-                                onChange={(event) => props.onChange(event.target.value)} />
-                            <div className="input-group">
-                                <div className="input-group-prepend">
-                                    <div className="input-group-text">0x</div>
-                                </div>
+                        <div className="row">
+                            <div className="col-6">
                                 <input
-                                    id={props.id + "_hex"}
-                                    type='text'
+                                    id={props.id}
+                                    type='number'
                                     className='form-control'
-                                    value={getHex(props.value, props.schema['x-hexlength'])}
+                                    name={props.name}
+                                    value={props.value}
                                     placeholder={props.placeholder}
-                                    required={props.required}
-                                    minLength={props.schema['x-hexlength']}
-                                    pattern="^[a-fA-F0-9]+$"
-                                    onChange={(event) => {
-                                        const selectionStart = event.target.selectionStart;
-                                        if (props.schema['x-hexlength'] && event.target.value.length > props.schema['x-hexlength']) {
-                                            if (event.target.value[0] === '0') {
-                                                event.target.value = event.target.value.substring(1);
-                                            } else {
-                                                event.target.value = event.target.value.substring(0, props.schema['x-hexlength']);
-                                            }
-                                        }
-                                        const v = parseInt(event.target.value, 16);
-                                        document.getElementById(props.id).value = v;
-                                        props.onChange(v);
-                                        if (props.schema['x-hexlength'] && selectionStart < props.schema['x-hexlength']) {
-                                            event.target.setSelectionRange(selectionStart, selectionStart + 1);
-                                        }
-                                    }} />
+                                    min={props.schema.minimum}
+                                    max={props.schema.maximum}
+                                    readOnly={props.readonly}
+                                    disabled={props.disabled}
+                                    onChange={(event) => props.onChange(event.target.value)} />
                             </div>
-                        </>
+                            <div className="col-6">
+                                <div className="input-group">
+                                    <div className="input-group-prepend">
+                                        <div className="input-group-text">0x</div>
+                                    </div>
+                                    <input
+                                        id={props.id + "_hex"}
+                                        type='text'
+                                        className='form-control'
+                                        value={getHex(props.value, props.schema['x-hexlength'])}
+                                        placeholder={props.placeholder}
+                                        required={props.required}
+                                        minLength={props.schema['x-hexlength']}
+                                        pattern="^[a-fA-F0-9]+$"
+                                        readOnly={props.readonly}
+                                        disabled={props.disabled}
+                                        onChange={(event) => {
+                                            const selectionStart = event.target.selectionStart;
+                                            if (props.schema['x-hexlength'] && event.target.value.length > props.schema['x-hexlength']) {
+                                                if (event.target.value[0] === '0') {
+                                                    event.target.value = event.target.value.substring(1);
+                                                } else {
+                                                    event.target.value = event.target.value.substring(0, props.schema['x-hexlength']);
+                                                }
+                                            }
+                                            const v = parseInt(event.target.value, 16);
+                                            document.getElementById(props.id).value = v;
+                                            props.onChange(v);
+                                            if (props.schema['x-hexlength'] && selectionStart < props.schema['x-hexlength']) {
+                                                event.target.setSelectionRange(selectionStart, selectionStart + 1);
+                                            }
+                                        }} />
+                                </div>
+                            </div>
+                        </div>
                     );
                 } else {
                     return (
@@ -85,6 +97,8 @@ const uiWidgets = {
                             required={props.required}
                             min={props.schema.minimum}
                             max={props.schema.maximum}
+                            readOnly={props.readonly}
+                            disabled={props.disabled}
                             onChange={(event) => props.onChange(event.target.value)} />
                     );
                 }
@@ -101,6 +115,8 @@ const uiWidgets = {
                         minLength={props.schema.minLength}
                         maxLength={props.schema.maxLength}
                         pattern={props.schema.pattern}
+                        readOnly={props.readonly}
+                        disabled={props.disabled}
                         onChange={(event) => props.onChange(event.target.value)} />
                 );
             }

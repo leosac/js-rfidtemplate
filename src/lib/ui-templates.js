@@ -2,6 +2,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 
 function AccordionArrayFieldTemplate(props) {
+  if ((!props.items || props.items.length === 0) && !props.canAdd) {
+    return (<></>);
+  }
+
   return (
     <div>
       <div>
@@ -106,7 +110,7 @@ function BasicFieldTemplate(props) {
 }
 
 function ObjectFieldTemplate(props) {
-  if ((props.schema.properties && props.schema.properties['$type']) || !props.title) {
+  if ((props.schema.properties && props.schema.properties['$type']) || !props.title || props.schema['x-nocard']) {
     return (
       <div>
         {props.title && (

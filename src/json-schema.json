@@ -32,6 +32,14 @@
       "description": "Force the card type to use (optional).",
       "nullable": true
     },
+    "properties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FragmentTemplateProperty"
+      },
+      "title": "Template Properties",
+      "description": "The fragment template properties"
+    },
     "sam": {
       "allOf": [
         {
@@ -74,15 +82,18 @@
   },
     "AccessControlDataService": {
       "type": "object",
-      "anyOf": [
+      "allOf": [
         {
-          "title": "Format Definition",
-          "allOf": [
-            {
-              "$ref": "#/definitions/EncodingServiceProperties"
-            }
-          ],
+          "$ref": "#/definitions/EncodingServiceProperties"
+        },
+        {
           "properties": {
+            "format": {
+              "type": "string",
+              "title": "Format (XML, deprecated)",
+              "description": "The XML description of the access control format to use.",
+              "x-hidden": true
+            },
             "formatDefinition": {
               "type": "object",
               "title": "Format",
@@ -105,7 +116,7 @@
                   "Wiegand37WithFacility": "#/definitions/Wiegand37WithFacilityAccessControlFormat"
                 }
               },
-              "anyOf": [
+              "oneOf": [
                 {
                   "$ref": "#/definitions/Binary32AccessControlFormat"
                 },
@@ -136,24 +147,7 @@
                 {
                   "$ref": "#/definitions/Wiegand37WithFacilityAccessControlFormat"
                 }
-              ],
-              "nullable": true
-            }
-          }
-        },
-        {
-          "title": "XML Format (deprecated)",
-          "allOf": [
-            {
-              "$ref": "#/definitions/EncodingServiceProperties"
-            }
-          ],
-          "properties": {
-            "format": {
-              "type": "string",
-              "title": "Format (XML)",
-              "description": "The XML description of the access control format to use.",
-              "nullable": true
+              ]
             }
           }
         }
@@ -297,6 +291,12 @@
           "type": "string",
           "title": "Source Field",
           "description": "The data field name from where to get the updated data.",
+          "nullable": true
+        },
+        "sourceProperty": {
+          "type": "string",
+          "title": "Source Property",
+          "description": "The fragment template property from where to get the updated data.",
           "nullable": true
         }
       },
@@ -700,9 +700,6 @@
     },
     "DataFieldBase": {
       "type": "object",
-      "required": [
-        "name"
-      ],
       "properties": {
         "name": {
           "type": "string",
@@ -2271,6 +2268,35 @@
       "type": "string",
       "description": "FID Support"
     },
+    "FragmentTemplateProperty": {
+      "type": "object",
+      "title": "Property",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "label": {
+          "type": "string",
+          "title": "Label"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "string",
+              "title": "String Value"
+            },
+            {
+              "type": "integer",
+              "x-hexinput": true,
+              "title": "Number Value"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "x-nocard": true
+    },
     "KeyDiversification": {
       "type": "object",
       "properties": {
@@ -2727,8 +2753,7 @@
           "type": "integer",
           "title": "Length",
           "description": "The field length (in bits).",
-          "default": 0,
-          "minimum": 0
+          "default": 0
         },
         "dataType": {
           "type": "string",
