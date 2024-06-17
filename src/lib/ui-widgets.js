@@ -37,7 +37,8 @@ const uiWidgets = {
                 <select
                     id={props.id}
                     className='form-control'
-                    name={props.name}>
+                    name={props.name}
+                    onChange={(event) => props.onChange(event.target.value)}>
                         {props.schema.nullable && (
                             <option></option>
                         )}
