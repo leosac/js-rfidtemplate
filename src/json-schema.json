@@ -491,6 +491,7 @@
           "CryptoDataService": "#/definitions/CryptoDataService",
           "ParseAccessControlDataService": "#/definitions/ParseAccessControlDataService",
           "PrepareAccessControlDataService": "#/definitions/PrepareAccessControlDataService",
+          "PrepareBiometricDataService": "#/definitions/PrepareBiometricDataService",
           "UpdateBufferService": "#/definitions/UpdateBufferService"
         }
       },
@@ -509,6 +510,9 @@
           },
           {
             "$ref": "#/definitions/PrepareAccessControlDataService"
+          },
+          {
+            "$ref": "#/definitions/PrepareBiometricDataService"
           },
           {
             "$ref": "#/definitions/UpdateBufferService"
@@ -2495,6 +2499,82 @@
         }
       },
       "description": "Prepare Access Control data encoding service, for further writing."
+    },
+    "PrepareBiometricDataService": {
+      "type": "object",
+      "title": "Prepare Biometric Data",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "PrepareBiometricDataService" ],
+          "default": "PrepareBiometricDataService",
+          "x-hidden": true
+        },
+        "product": {
+          "enum": [
+            "MorphoAccess",
+            "MorphoAccessSIGMA"
+          ],
+          "type": "string",
+          "title": "Product",
+          "description": "The product category.",
+          "default": "MorphoAccess"
+        },
+        "format": {
+          "enum": [
+            "Morpho_CFV",
+            "Sagem_CFV",
+            "Morpho_PkMat",
+            "Morpho_PkCompV2",
+            "Morpho_PkLite",
+            "ANSI_378",
+            "ANSI_378_2009",
+            "ISO_19794_2",
+            "ISO_19794_2_2011",
+            "ISO_19794_2_CF_NS",
+            "ISO_19794_2_CF_CS"
+          ],
+          "type": "string",
+          "title": "Format",
+          "description": "The biometric template format.",
+          "default": "Morpho_CFV"
+        },
+        "cardIdField": {
+          "type": "string",
+          "title": "CardId Field",
+          "description": "The CardId field name.",
+          "default": "Uid"
+        },
+        "usernameField": {
+          "type": "string",
+          "title": "Username Field",
+          "description": "The Username field name.",
+          "default": "Username"
+        },
+        "finger1Field": {
+          "type": "string",
+          "title": "Finger #1 Field",
+          "description": "The Finger #1 field name.",
+          "default": "BioData_0"
+        },
+        "finger2Field": {
+          "type": "string",
+          "title": "Finger #2 Field",
+          "description": "The Finger #2 field name.",
+          "default": ""
+        },
+        "duressFingerField": {
+          "type": "string",
+          "title": "Duress Finger Field",
+          "description": "The Duress Finger field name.",
+          "default": ""
+        }
+      },
+      "description": "Prepare Biometric Data encoding service properties, for further writing."
     },
     "SAMProperties": {
       "type": "object",
