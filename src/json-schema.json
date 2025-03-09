@@ -744,11 +744,7 @@
           "x-hidden": true
         },
         "keyNo": {
-          "type": "integer",
-          "title": "Key No",
-          "description": "The PICC key number.",
-          "format": "int32",
-          "default": 0
+          "$ref": "#/definitions/KeyNumber"
         },
         "key": {
           "allOf": [
@@ -777,13 +773,7 @@
           "x-hidden": true
         },
         "keyNo": {
-          "type": "integer",
-          "title": "Key No",
-          "description": "The PICC key number.",
-          "format": "int32",
-          "default": 0,
-          "minimum": 0,
-          "maximum": 255
+          "$ref": "#/definitions/KeyNumber"
         },
         "key": {
           "allOf": [
@@ -812,11 +802,7 @@
           "x-hidden": true
         },
         "keyNo": {
-          "type": "integer",
-          "title": "Key No",
-          "description": "The PICC key number.",
-          "format": "int32",
-          "default": 0
+          "$ref": "#/definitions/KeyNumber"
         },
         "key": {
           "allOf": [
@@ -885,13 +871,7 @@
       ],
       "properties": {
         "keyNo": {
-          "type": "integer",
-          "title": "Key No",
-          "description": "The PICC key number.",
-          "format": "int32",
-          "default": 0,
-          "minimum": 0,
-          "maximum": 255
+          "$ref": "#/definitions/KeyNumber"
         },
         "key": {
           "allOf": [
@@ -2370,6 +2350,34 @@
         }
       },
       "description": "Key Diversification details."
+    },
+    "KeyNumber": {
+      "type": "integer",
+        "title": "Key No",
+        "description": "The PICC key number.",
+        "format": "int32",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 255,
+        "examples": {
+          "Master Key": 0,
+          "PICC Originality Key 1": 1,
+          "PICC Originality Key 2": 2,
+          "PICC Originality Key 3": 3,
+          "PICC Originality Key 4": 4,
+          "PICC DAM Auth Key": 16,
+          "PICC DAM MAC Key": 17,
+          "PICC DAM Enc Key": 18,
+          "NXP DAM Auth Key": 24,
+          "NXP DAM MAC Key": 25,
+          "NXP DAM Enc Key": 26,
+          "PICC VC Configuration Key": 32,
+          "VC Proximity Check Key": 33,
+          "VC Select MAC Key": 34,
+          "VC Select ENC Key": 35,
+          "PICC MFC Kill Key": 49,
+          "PICC MFC License MAC Key": 50
+        }
     },
     "KeyReference": {
       "type": "object",
