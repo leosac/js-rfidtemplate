@@ -937,21 +937,14 @@
       "type": "object",
       "title": "DESFire - Change Key Settings",
       "allOf": [
-        {
-          "$ref": "#/definitions/DESFire.DESFireActionProperties"
-        }
+        { "$ref": "#/definitions/DESFireKeySettingsApp" },
+        { "$ref": "#/definitions/DESFire.DESFireActionProperties" }
       ],
       "properties": {
         "$type": {
           "enum": [ "DESFire.ChangeKeySettings" ],
           "default": "DESFire.ChangeKeySettings",
           "x-hidden": true
-        },
-        "keySettings": {
-          "allOf": [
-            { "$ref": "#/definitions/DESFireKeySettingsOptions" }
-          ],
-          "description": "The new key settings."
         }
       },
       "description": "Change key settings of the current application."
@@ -976,9 +969,8 @@
     "DESFire.CreateApplicationBase": {
       "type": "object",
       "allOf": [
-        {
-          "$ref": "#/definitions/DESFire.DESFireActionProperties"
-        }
+        { "$ref": "#/definitions/DESFireKeySettingsApp" },
+        { "$ref": "#/definitions/DESFire.DESFireActionProperties" }
       ],
       "properties": {
         "aid": {
@@ -991,16 +983,6 @@
           "maximum": 16777215,
           "x-hexinput": true,
           "x-hexlength": 6
-        },
-        "keySettings": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/DESFireKeySettingsOptions"
-            }
-          ],
-          "title": "Key Settings",
-          "description": "The key settings for the new application.",
-          "default": "default"
         },
         "maxNbKeys": {
           "type": "integer",
@@ -2046,22 +2028,71 @@
       "type": "string",
       "description": "DESFire Key Settings"
     },
+    "DESFireKeySettingsApp": {
+      "type": "object",
+      "properties": {
+        "keySettings": {
+          "allOf": [{ "$ref": "#/definitions/DESFireKeySettingsOptions" }],
+          "title": "Key Settings",
+          "description": "The key settings.",
+          "default": ["allowChangeMasterKey", "freeListingWithoutMasterKey", "configurationChangeable"]
+        },
+        "changeKey": {
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "enumNames": [
+            "With Master Key",
+            "With Key #1",
+            "With Key #2",
+            "With Key #3",
+            "With Key #4",
+            "With Key #5",
+            "With Key #6",
+            "With Key #7",
+            "With Key #8",
+            "With Key #9",
+            "With Key #10",
+            "With Key #11",
+            "With Key #12",
+            "With Key #13",
+            "With targeted Key #",
+            "Is Frozen"
+          ],
+          "type": "integer",
+          "title": "Change Keys",
+          "description": "The key to be authenticated with to change application keys.",
+          "default": 0
+        }
+      }
+    },
     "DESFireKeySettingsCleaned": {
       "enum": [
         "allowChangeMasterKey",
         "freeListingWithoutMasterKey",
         "freeCreateDeleteWithoutMasterKey",
-        "configurationChangeable",
-        "changeKeyWithTargetedKeyNo",
-        "changeKeyFrozen"
+        "configurationChangeable"
       ],
       "enumNames": [
         "Allow to change the Master Key",
         "Free listing without the Master Key",
         "Free Create and Delete without the Master Key",
-        "Configuration is Changeable",
-        "Change Key with targeted Key No",
-        "Change Key is frozen"
+        "Configuration is Changeable"
       ],
       "type": "string",
       "description": "DESFire Key Settings"
