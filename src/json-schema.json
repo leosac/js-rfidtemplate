@@ -310,6 +310,13 @@
         "propertyName": "$type",
         "mapping": {
           "Nothing": "#/definitions/Nothing",
+          "Mifare.Authenticate": "#/definitions/Mifare.Authenticate",
+          "Mifare.ChangeKeys": "#/definitions/Mifare.ChangeKeys",
+          "Mifare.Decrement": "#/definitions/Mifare.Decrement",
+          "Mifare.Increment": "#/definitions/Mifare.Increment",
+          "Mifare.LoadKey": "#/definitions/Mifare.LoadKey",
+          "Mifare.ReadBinary": "#/definitions/Mifare.ReadBinary",
+          "Mifare.UpdateBinary": "#/definitions/Mifare.UpdateBinary",
           "UltralightC.Authenticate": "#/definitions/UltralightC.Authenticate",
           "UltralightC.ChangeKey": "#/definitions/UltralightC.ChangeKey",
           "UltralightC.LockPage": "#/definitions/UltralightC.LockPage",
@@ -321,6 +328,7 @@
           "DESFire.AuthenticateEV2First": "#/definitions/DESFire.AuthenticateEV2First",
           "DESFire.ChangeFileSettings": "#/definitions/DESFire.ChangeFileSettings",
           "DESFire.ChangeFileSettingsEV3": "#/definitions/DESFire.ChangeFileSettingsEV3",
+          "DESFire.CommitReaderId": "#/definitions/DESFire.CommitReaderId",
           "DESFire.CommitTransaction": "#/definitions/DESFire.CommitTransaction",
           "DESFire.CreateApplication": "#/definitions/DESFire.CreateApplication",
           "DESFire.CreateApplicationEV1": "#/definitions/DESFire.CreateApplicationEV1",
@@ -357,6 +365,27 @@
       "oneOf": [
         {
           "$ref": "#/definitions/Nothing"
+        },
+        {
+          "$ref": "#/definitions/Mifare.Authenticate"
+        },
+        {
+          "$ref": "#/definitions/Mifare.ChangeKeys"
+        },
+        {
+          "$ref": "#/definitions/Mifare.Decrement"
+        },
+        {
+          "$ref": "#/definitions/Mifare.Increment"
+        },
+        {
+          "$ref": "#/definitions/Mifare.LoadKey"
+        },
+        {
+          "$ref": "#/definitions/Mifare.ReadBinary"
+        },
+        {
+          "$ref": "#/definitions/Mifare.UpdateBinary"
         },
         {
           "$ref": "#/definitions/UltralightC.Authenticate"
@@ -399,6 +428,9 @@
         },
         {
           "$ref": "#/definitions/DESFire.ChangeKeySettings"
+        },
+        {
+          "$ref": "#/definitions/DESFire.CommitReaderId"
         },
         {
           "$ref": "#/definitions/DESFire.CommitTransaction"
@@ -730,7 +762,7 @@
     },
     "DESFire.AbortTransaction": {
       "type": "object",
-      "title": "DESFire - Abort Transaction",
+      "title": "MIFARE DESFire - Abort Transaction",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -747,7 +779,7 @@
     },
     "DESFire.Authenticate": {
       "type": "object",
-      "title": "DESFire - Authenticate",
+      "title": "MIFARE DESFire - Authenticate",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -776,7 +808,7 @@
     },
     "DESFire.AuthenticateAES": {
       "type": "object",
-      "title": "DESFire - Authenticate AES",
+      "title": "MIFARE DESFire - Authenticate AES",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -805,7 +837,7 @@
     },
     "DESFire.AuthenticateEV2First": {
       "type": "object",
-      "title": "DESFire - Authenticate EV2 First",
+      "title": "MIFARE DESFire - Authenticate EV2 First",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -834,7 +866,7 @@
     },
     "DESFire.ChangeFileSettings": {
       "type": "object",
-      "title": "DESFire - Change File Settings",
+      "title": "MIFARE DESFire - Change File Settings",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -880,7 +912,7 @@
     },
     "DESFire.ChangeFileSettingsEV3": {
       "type": "object",
-      "title": "DESFire - Change File Settings EV3",
+      "title": "MIFARE DESFire - Change File Settings EV3",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1056,7 +1088,7 @@
     },
     "DESFire.ChangeKey": {
       "type": "object",
-      "title": "DESFire - Change Key",
+      "title": "MIFARE DESFire - Change Key",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.ChangeKeyBase"
@@ -1073,7 +1105,7 @@
     },
     "DESFire.ChangeKeyEV2": {
       "type": "object",
-      "title": "DESFire - Change Key EV2",
+      "title": "MIFARE DESFire - Change Key EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.ChangeKeyBase"
@@ -1096,7 +1128,7 @@
     },
     "DESFire.ChangeKeySettings": {
       "type": "object",
-      "title": "DESFire - Change Key Settings",
+      "title": "MIFARE DESFire - Change Key Settings",
       "allOf": [
         { "$ref": "#/definitions/DESFireKeySettingsApp" },
         { "$ref": "#/definitions/DESFire.DESFireActionProperties" }
@@ -1110,9 +1142,31 @@
       },
       "description": "Change key settings of the current application."
     },
+    "DESFire.CommitReaderId": {
+      "type": "object",
+      "title": "MIFARE DESFire - Commit Reader ID",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CommitReaderId" ],
+          "default": "DESFire.CommitReaderId",
+          "x-hidden": true
+        },
+        "readerId": {
+          "type": "string",
+          "title": "Reader ID",
+          "description": "The reader identifier."
+        }
+      },
+      "description": "Delete an existing file."
+    },
     "DESFire.CommitTransaction": {
       "type": "object",
-      "title": "DESFire - Commit Transaction",
+      "title": "MIFARE DESFire - Commit Transaction",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1158,7 +1212,7 @@
     },
     "DESFire.CreateApplication": {
       "type": "object",
-      "title": "DESFire - Create Application",
+      "title": "MIFARE DESFire - Create Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationBase"
@@ -1217,7 +1271,7 @@
     },
     "DESFire.CreateApplicationEV1": {
       "type": "object",
-      "title": "DESFire - Create Application EV1",
+      "title": "MIFARE DESFire - Create Application EV1",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV1Base"
@@ -1278,7 +1332,7 @@
     },
     "DESFire.CreateApplicationEV2": {
       "type": "object",
-      "title": "DESFire - Create Application EV2",
+      "title": "MIFARE DESFire - Create Application EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
@@ -1295,7 +1349,7 @@
     },
     "DESFire.CreateBackupFile": {
       "type": "object",
-      "title": "DESFire - Create Backup File",
+      "title": "MIFARE DESFire - Create Backup File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1318,7 +1372,7 @@
     },
     "DESFire.CreateCyclicRecordFile": {
       "type": "object",
-      "title": "DESFire - Create Cyclic Record File",
+      "title": "MIFARE DESFire - Create Cyclic Record File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1352,7 +1406,7 @@
     },
     "DESFire.CreateDelegatedApplication": {
       "type": "object",
-      "title": "DESFire - Create Delegated Application",
+      "title": "MIFARE DESFire - Create Delegated Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateApplicationEV2Base"
@@ -1426,7 +1480,7 @@
     },
     "DESFire.CreateLinearRecordFile": {
       "type": "object",
-      "title": "DESFire - Create Linear Record File",
+      "title": "MIFARE DESFire - Create Linear Record File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1489,7 +1543,7 @@
     },
     "DESFire.CreateStdDataFile": {
       "type": "object",
-      "title": "DESFire - Create Standard Data File",
+      "title": "MIFARE DESFire - Create Standard Data File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
@@ -1506,7 +1560,7 @@
     },
     "DESFire.CreateStdDataFileEV1": {
       "type": "object",
-      "title": "DESFire - Create Standard Data File EV1",
+      "title": "MIFARE DESFire - Create Standard Data File EV1",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateStdDataFileEV1Base"
@@ -1523,7 +1577,7 @@
     },
     "DESFire.CreateStdDataFileEV3": {
       "type": "object",
-      "title": "DESFire - Create Standard Data File EV3",
+      "title": "MIFARE DESFire - Create Standard Data File EV3",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateStdDataFileEV1Base"
@@ -1550,7 +1604,7 @@
     },
     "DESFire.CreateTransactionMACFile": {
       "type": "object",
-      "title": "DESFire - Create Transaction MAC File",
+      "title": "MIFARE DESFire - Create Transaction MAC File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1582,7 +1636,7 @@
     },
     "DESFire.CreateValueFile": {
       "type": "object",
-      "title": "DESFire - Create Value File",
+      "title": "MIFARE DESFire - Create Value File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.CreateFile"
@@ -1622,7 +1676,7 @@
     },
     "DESFire.Credit": {
       "type": "object",
-      "title": "DESFire - Credit",
+      "title": "MIFARE DESFire - Credit",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1671,7 +1725,7 @@
     },
     "DESFire.Debit": {
       "type": "object",
-      "title": "DESFire - Debit",
+      "title": "MIFARE DESFire - Debit",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1711,7 +1765,7 @@
     },
     "DESFire.DeleteApplication": {
       "type": "object",
-      "title": "DESFire - Delete Application",
+      "title": "MIFARE DESFire - Delete Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1739,7 +1793,7 @@
     },
     "DESFire.DeleteFile": {
       "type": "object",
-      "title": "DESFire - Delete File",
+      "title": "MIFARE DESFire - Delete File",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1762,7 +1816,7 @@
     },
     "DESFire.ECCOriginalityCheck": {
       "type": "object",
-      "title": "DESFire - ECC Originality Check",
+      "title": "MIFARE DESFire - ECC Originality Check",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1779,7 +1833,7 @@
     },
     "DESFire.Erase": {
       "type": "object",
-      "title": "DESFire - Erase",
+      "title": "MIFARE DESFire - Erase",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1796,7 +1850,7 @@
     },
     "DESFire.FinalizeKeySet": {
       "type": "object",
-      "title": "DESFire - Finalize KeySet",
+      "title": "MIFARE DESFire - Finalize KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1825,7 +1879,7 @@
     },
     "DESFire.InitializeKeySet": {
       "type": "object",
-      "title": "DESFire - Initialize KeySet",
+      "title": "MIFARE DESFire - Initialize KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1857,7 +1911,7 @@
     },
     "DESFire.ProximityCheck": {
       "type": "object",
-      "title": "DESFire - Proximity Check",
+      "title": "MIFARE DESFire - Proximity Check",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1890,7 +1944,7 @@
     },
     "DESFire.ReadData": {
       "type": "object",
-      "title": "DESFire - Read Data",
+      "title": "MIFARE DESFire - Read Data",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1934,7 +1988,7 @@
     },
     "DESFire.RestoreTransfer": {
       "type": "object",
-      "title": "DESFire - Restore Transfer",
+      "title": "MIFARE DESFire - Restore Transfer",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1963,7 +2017,7 @@
     },
     "DESFire.RollKeySet": {
       "type": "object",
-      "title": "DESFire - Roll KeySet",
+      "title": "MIFARE DESFire - Roll KeySet",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -1986,7 +2040,7 @@
     },
     "DESFire.SelectApplication": {
       "type": "object",
-      "title": "DESFire - Select Application",
+      "title": "MIFARE DESFire - Select Application",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -2043,7 +2097,7 @@
     },
     "DESFire.SetConfiguration": {
       "type": "object",
-      "title": "DESFire - Set Configuration",
+      "title": "MIFARE DESFire - Set Configuration",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.SetConfigurationBase"
@@ -2060,7 +2114,7 @@
     },
     "DESFire.SetConfigurationEV2": {
       "type": "object",
-      "title": "DESFire - Set Configuration EV2",
+      "title": "MIFARE DESFire - Set Configuration EV2",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.SetConfigurationBase"
@@ -2087,7 +2141,7 @@
     },
     "DESFire.SetConfigurationMessaging": {
       "type": "object",
-      "title": "DESFire - Set Configuration Messaging",
+      "title": "MIFARE DESFire - Set Configuration Messaging",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -2119,7 +2173,7 @@
     },
     "DESFire.WriteData": {
       "type": "object",
-      "title": "DESFire - Write Data",
+      "title": "MIFARE DESFire - Write Data",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -2163,7 +2217,7 @@
     },
     "DESFire.WriteRecord": {
       "type": "object",
-      "title": "DESFire - Write Record",
+      "title": "MIFARE DESFire - Write Record",
       "allOf": [
         {
           "$ref": "#/definitions/DESFire.DESFireActionProperties"
@@ -2953,9 +3007,312 @@
       "type": "string",
       "description": "Key Reference for Access Rights"
     },
+    
+    "Mifare.Authenticate": {
+      "type": "object",
+      "title": "MIFARE Classic - Authenticate",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.Authenticate" ],
+          "default": "Mifare.Authenticate",
+          "x-hidden": true
+        },
+        "block": {
+          "type": "integer",
+          "title": "Block",
+          "description": "The block number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "keyNo": {
+          "type": "integer",
+          "title": "Key No",
+          "description": "The key number on the reader.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "keyType": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/MifareKeyType"
+            }
+          ],
+          "title": "Key Type",
+          "description": "The key type.",
+          "default": "keyA"
+        }
+      },
+      "description": "Authenticate."
+    },
+    "Mifare.ChangeKeys": {
+      "type": "object",
+      "title": "MIFARE Classic - Change Keys",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.ChangeKeys" ],
+          "default": "Mifare.ChangeKeys",
+          "x-hidden": true
+        },
+        "sector": {
+          "type": "integer",
+          "title": "Sector",
+          "description": "The sector number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "keyA": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The new key A.",
+          "nullable": true
+        },
+        "keyB": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The new key B.",
+          "nullable": true
+        },
+        "sectorAccessBits": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/MifareSectorAccessBits"
+            }
+          ],
+          "title": "Sector Access Bits",
+          "description": "The new sector access bits.",
+          "default": "transport"
+        }
+      },
+      "description": "Change keys."
+    },
+    "Mifare.LoadKey": {
+      "type": "object",
+      "title": "MIFARE Classic - Load Key",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.LoadKey" ],
+          "default": "Mifare.LoadKey",
+          "x-hidden": true
+        },
+        "keyNo": {
+          "type": "integer",
+          "title": "Key No",
+          "description": "The key number on the reader.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "keyType": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/MifareKeyType"
+            }
+          ],
+          "title": "Key Type",
+          "description": "The key type.",
+          "default": "keyA"
+        },
+        "key": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "description": "The key to use for authentication."
+        }
+      },
+      "description": "Authenticate."
+    },
+    "Mifare.Decrement": {
+      "type": "object",
+      "title": "MIFARE Classic - Decrement",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.Decrement" ],
+          "default": "Mifare.Decrement",
+          "x-hidden": true
+        },
+        "block": {
+          "type": "integer",
+          "title": "Block",
+          "description": "The block number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "value": {
+          "type": "integer",
+          "title": "Value",
+          "description": "The value.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0
+        }
+      },
+      "description": "Decrement."
+    },
+    "Mifare.Increment": {
+      "type": "object",
+      "title": "MIFARE Classic - Increment",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.Increment" ],
+          "default": "Mifare.Increment",
+          "x-hidden": true
+        },
+        "block": {
+          "type": "integer",
+          "title": "Block",
+          "description": "The block number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "value": {
+          "type": "integer",
+          "title": "Value",
+          "description": "The value.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0
+        }
+      },
+      "description": "Increment."
+    },
+    "Mifare.ReadBinary": {
+      "type": "object",
+      "title": "MIFARE Classic - Read Binary",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.ReadBinary" ],
+          "default": "Mifare.ReadBinary",
+          "x-hidden": true
+        },
+        "block": {
+          "type": "integer",
+          "title": "Block",
+          "description": "The block number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        },
+        "length": {
+          "type": "integer",
+          "title": "Length",
+          "description": "The number of bytes to read.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "description": "Read binary data."
+    },
+    "Mifare.UpdateBinary": {
+      "type": "object",
+      "title": "MIFARE Classic - Update Binary",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Mifare.MifareActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "Mifare.UpdateBinary" ],
+          "default": "Mifare.UpdateBinary",
+          "x-hidden": true
+        },
+        "block": {
+          "type": "integer",
+          "title": "Block",
+          "description": "The block number.",
+          "format": "int32",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 255
+        }
+      },
+      "description": "Update binary data."
+    },
+    "Mifare.MifareActionProperties": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingActionProperties"
+        }
+      ],
+      "description": "MIFARE Classic Encoding Action Properties"
+    },
+    "MifareKeyType": {
+      "enum": [
+        "keyA",
+        "keyB"
+      ],
+      "type": "string",
+      "description": "MIFARE Classic Key Type."
+    },
+    "MifareSectorAccessBits": {
+      "enum": [
+        "aRead_BWrite",
+        "aRead_NeverWrite",
+        "bRead_BWrite",
+        "bRead_NeverWrite",
+        "neverRead_NeverWrite",
+        "nfc",
+        "transport"
+      ],
+      "type": "string",
+      "description": "MIFARE Classic Sector Access Bits."
+    },
     "UltralightC.Authenticate": {
       "type": "object",
-      "title": "Ultralight C - Authenticate",
+      "title": "MIFARE Ultralight C - Authenticate",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -2980,7 +3337,7 @@
     },
     "UltralightC.ChangeKey": {
       "type": "object",
-      "title": "Ultralight C - Change Key",
+      "title": "MIFARE Ultralight C - Change Key",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -3005,7 +3362,7 @@
     },
     "UltralightC.LockPage": {
       "type": "object",
-      "title": "Ultralight C - Lock Page",
+      "title": "MIFARE Ultralight C - Lock Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -3027,7 +3384,7 @@
     },
     "UltralightC.ReadPage": {
       "type": "object",
-      "title": "Ultralight C - Read Page",
+      "title": "MIFARE Ultralight C - Read Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
@@ -3054,11 +3411,11 @@
           "$ref": "#/definitions/EncodingActionProperties"
         }
       ],
-      "description": "Ultralight C Encoding Action Properties"
+      "description": "MIFARE Ultralight C Encoding Action Properties"
     },
     "UltralightC.WritePage": {
       "type": "object",
-      "title": "Ultralight C - Write Page",
+      "title": "MIFARE Ultralight C - Write Page",
       "allOf": [
         {
           "$ref": "#/definitions/UltralightC.UltralightCActionProperties"
