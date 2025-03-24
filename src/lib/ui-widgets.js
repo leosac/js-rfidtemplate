@@ -137,20 +137,33 @@ const uiWidgets = {
                 }
             } else {
                 return (
-                    <input
-                        id={props.id}
-                        type='text'
-                        className='form-control'
-                        name={props.name}
-                        value={props.value}
-                        placeholder={props.placeholder}
-                        required={props.required}
-                        minLength={props.schema.minLength}
-                        maxLength={props.schema.maxLength}
-                        pattern={props.schema.pattern}
-                        readOnly={props.readonly}
-                        disabled={props.disabled}
-                        onChange={(event) => props.onChange(event.target.value)} />
+                    <div className="row">
+                        <input
+                            id={props.id}
+                            type='text'
+                            className='form-control'
+                            name={props.name}
+                            value={props.value}
+                            placeholder={props.placeholder}
+                            required={props.required}
+                            minLength={props.schema.minLength}
+                            maxLength={props.schema.maxLength}
+                            pattern={props.schema.pattern}
+                            readOnly={props.readonly}
+                            disabled={props.disabled}
+                            list={props.schema.examples ? props.id + '_list' : undefined}
+                            onChange={(event) => props.onChange(event.target.value)} />
+                        {props.schema.examples && (
+                            <datalist id={props.id + '_list'}>
+                                {Array.isArray(props.schema.examples) && props.schema.examples.map((example) => {
+                                    return <option key={example} value={example} />;
+                                })}
+                                {!Array.isArray(props.schema.examples) && Object.keys(props.schema.examples).map((key) => {
+                                    return <option key={props.schema.examples[key]} value={props.schema.examples[key]} label={key} />;
+                                })}
+                            </datalist>
+                        )}
+                    </div>
                 );
             }
         }
