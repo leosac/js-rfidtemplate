@@ -320,6 +320,7 @@
           "DESFire.AuthenticateAES": "#/definitions/DESFire.AuthenticateAES",
           "DESFire.AuthenticateEV2First": "#/definitions/DESFire.AuthenticateEV2First",
           "DESFire.ChangeFileSettings": "#/definitions/DESFire.ChangeFileSettings",
+          "DESFire.ChangeFileSettingsEV3": "#/definitions/DESFire.ChangeFileSettingsEV3",
           "DESFire.CommitTransaction": "#/definitions/DESFire.CommitTransaction",
           "DESFire.CreateApplication": "#/definitions/DESFire.CreateApplication",
           "DESFire.CreateApplicationEV1": "#/definitions/DESFire.CreateApplicationEV1",
@@ -330,17 +331,20 @@
           "DESFire.CreateLinearRecordFile": "#/definitions/DESFire.CreateLinearRecordFile",
           "DESFire.CreateStdDataFile": "#/definitions/DESFire.CreateStdDataFile",
           "DESFire.CreateStdDataFileEV1": "#/definitions/DESFire.CreateStdDataFileEV1",
+          "DESFire.CreateStdDataFileEV3": "#/definitions/DESFire.CreateStdDataFileEV3",
           "DESFire.CreateTransactionMACFile": "#/definitions/DESFire.CreateTransactionMACFile",
           "DESFire.CreateValueFile": "#/definitions/DESFire.CreateValueFile",
           "DESFire.Credit": "#/definitions/DESFire.Credit",
           "DESFire.Debit": "#/definitions/DESFire.Debit",
           "DESFire.DeleteApplication": "#/definitions/DESFire.DeleteApplication",
           "DESFire.DeleteFile": "#/definitions/DESFire.DeleteFile",
+          "DESFire.ECCOriginalityCheck": "#/definitions/DESFire.ECCOriginalityCheck",
           "DESFire.Erase": "#/definitions/DESFire.Erase",
           "DESFire.FinalizeKeySet": "#/definitions/DESFire.FinalizeKeySet",
           "DESFire.InitializeKeySet": "#/definitions/DESFire.InitializeKeySet",
           "DESFire.ProximityCheck": "#/definitions/DESFire.ProximityCheck",
           "DESFire.ReadData": "#/definitions/DESFire.ReadData",
+          "DESFire.RestoreTransfer": "#/definitions/DESFire.RestoreTransfer",
           "DESFire.RollKeySet": "#/definitions/DESFire.RollKeySet",
           "DESFire.SelectApplication": "#/definitions/DESFire.SelectApplication",
           "DESFire.SetConfiguration": "#/definitions/DESFire.SetConfiguration",
@@ -385,6 +389,9 @@
           "$ref": "#/definitions/DESFire.ChangeFileSettings"
         },
         {
+          "$ref": "#/definitions/DESFire.ChangeFileSettingsEV3"
+        },
+        {
           "$ref": "#/definitions/DESFire.ChangeKey"
         },
         {
@@ -424,6 +431,9 @@
           "$ref": "#/definitions/DESFire.CreateStdDataFileEV1"
         },
         {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileEV3"
+        },
+        {
           "$ref": "#/definitions/DESFire.CreateTransactionMACFile"
         },
         {
@@ -442,6 +452,9 @@
           "$ref": "#/definitions/DESFire.DeleteFile"
         },
         {
+          "$ref": "#/definitions/DESFire.ECCOriginalityCheck"
+        },
+        {
           "$ref": "#/definitions/DESFire.Erase"
         },
         {
@@ -455,6 +468,9 @@
         },
         {
           "$ref": "#/definitions/DESFire.ReadData"
+        },
+        {
+          "$ref": "#/definitions/DESFire.RestoreTransfer"
         },
         {
           "$ref": "#/definitions/DESFire.RollKeySet"
@@ -861,6 +877,151 @@
         }
       },
       "description": "Change a file settings."
+    },
+    "DESFire.ChangeFileSettingsEV3": {
+      "type": "object",
+      "title": "DESFire - Change File Settings EV3",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ChangeFileSettingsEV3" ],
+          "default": "DESFire.ChangeFileSettingsEV3",
+          "x-hidden": true
+        },
+        "fileNo": {
+          "type": "integer",
+          "title": "File No",
+          "description": "The targeted file number to change settings for.",
+          "format": "int32"
+        },
+        "encryptionMode": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/EncryptionMode"
+            }
+          ],
+          "title": "Encryption Mode",
+          "description": "The new security communication with the file."
+        },
+        "accessRights": {
+          "type": "array",
+          "title": "Access Rights",
+          "description": "The new file access rights.",
+          "items": {
+            "$ref": "#/definitions/DESFireAccessRights"
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "sdmAndMirroring": {
+          "type": "boolean",
+          "title": "SDM and Mirroring",
+          "description": "Enable SDM and mirroring (to setup with Change File Settings EV3)."
+        },
+        "sdmVcuid": {
+          "type": "boolean",
+          "title": "SDM VCUID",
+          "description": "Enable VCUID data."
+        },
+        "sdmReadCtr": {
+          "type": "boolean",
+          "title": "SDM Read Counter",
+          "description": "Enable Read Counter."
+        },
+        "sdmReadCtrLimit": {
+          "type": "boolean",
+          "title": "SDM Read Counter Limit",
+          "description": "Enable Read Counter Limit."
+        },
+        "sdmEncFileData": {
+          "type": "boolean",
+          "title": "SDM Encrypt File Data",
+          "description": "Enable File Data Encryption."
+        },
+        "sdmAsciiEncoding": {
+          "type": "boolean",
+          "title": "SDM ASCII Encoding",
+          "description": "Enable ASCII Encoding."
+        },
+        "sdmAccessRights": {
+          "title": "SDM Access Rights",
+          "description": "The new SDM access rights.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/DESFireAccessRights"
+            }
+          ]
+        },
+        "sdmVcuidOffset": {
+          "type": "integer",
+          "title": "SDM VCUID Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmReadCtrOffset": {
+          "type": "integer",
+          "title": "SDM Read Counter Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmPiccDataOffset": {
+          "type": "integer",
+          "title": "SDM PICC Data Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmMacInputOffset": {
+          "type": "integer",
+          "title": "SDM MAC Input Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmEncOffset": {
+          "type": "integer",
+          "title": "SDM Encryption Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmEncLength": {
+          "type": "integer",
+          "title": "SDM Encryption Length",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmMacOffset": {
+          "type": "integer",
+          "title": "SDM MAC Offset",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "sdmReadCtrLimitValue": {
+          "type": "integer",
+          "title": "SDM Read Counter Limit Value",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 16777215
+        },
+        "tmcLimit": {
+          "type": "integer",
+          "title": "TMC Limit",
+          "description": "The optional TMC limit (for Transaction MAC file type).",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "description": "Change a file settings (DESFire EV3)."
     },
     "DESFire.ChangeKeyBase": {
       "type": "object",
@@ -1309,6 +1470,23 @@
         }
       }
     },
+    "DESFire.CreateStdDataFileEV1Base": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
+        }
+      ],
+      "properties": {
+        "isoFID": {
+          "type": "integer",
+          "title": "ISO FID",
+          "description": "Optional ISO FID.",
+          "format": "int32",
+          "nullable": true
+        }
+      }
+    },
     "DESFire.CreateStdDataFile": {
       "type": "object",
       "title": "DESFire - Create Standard Data File",
@@ -1331,7 +1509,7 @@
       "title": "DESFire - Create Standard Data File EV1",
       "allOf": [
         {
-          "$ref": "#/definitions/DESFire.CreateStdDataFileBase"
+          "$ref": "#/definitions/DESFire.CreateStdDataFileEV1Base"
         }
       ],
       "properties": {
@@ -1339,16 +1517,36 @@
           "enum": [ "DESFire.CreateStdDataFileEV1" ],
           "default": "DESFire.CreateStdDataFileEV1",
           "x-hidden": true
-        },
-        "isoFID": {
-          "type": "integer",
-          "title": "ISO FID",
-          "description": "Optional ISO FID.",
-          "format": "int32",
-          "nullable": true
         }
       },
       "description": "Create a new standard data file EV1."
+    },
+    "DESFire.CreateStdDataFileEV3": {
+      "type": "object",
+      "title": "DESFire - Create Standard Data File EV3",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.CreateStdDataFileEV1Base"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.CreateStdDataFileEV3" ],
+          "default": "DESFire.CreateStdDataFileEV3",
+          "x-hidden": true
+        },
+        "multiAccessRights": {
+          "type": "boolean",
+          "title": "Multiple Access Rights",
+          "description": "Enable multiple access rights (to setup with Change File Settings EV3)."
+        },
+        "sdmAndMirroring": {
+          "type": "boolean",
+          "title": "SDM and Mirroring",
+          "description": "Enable SDM and mirroring (to setup with Change File Settings EV3)."
+        }
+      },
+      "description": "Create a new standard data file EV3."
     },
     "DESFire.CreateTransactionMACFile": {
       "type": "object",
@@ -1562,6 +1760,23 @@
       },
       "description": "Delete an existing file."
     },
+    "DESFire.ECCOriginalityCheck": {
+      "type": "object",
+      "title": "DESFire - ECC Originality Check",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.ECCOriginalityCheck" ],
+          "default": "DESFire.ECCOriginalityCheck",
+          "x-hidden": true
+        }
+      },
+      "description": "Perform NXP ECC Signature Originality Check."
+    },
     "DESFire.Erase": {
       "type": "object",
       "title": "DESFire - Erase",
@@ -1716,6 +1931,35 @@
         }
       },
       "description": "Read data from a file."
+    },
+    "DESFire.RestoreTransfer": {
+      "type": "object",
+      "title": "DESFire - Restore Transfer",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "DESFire.RestoreTransfer" ],
+          "default": "DESFire.RestoreTransfer",
+          "x-hidden": true
+        },
+        "targetFileNo": {
+          "type": "integer",
+          "title": "Target File No",
+          "description": "The targeted file number.",
+          "format": "int32"
+        },
+        "sourceFileNo": {
+          "type": "integer",
+          "title": "Source File No",
+          "description": "The source file number.",
+          "format": "int32"
+        }
+      },
+      "description": "Restore a file by transfering the value from another file."
     },
     "DESFire.RollKeySet": {
       "type": "object",
