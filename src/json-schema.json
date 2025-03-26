@@ -2918,6 +2918,11 @@
     "MimeMediaRecord": {
       "type": "object",
       "title": "Mime Media NDEF Record",
+      "allOf": [
+        {
+          "$ref": "#/definitions/NdefRecordBase"
+        }
+      ],
       "properties": {
         "$type": {
           "enum": [ "MimeMediaRecord" ],
@@ -3239,6 +3244,11 @@
     "TextRecord": {
       "type": "object",
       "title": "Text NDEF Record",
+      "allOf": [
+        {
+          "$ref": "#/definitions/NdefRecordBase"
+        }
+      ],
       "properties": {
         "$type": {
           "enum": [ "TextRecord" ],
@@ -3260,6 +3270,11 @@
     "UriRecord": {
       "type": "object",
       "title": "Uri NDEF Record",
+      "allOf": [
+        {
+          "$ref": "#/definitions/NdefRecordBase"
+        }
+      ],
       "properties": {
         "$type": {
           "enum": [ "UriRecord" ],
@@ -3594,17 +3609,17 @@
     },
     "NdefRecord": {
       "required": [
-      "$type"
-    ],
-    "discriminator": {
-      "propertyName": "$type",
-      "mapping": {
-        "Binary": "#/definitions/TextRecord",
-        "Number": "#/definitions/UriRecord",
-        "Parity": "#/definitions/MimeMediaRecord"
-      }
-    },
-    "oneOf": [
+        "$type"
+      ],
+      "discriminator": {
+        "propertyName": "$type",
+        "mapping": {
+          "Binary": "#/definitions/TextRecord",
+          "Number": "#/definitions/UriRecord",
+          "Parity": "#/definitions/MimeMediaRecord"
+        }
+      },
+      "oneOf": [
         {
           "$ref": "#/definitions/TextRecord"
         },
@@ -3615,6 +3630,17 @@
           "$ref": "#/definitions/MimeMediaRecord"
         }
       ]
+    },
+    "NdefRecordBase": {
+      "type": "object",
+      "properties": {
+        "fromField": {
+          "type": "string",
+          "title": "From Field",
+          "description": "The credential field containing data.",
+          "nullable": true
+        }
+      }
     },
     "UltralightC.Authenticate": {
       "type": "object",
