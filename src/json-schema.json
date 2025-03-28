@@ -1528,6 +1528,11 @@
     "DESFire.CreateNFCApplication": {
       "type": "object",
       "title": "MIFARE DESFire - Create NFC Application",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DESFire.DESFireActionProperties"
+        }
+      ],
       "properties": {
         "$type": {
           "enum": [ "DESFire.CreateNFCApplication" ],
