@@ -2863,7 +2863,7 @@
         "default": 0,
         "minimum": 0,
         "maximum": 255,
-        "examples": {
+        "x-examples": {
           "Master Key": 0,
           "Application Key #1": 1,
           "PICC Originality Key #1": 1,
@@ -2938,7 +2938,7 @@
           "type": "string",
           "title": "Mime Type",
           "description": "The mime type of the media.",
-          "examples": {
+          "x-examples": {
             "Text": "text/plain",
             "CSV": "text/csv",
             "Binary": "application/octet-stream",

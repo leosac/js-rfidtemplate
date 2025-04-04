@@ -120,15 +120,19 @@ const uiWidgets = {
                                 max={props.schema.maximum}
                                 readOnly={props.readonly}
                                 disabled={props.disabled}
-                                list={props.schema.examples ? props.id + '_list' : undefined}
+                                list={(props.schema.examples || props.schema['x-examples']) ? props.id + '_list' : undefined}
                                 onChange={(event) => props.onChange(event.target.value)} />
                                 {props.schema.examples && (
                                     <datalist id={props.id + '_list'}>
                                         {Array.isArray(props.schema.examples) && props.schema.examples.map((example) => {
                                             return <option key={example} value={example} />;
                                         })}
-                                        {!Array.isArray(props.schema.examples) && Object.keys(props.schema.examples).map((key) => {
-                                            return <option key={props.schema.examples[key]} value={props.schema.examples[key]} label={key} />;
+                                    </datalist>
+                                )}
+                                {props.schema['x-examples'] && (
+                                    <datalist id={props.id + '_list'}>
+                                        {Object.keys(props.schema['x-examples']).map((key) => {
+                                            return <option key={props.schema['x-examples'][key]} value={props.schema['x-examples'][key]} label={key} />;
                                         })}
                                     </datalist>
                                 )}
@@ -151,15 +155,19 @@ const uiWidgets = {
                             pattern={props.schema.pattern}
                             readOnly={props.readonly}
                             disabled={props.disabled}
-                            list={props.schema.examples ? props.id + '_list' : undefined}
+                            list={(props.schema.examples || props.schema['x-examples']) ? props.id + '_list' : undefined}
                             onChange={(event) => props.onChange(event.target.value)} />
                         {props.schema.examples && (
                             <datalist id={props.id + '_list'}>
                                 {Array.isArray(props.schema.examples) && props.schema.examples.map((example) => {
                                     return <option key={example} value={example} />;
                                 })}
-                                {!Array.isArray(props.schema.examples) && Object.keys(props.schema.examples).map((key) => {
-                                    return <option key={props.schema.examples[key]} value={props.schema.examples[key]} label={key} />;
+                            </datalist>
+                        )}
+                        {props.schema['x-examples'] && (
+                            <datalist id={props.id + '_list'}>
+                                {Object.keys(props.schema['x-examples']).map((key) => {
+                                    return <option key={props.schema['x-examples'][key]} value={props.schema['x-examples'][key]} label={key} />;
                                 })}
                             </datalist>
                         )}
