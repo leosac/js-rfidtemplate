@@ -2670,7 +2670,10 @@
             }
           ],
           "title": "On Success",
-          "description": "The action to trigger on action execution success."
+          "description": "The action to trigger on action execution success.",
+          "default": {
+            "throw": false
+          }
         },
         "onFailure": {
           "allOf": [
@@ -2679,7 +2682,10 @@
             }
           ],
           "title": "On Failure",
-          "description": "The action to trigger on action execution failure."
+          "description": "The action to trigger on action execution failure.",
+          "default": {
+            "throw": true
+          }
         }
       },
       "description": "Encoding Action Properties"
@@ -3168,6 +3174,22 @@
     "SAMProperties": {
       "type": "object",
       "properties": {
+        "samType": {
+          "type": "string",
+          "enum": [
+            "SAM_AUTO",
+            "SAM_AV2",
+            "SAM_AV3"
+          ],
+          "enumNames": [
+            "Auto",
+            "NXP SAM AV2",
+            "NXP SAM AV3"
+          ],
+          "title": "SAM Type",
+          "description": "The SAM card type. Use Auto to automatically detected the SAM technology.",
+          "default": "SAM_AV2"
+        },
         "unlockKeyNo": {
           "type": "integer",
           "title": "Unlock Key No",
