@@ -2618,8 +2618,12 @@
     },
     "DivInputFragmentType": {
       "enum": [
-        0,
-        1
+        "dataField",
+        "const"
+      ],
+      "enumNames": [
+        "Data Field",
+        "Const"
       ],
       "type": "integer",
       "description": "Div Input fragment type.",
@@ -3190,22 +3194,31 @@
           "description": "The SAM card type. Use Auto to automatically detected the SAM technology.",
           "default": "SAM_AV2"
         },
+        "authenticationMode": {
+          "type": "string",
+          "title": "Authentication Mode",
+          "description": "The SAM authentication mode.",
+          "enum": ["unlock", "authenticateHost"],
+          "enumNames": ["Unlock", "Authenticate Host"],
+          "default": "Unlock"
+        },
         "unlockKeyNo": {
           "type": "integer",
-          "title": "Unlock Key No",
-          "description": "The SAM unlock key number.",
+          "title": "Unlock/Authenticate Key No",
+          "description": "The SAM unlock/authenticate key number.",
           "format": "int32",
           "minimum": 0,
           "maximum": 127
         },
         "unlockKey": {
+          "type": "object",
           "allOf": [
             {
               "$ref": "#/definitions/KeyReference"
             }
           ],
-          "title": "Unlock Key",
-          "description": "The SAM unlock key details."
+          "title": "Unlock/Authenticate Key",
+          "description": "The SAM unlock/authenticate key details."
         }
       },
       "additionalProperties": false,
