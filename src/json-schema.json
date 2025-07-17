@@ -3090,7 +3090,8 @@
         "product": {
           "enum": [
             "MorphoAccess",
-            "MorphoAccessSIGMA"
+            "MorphoAccessSIGMA",
+			"STid"
           ],
           "type": "string",
           "title": "Product",
@@ -3116,37 +3117,53 @@
           "description": "The biometric template format.",
           "default": "Morpho_CFV"
         },
-        "cardIdField": {
-          "type": "string",
-          "title": "CardId Field",
-          "description": "The CardId field name.",
-          "default": "Uid"
-        },
-        "usernameField": {
-          "type": "string",
-          "title": "Username Field",
-          "description": "The Username field name.",
-          "default": "Username"
-        },
-        "finger1Field": {
-          "type": "string",
-          "title": "Finger #1 Field",
-          "description": "The Finger #1 field name.",
-          "default": "BioData_0"
-        },
-        "finger2Field": {
-          "type": "string",
-          "title": "Finger #2 Field",
-          "description": "The Finger #2 field name.",
-          "default": ""
-        },
-        "duressFingerField": {
-          "type": "string",
-          "title": "Duress Finger Field",
-          "description": "The Duress Finger field name.",
-          "default": ""
+		"templates": {
+          "type": "array",
+		  "items": {
+			  "type": "string"
+		  },
+          "title": "Finger Templates",
+          "description": "The finger templates fields.",
+          "default": ["BioData_0"]
         }
       },
+	  "if": {
+	  	  "properties": {
+	  		"product": { "const": "STid" }
+		  }
+	  },
+	  "then": {
+		  "properties": {
+			  "fingerExemptionField": {
+			    "type": "string",
+			    "title": "Finger Exemption Field",
+			    "description": "The Finger Exemption field name.",
+			    "default": ""
+			  }
+	      }
+	  },
+	  "else": {
+		  "properties": {
+			  "cardIdField": {
+			    "type": "string",
+			    "title": "CardId Field",
+			    "description": "The CardId field name.",
+			    "default": "Uid"
+			  },
+			  "usernameField": {
+			    "type": "string",
+			    "title": "Username Field",
+			    "description": "The Username field name.",
+			    "default": "Username"
+			  },
+			  "duressFingerField": {
+			    "type": "string",
+			    "title": "Duress Finger Field",
+			    "description": "The Duress Finger field name.",
+			    "default": ""
+			  }
+		  }
+	  },
       "description": "Prepare Biometric Data encoding service properties, for further writing."
     },
     "PrepareNdefMessageDataService": {
