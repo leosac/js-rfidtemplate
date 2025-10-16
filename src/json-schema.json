@@ -2384,6 +2384,15 @@
           "maximum": 65535,
           "x-hexinput": true,
           "x-hexlength": 4
+        },
+        "nfcApplicationKey": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/KeyReference"
+            }
+          ],
+          "title": "NFC Application Key",
+          "description": "The nfc application key to use (if changed)."
         }
       },
       "description": "Write SDM data to a NDEF file."
