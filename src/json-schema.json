@@ -3078,7 +3078,13 @@
           "enum": [ "PrepareAccessControlDataService" ],
           "default": "PrepareAccessControlDataService",
           "x-hidden": true
-        }
+        },
+		"checkFieldValueMaxLength": {
+			"type": "boolean",
+			"title": "Check Field Value Max Length",
+            "description": "Check for each field value maximum length before trying to use the data. Enabled by default, data value may be silently truncated if disabled.",
+			"default": true
+		}
       },
       "description": "Prepare Access Control data encoding service, for further writing."
     },
