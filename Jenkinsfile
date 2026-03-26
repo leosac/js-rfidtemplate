@@ -15,7 +15,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv('SonarQube Community') {
-                    sh "dotnet ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=leosac_js-rfidtemplate_d57d7505-7f34-4398-b069-4e675859e06f"
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=leosac_js-rfidtemplate_d57d7505-7f34-4398-b069-4e675859e06f"
                 }
                 timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate(abortPipeline: true)
