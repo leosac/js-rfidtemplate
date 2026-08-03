@@ -549,6 +549,7 @@
           "CardSerialNumberService": "#/definitions/CardSerialNumberService",
           "ChangeActionPropertyService": "#/definitions/ChangeActionPropertyService",
           "CryptoDataService": "#/definitions/CryptoDataService",
+		  "FieldCheckerService": "#/definitions/FieldCheckerService",
           "ParseAccessControlDataService": "#/definitions/ParseAccessControlDataService",
           "PrepareAccessControlDataService": "#/definitions/PrepareAccessControlDataService",
           "PrepareBiometricDataService": "#/definitions/PrepareBiometricDataService",
@@ -565,6 +566,9 @@
           },
           {
             "$ref": "#/definitions/CryptoDataService"
+          },
+		  {
+            "$ref": "#/definitions/FieldCheckerService"
           },
           {
             "$ref": "#/definitions/ParseAccessControlDataService"
@@ -2775,6 +2779,46 @@
       "type": "string",
       "description": "FID Support"
     },
+	"FieldCheckerService": {
+      "type": "object",
+      "title": "Check Field Value",
+      "allOf": [
+        {
+          "$ref": "#/definitions/EncodingServiceProperties"
+        }
+      ],
+      "properties": {
+        "$type": {
+          "enum": [ "FieldCheckerService" ],
+          "default": "FieldCheckerService",
+          "x-hidden": true
+        },
+        "field": {
+          "type": "string",
+          "title": "From Field",
+          "description": "The credential field containing data.",
+          "nullable": true
+        },
+		"expectedValue": {
+          "type": "string",
+          "title": "Expected Value",
+          "description": "The expected field value.",
+          "nullable": true
+        },
+        "isDataRequired": {
+          "type": "boolean",
+          "title": "Data Required",
+          "description": "True if data is required (will throw), false otherwise (will be ignored if no expected value is defined)."
+        },
+		"reverseCheck": {
+          "type": "boolean",
+          "title": "Reverse Check",
+          "description": "Whether to reverse the check (i.e. check that the field does NOT match the value)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Check field encoding service properties."
+    },
     "FragmentTemplateProperty": {
       "type": "object",
       "title": "Property",
@@ -3857,6 +3901,13 @@
           "type": "string",
           "title": "From Field",
           "description": "The credential field containing data.",
+          "nullable": true
+        },
+		"fixedValue": {
+          "type": "string",
+          "title": "Fixed Value",
+          "description": "The fixed value (override any data from field if defined).",
+		  "pattern": "^[a-fA-F0-9]+$",
           "nullable": true
         },
         "isDataRequired": {
