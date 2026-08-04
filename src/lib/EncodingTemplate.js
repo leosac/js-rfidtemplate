@@ -96,7 +96,7 @@ class EncodingTemplate extends React.Component {
 	}
 
 	render() {
-		const navigation = buildTreeNavigation(schema, this.state.template, [], 0, new WeakSet(), schema);
+		const navigation = buildTreeNavigation(schema, this.state.template, [], 0, new Set(), schema);
 
 		return (
 			<div className={`encoding-template-shell ${this.state.sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>

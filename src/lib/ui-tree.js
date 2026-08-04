@@ -31,6 +31,26 @@ function resolveSchema(schemaNode, rootSchema) {
     return resolved ? resolveSchema(resolved, rootSchema) : schemaNode;
   }
 
+  if (Array.isArray(schemaNode.allOf)) {
+    return schemaNode.allOf.reduce((accumulator, subSchema) => {
+      const resolvedSubSchema = resolveSchema(subSchema, rootSchema);
+      if (!resolvedSubSchema || typeof resolvedSubSchema !== 'object') {
+        return accumulator;
+      }
+
+      return {
+        ...accumulator,
+        ...resolvedSubSchema,
+        properties: {
+          ...(accumulator.properties || {}),
+          ...(resolvedSubSchema.properties || {}),
+          ...(schemaNode.properties || {})
+        },
+        required: [...new Set([...(accumulator.required || []), ...(resolvedSubSchema.required || []), ...(schemaNode.required || [])])]
+      };
+    }, { ...schemaNode });
+  }
+
   return schemaNode;
 }
 
@@ -58,6 +78,29 @@ function getNavigationTitle(name, schemaNode, value, path = []) {
   return fallback;
 }
 
+function createVisitedState(visited) {
+  if (visited instanceof Set) {
+    return new Set(visited);
+  }
+  if (Array.isArray(visited)) {
+    return new Set(visited);
+  }
+  return new Set();
+}
+
+function isSchemaVisited(visited, schemaNode) {
+  if (!schemaNode || typeof schemaNode !== 'object') {
+    return false;
+  }
+  if (visited instanceof Set) {
+    return visited.has(schemaNode);
+  }
+  if (Array.isArray(visited)) {
+    return visited.includes(schemaNode);
+  }
+  return false;
+}
+
 function isActionLikeSchema(schemaNode, value, path = []) {
   if (!schemaNode || typeof schemaNode !== 'object') {
     return false;
@@ -68,43 +111,27 @@ function isActionLikeSchema(schemaNode, value, path = []) {
   return hasActionSignals || hasActionChildren || ['onSuccess', 'onFailure'].includes(lastSegment);
 }
 
-export function buildNavigationTree(rootSchema, currentValue, parentPath = [], depth = 0, visited = new WeakSet(), originalSchema = rootSchema) {
+export function buildNavigationTree(rootSchema, currentValue, parentPath = [], depth = 0, visited = new Set(), originalSchema = rootSchema) {
   const resolvedSchema = resolveSchema(rootSchema, originalSchema);
-  if (!resolvedSchema || typeof resolvedSchema !== 'object' || visited.has(resolvedSchema) || depth > 4) {
+  const branchVisited = createVisitedState(visited);
+  if (!resolvedSchema || typeof resolvedSchema !== 'object' || isSchemaVisited(branchVisited, resolvedSchema) || depth > 4) {
     return [];
   }
 
-  visited.add(resolvedSchema);
+  branchVisited.add(resolvedSchema);
 
   if (resolvedSchema.type === 'array') {
     const items = Array.isArray(currentValue) ? currentValue : [];
     const childSchema = resolveSchema(resolvedSchema.items, originalSchema);
     return items.map((item, index) => {
       const itemPath = [...parentPath, index];
-      const children = buildNavigationTree(childSchema, item, itemPath, depth + 1, visited, originalSchema);
+      const children = buildNavigationTree(childSchema, item, itemPath, depth + 1, branchVisited, originalSchema);
       return {
         id: getSectionId(itemPath),
         title: getNavigationTitle(index, childSchema, item, itemPath),
         children: children.filter(Boolean)
       };
     }).filter(Boolean);
-  }
-
-  if (isActionLikeSchema(resolvedSchema, currentValue, parentPath)) {
-    const actionChildren = [];
-    ['onSuccess', 'onFailure'].forEach((childName) => {
-      const childSchema = resolveSchema(resolvedSchema.properties?.[childName], originalSchema);
-      const childValue = currentValue?.[childName];
-      const childNodes = buildNavigationTree(childSchema, childValue, [...parentPath, childName], depth + 1, visited, originalSchema);
-      if (childNodes.length > 0) {
-        actionChildren.push(...childNodes);
-      }
-    });
-    return [{
-      id: getSectionId(parentPath),
-      title: getNavigationTitle(parentPath[parentPath.length - 1], resolvedSchema, currentValue, parentPath),
-      children: actionChildren
-    }];
   }
 
   const properties = resolvedSchema?.properties || {};
@@ -115,7 +142,7 @@ export function buildNavigationTree(rootSchema, currentValue, parentPath = [], d
     }
     const childValue = getValueAtPath(currentValue, [name]);
     const childPath = [...parentPath, name];
-    const children = buildNavigationTree(childSchema, childValue, childPath, depth + 1, visited, originalSchema);
+    const children = buildNavigationTree(childSchema, childValue, childPath, depth + 1, branchVisited, originalSchema);
     const shouldExpose = depth === 0 || children.length > 0 || isActionLikeSchema(childSchema, childValue, childPath);
     if (!shouldExpose) {
       return null;
@@ -126,6 +153,14 @@ export function buildNavigationTree(rootSchema, currentValue, parentPath = [], d
       children: children.filter(Boolean)
     };
   }).filter(Boolean);
+
+  if (isActionLikeSchema(resolvedSchema, currentValue, parentPath) && nodes.length > 0) {
+    return [{
+      id: getSectionId(parentPath),
+      title: getNavigationTitle(parentPath[parentPath.length - 1], resolvedSchema, currentValue, parentPath),
+      children: nodes
+    }];
+  }
 
   return nodes;
 }

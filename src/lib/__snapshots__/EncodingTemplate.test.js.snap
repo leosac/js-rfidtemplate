@@ -36,21 +36,6 @@ exports[`EncodingTemplate renders properly 1`] = `
         >
           Nothing
         </button>
-        <ul
-          className="encoding-template-nav-list depth-1"
-        >
-          <li
-            className=""
-          >
-            <button
-              className="encoding-template-nav-button"
-              onClick={[Function]}
-              type="button"
-            >
-              Nothing
-            </button>
-          </li>
-        </ul>
       </li>
       <li
         className=""
