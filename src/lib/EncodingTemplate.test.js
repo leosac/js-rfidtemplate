@@ -219,6 +219,79 @@ describe("EncodingTemplate", () => {
     expect(treeJson).toContain("onSuccess");
   });
 
+  it("keeps the onEdit callback signature stable", () => {
+    const onEdit = jest.fn();
+    const testRenderer = renderer.create(<EncodingTemplate chip="DESFire" onEdit={onEdit} />);
+    const instance = testRenderer.getInstance();
+    const changeEvent = {
+      formData: {
+        firstAction: {
+          onSuccess: { callActions: [{}] }
+        }
+      },
+      errors: [{ name: "firstAction" }]
+    };
+
+    onEdit.mockClear();
+
+    act(() => {
+      instance.handleFormChange(changeEvent);
+    });
+
+    expect(onEdit).toHaveBeenCalled();
+    expect(onEdit.mock.calls).toEqual(
+      expect.arrayContaining([
+        [
+          expect.objectContaining({
+            formData: changeEvent.formData,
+            errors: changeEvent.errors
+          })
+        ]
+      ])
+    );
+  });
+
+  it("refreshes the active tree section when a form element is selected", () => {
+    const testRenderer = renderer.create(<EncodingTemplate chip="DESFire" />);
+    const instance = testRenderer.getInstance();
+
+    act(() => {
+      instance.handleFormChange({
+        firstAction: {
+          $type: "DESFire.SelectApplication",
+          onSuccess: {
+            callActions: [
+              {
+                $type: "DESFire.WriteData",
+                label: "Nested action"
+              }
+            ]
+          }
+        }
+      });
+    });
+
+    const firstAction = instance.state.navigation.find((node) => node.id === "root_firstAction");
+    const targetSectionId = firstAction.children.find((node) => node.id.includes("onSuccess")).id;
+
+    const container = document.createElement("div");
+    const section = document.createElement("div");
+    section.id = targetSectionId;
+    const input = document.createElement("input");
+    input.id = `${targetSectionId}_callActions_0_label`;
+    section.appendChild(input);
+    container.appendChild(section);
+    document.body.appendChild(container);
+
+    act(() => {
+      instance.handleFormInteraction({ target: input });
+    });
+
+    expect(instance.state.activeSection).toBe(targetSectionId);
+
+    document.body.removeChild(container);
+  });
+
   it("renders concrete DESFire action branches from discriminator-selected schemas", () => {
     const value = {
       forceCardType: "DESFireEV1",

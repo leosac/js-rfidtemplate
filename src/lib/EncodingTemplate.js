@@ -57,6 +57,45 @@ class EncodingTemplate extends React.Component {
 		}
 	}
 
+	getNavigationSectionIds(items = this.state.navigation || []) {
+		const sectionIds = new Set();
+		const collect = (nodes) => {
+			nodes.forEach((node) => {
+				sectionIds.add(node.id);
+				if (node.children && node.children.length > 0) {
+					collect(node.children);
+				}
+			});
+		};
+		collect(items);
+		return sectionIds;
+	}
+
+	normalizeFormChange(change) {
+		if (change && typeof change === 'object' && Object.prototype.hasOwnProperty.call(change, 'formData')) {
+			return change;
+		}
+		return { formData: change };
+	}
+
+	findSectionIdFromElement(target, sectionIds = this.getNavigationSectionIds()) {
+		let element = target;
+		while (element && element !== document.body) {
+			if (element.id && sectionIds.has(element.id)) {
+				return element.id;
+			}
+			element = element.parentElement;
+		}
+		return null;
+	}
+
+	handleFormInteraction = (event) => {
+		const activeSection = this.findSectionIdFromElement(event.target);
+		if (activeSection && activeSection !== this.state.activeSection) {
+			this.setState({ activeSection });
+		}
+	}
+
 	toggleSidebar = () => {
 		this.setState((prevState) => ({ sidebarCollapsed: !prevState.sidebarCollapsed }));
 	}
@@ -71,7 +110,9 @@ class EncodingTemplate extends React.Component {
 		});
 	}
 
-	handleFormChange = (formData) => {
+	handleFormChange = (change) => {
+		const changeEvent = this.normalizeFormChange(change);
+		const { formData } = changeEvent;
 		const navigation = buildTreeNavigation(schema, formData, [], 0, new Set(), schema);
 		this.setState((prevState) => ({
 			template: formData,
@@ -79,7 +120,7 @@ class EncodingTemplate extends React.Component {
 			treeVersion: prevState.treeVersion + 1
 		}));
 		if (this.props.onEdit) {
-			this.props.onEdit(formData);
+			this.props.onEdit(changeEvent);
 		}
 	}
 
@@ -113,7 +154,7 @@ class EncodingTemplate extends React.Component {
 					</div>
 					{!this.state.sidebarCollapsed && this.renderNavigation(navigation)}
 				</aside>
-				<div className="encoding-template-form">
+				<div className="encoding-template-form" onFocusCapture={this.handleFormInteraction} onClickCapture={this.handleFormInteraction}>
 					<Form ref={this.formRef}
 						  schema={schema}
 						  validator={validator}
@@ -121,7 +162,7 @@ class EncodingTemplate extends React.Component {
 						  templates={uiTemplates}
 						  widgets={uiWidgets}
 						  formData={this.state.template}
-						  onChange={({ formData }) => this.handleFormChange(formData)}
+						  onChange={this.handleFormChange}
 						  onSubmit={this.props.onSubmit} />
 				</div>
 			</div>

@@ -75,6 +75,8 @@ exports[`EncodingTemplate renders properly 1`] = `
   </aside>
   <div
     className="encoding-template-form"
+    onClickCapture={[Function]}
+    onFocusCapture={[Function]}
   >
     <form
       className="rjsf"
