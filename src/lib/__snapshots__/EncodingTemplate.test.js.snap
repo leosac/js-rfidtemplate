@@ -34,7 +34,11 @@ exports[`EncodingTemplate renders properly 1`] = `
           onClick={[Function]}
           type="button"
         >
-          Nothing
+          <span
+            className="encoding-template-nav-label"
+          >
+            Nothing
+          </span>
         </button>
       </li>
       <li
@@ -45,7 +49,11 @@ exports[`EncodingTemplate renders properly 1`] = `
           onClick={[Function]}
           type="button"
         >
-          Force Card Type
+          <span
+            className="encoding-template-nav-label"
+          >
+            Force Card Type
+          </span>
         </button>
       </li>
       <li
@@ -56,18 +64,11 @@ exports[`EncodingTemplate renders properly 1`] = `
           onClick={[Function]}
           type="button"
         >
-          Template Properties
-        </button>
-      </li>
-      <li
-        className=""
-      >
-        <button
-          className="encoding-template-nav-button"
-          onClick={[Function]}
-          type="button"
-        >
-          NXP SAM AV2/AV3
+          <span
+            className="encoding-template-nav-label"
+          >
+            NXP SAM AV2/AV3
+          </span>
         </button>
       </li>
     </ul>

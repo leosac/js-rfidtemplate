@@ -2,6 +2,8 @@ export function getSectionId(path = []) {
   return ['root', ...path.filter((segment) => segment !== undefined && segment !== null && segment !== '').map((segment) => String(segment).replace(/[^a-zA-Z0-9]+/g, '-'))].join('_');
 }
 
+const MAX_NAVIGATION_DEPTH = 16;
+
 function getValueAtPath(source, path = []) {
   return path.reduce((accumulator, current) => {
     if (accumulator === undefined || accumulator === null) {
@@ -14,7 +16,52 @@ function getValueAtPath(source, path = []) {
   }, source);
 }
 
-function resolveSchema(schemaNode, rootSchema) {
+function mergeSchemaNodes(baseSchema, extensionSchema) {
+  if (!extensionSchema || typeof extensionSchema !== 'object') {
+    return baseSchema;
+  }
+
+  return {
+    ...baseSchema,
+    ...extensionSchema,
+    properties: {
+      ...(baseSchema.properties || {}),
+      ...(extensionSchema.properties || {})
+    },
+    required: [...new Set([...(baseSchema.required || []), ...(extensionSchema.required || [])])]
+  };
+}
+
+function resolveUnionBranch(schemaNode, rootSchema, value) {
+  const variants = Array.isArray(schemaNode.oneOf)
+    ? schemaNode.oneOf
+    : Array.isArray(schemaNode.anyOf)
+      ? schemaNode.anyOf
+      : null;
+
+  if (!variants || !value || typeof value !== 'object') {
+    return null;
+  }
+
+  const discriminatorProperty = schemaNode.discriminator?.propertyName;
+  const discriminatorValue = discriminatorProperty ? value[discriminatorProperty] : undefined;
+  if (!discriminatorValue) {
+    return null;
+  }
+
+  if (schemaNode.discriminator?.mapping?.[discriminatorValue]) {
+    return resolveSchema({ $ref: schemaNode.discriminator.mapping[discriminatorValue] }, rootSchema, value);
+  }
+
+  return variants
+    .map((variant) => resolveSchema(variant, rootSchema, value))
+    .find((variant) => {
+      const typeField = variant?.properties?.[discriminatorProperty];
+      return Array.isArray(typeField?.enum) && typeField.enum.includes(discriminatorValue);
+    }) || null;
+}
+
+function resolveSchema(schemaNode, rootSchema, value) {
   if (!schemaNode || typeof schemaNode !== 'object') {
     return schemaNode;
   }
@@ -28,30 +75,45 @@ function resolveSchema(schemaNode, rootSchema) {
         break;
       }
     }
-    return resolved ? resolveSchema(resolved, rootSchema) : schemaNode;
+    return resolved ? resolveSchema(resolved, rootSchema, value) : schemaNode;
   }
 
   if (Array.isArray(schemaNode.allOf)) {
     return schemaNode.allOf.reduce((accumulator, subSchema) => {
-      const resolvedSubSchema = resolveSchema(subSchema, rootSchema);
+      const resolvedSubSchema = resolveSchema(subSchema, rootSchema, value);
       if (!resolvedSubSchema || typeof resolvedSubSchema !== 'object') {
         return accumulator;
       }
 
-      return {
-        ...accumulator,
-        ...resolvedSubSchema,
-        properties: {
-          ...(accumulator.properties || {}),
-          ...(resolvedSubSchema.properties || {}),
-          ...(schemaNode.properties || {})
-        },
-        required: [...new Set([...(accumulator.required || []), ...(resolvedSubSchema.required || []), ...(schemaNode.required || [])])]
-      };
+      return mergeSchemaNodes(accumulator, resolvedSubSchema);
     }, { ...schemaNode });
   }
 
+  const resolvedUnionBranch = resolveUnionBranch(schemaNode, rootSchema, value);
+  if (resolvedUnionBranch) {
+    return mergeSchemaNodes(schemaNode, resolvedUnionBranch);
+  }
+
   return schemaNode;
+}
+
+function getInheritedProperties(schemaNode, rootSchema) {
+  const resolvedSchema = resolveSchema(schemaNode, rootSchema);
+  if (!resolvedSchema || typeof resolvedSchema !== 'object') {
+    return {};
+  }
+  if (!Array.isArray(resolvedSchema.allOf)) {
+    return resolvedSchema.properties || {};
+  }
+
+  return resolvedSchema.allOf.reduce((accumulator, subSchema) => {
+    const inherited = getInheritedProperties(subSchema, rootSchema);
+    return {
+      ...accumulator,
+      ...inherited,
+      ...(resolvedSchema.properties || {})
+    };
+  }, {});
 }
 
 function getSchemaTitle(schemaNode, fallback = '') {
@@ -79,51 +141,92 @@ function getNavigationTitle(name, schemaNode, value, path = []) {
 }
 
 function createVisitedState(visited) {
+  if (visited instanceof Map) {
+    return new Map(visited);
+  }
   if (visited instanceof Set) {
-    return new Set(visited);
+    return new Map(Array.from(visited, (schemaNode) => [schemaNode, new Set()]));
   }
   if (Array.isArray(visited)) {
-    return new Set(visited);
+    return new Map(visited.map((schemaNode) => [schemaNode, new Set()]));
   }
-  return new Set();
+  return new Map();
 }
 
-function isSchemaVisited(visited, schemaNode) {
+function getSchemaVisitKey(path = []) {
+  return path.join('.');
+}
+
+function isSchemaVisited(visited, schemaNode, path = []) {
   if (!schemaNode || typeof schemaNode !== 'object') {
     return false;
+  }
+  const visitKey = getSchemaVisitKey(path);
+  if (visited instanceof Map) {
+    return visited.get(schemaNode)?.has(visitKey) || false;
   }
   if (visited instanceof Set) {
     return visited.has(schemaNode);
   }
-  if (Array.isArray(visited)) {
-    return visited.includes(schemaNode);
-  }
   return false;
+}
+
+function markSchemaVisited(visited, schemaNode, path = []) {
+  if (!schemaNode || typeof schemaNode !== 'object' || !(visited instanceof Map)) {
+    return;
+  }
+  const existingPaths = visited.get(schemaNode) || new Set();
+  existingPaths.add(getSchemaVisitKey(path));
+  visited.set(schemaNode, existingPaths);
 }
 
 function isActionLikeSchema(schemaNode, value, path = []) {
   if (!schemaNode || typeof schemaNode !== 'object') {
     return false;
   }
-  const lastSegment = path[path.length - 1];
   const hasActionSignals = Boolean(value && typeof value === 'object' && (value.$type || value.label));
   const hasActionChildren = Boolean(schemaNode.properties && (schemaNode.properties.onSuccess || schemaNode.properties.onFailure));
-  return hasActionSignals || hasActionChildren || ['onSuccess', 'onFailure'].includes(lastSegment);
+  return hasActionSignals || hasActionChildren;
+}
+
+function shouldHideNode(path = []) {
+  return path.length === 1 && path[0] === 'properties';
+}
+
+function shouldFlattenNode(path = []) {
+  return path[path.length - 1] === 'callActions';
+}
+
+function getNodeKind(path = []) {
+  const lastSegment = path[path.length - 1];
+  if (lastSegment === 'onSuccess') {
+    return 'success';
+  }
+  if (lastSegment === 'onFailure') {
+    return 'failure';
+  }
+  if (lastSegment === 'servicesBefore') {
+    return 'services-before';
+  }
+  if (lastSegment === 'servicesAfter') {
+    return 'services-after';
+  }
+  return null;
 }
 
 export function buildNavigationTree(rootSchema, currentValue, parentPath = [], depth = 0, visited = new Set(), originalSchema = rootSchema) {
-  const resolvedSchema = resolveSchema(rootSchema, originalSchema);
+  const resolvedSchema = resolveSchema(rootSchema, originalSchema, currentValue);
   const branchVisited = createVisitedState(visited);
-  if (!resolvedSchema || typeof resolvedSchema !== 'object' || isSchemaVisited(branchVisited, resolvedSchema) || depth > 4) {
+  
+  if (!resolvedSchema || typeof resolvedSchema !== 'object' || isSchemaVisited(branchVisited, resolvedSchema, parentPath) || depth > MAX_NAVIGATION_DEPTH) {
     return [];
   }
 
-  branchVisited.add(resolvedSchema);
-
+  markSchemaVisited(branchVisited, resolvedSchema, parentPath);
   if (resolvedSchema.type === 'array') {
     const items = Array.isArray(currentValue) ? currentValue : [];
-    const childSchema = resolveSchema(resolvedSchema.items, originalSchema);
     return items.map((item, index) => {
+      const childSchema = resolveSchema(resolvedSchema.items, originalSchema, item);
       const itemPath = [...parentPath, index];
       const children = buildNavigationTree(childSchema, item, itemPath, depth + 1, branchVisited, originalSchema);
       return {
@@ -134,15 +237,26 @@ export function buildNavigationTree(rootSchema, currentValue, parentPath = [], d
     }).filter(Boolean);
   }
 
-  const properties = resolvedSchema?.properties || {};
+  const properties = {
+    ...(resolvedSchema?.properties || {}),
+    ...getInheritedProperties(resolvedSchema, originalSchema)
+  };
+
   const nodes = Object.entries(properties).map(([name, propertySchema]) => {
-    const childSchema = resolveSchema(propertySchema, originalSchema);
+    const childSchema = resolveSchema(propertySchema, originalSchema, getValueAtPath(currentValue, [name]));
     if (childSchema?.['x-hidden']) {
       return null;
     }
     const childValue = getValueAtPath(currentValue, [name]);
     const childPath = [...parentPath, name];
+
     const children = buildNavigationTree(childSchema, childValue, childPath, depth + 1, branchVisited, originalSchema);
+    if (shouldHideNode(childPath)) {
+      return null;
+    }
+    if (shouldFlattenNode(childPath)) {
+      return children;
+    }
     const shouldExpose = depth === 0 || children.length > 0 || isActionLikeSchema(childSchema, childValue, childPath);
     if (!shouldExpose) {
       return null;
@@ -150,17 +264,10 @@ export function buildNavigationTree(rootSchema, currentValue, parentPath = [], d
     return {
       id: getSectionId(childPath),
       title: getNavigationTitle(name, childSchema, childValue, childPath),
+      kind: getNodeKind(childPath),
       children: children.filter(Boolean)
     };
-  }).filter(Boolean);
-
-  if (isActionLikeSchema(resolvedSchema, currentValue, parentPath) && nodes.length > 0) {
-    return [{
-      id: getSectionId(parentPath),
-      title: getNavigationTitle(parentPath[parentPath.length - 1], resolvedSchema, currentValue, parentPath),
-      children: nodes
-    }];
-  }
+  }).flat().filter(Boolean);
 
   return nodes;
 }

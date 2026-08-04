@@ -18,6 +18,7 @@ class EncodingTemplate extends React.Component {
         super(props);
 		this.state = {
 			template: (props.content) ? JSON.parse(props.content) : data,
+			navigation: buildTreeNavigation(schema, (props.content) ? JSON.parse(props.content) : data, [], 0, new Set(), schema),
 			sidebarCollapsed: false,
 			activeSection: null,
 			treeVersion: 0
@@ -71,8 +72,10 @@ class EncodingTemplate extends React.Component {
 	}
 
 	handleFormChange = (formData) => {
+		const navigation = buildTreeNavigation(schema, formData, [], 0, new Set(), schema);
 		this.setState((prevState) => ({
 			template: formData,
+			navigation,
 			treeVersion: prevState.treeVersion + 1
 		}));
 		if (this.props.onEdit) {
@@ -86,7 +89,8 @@ class EncodingTemplate extends React.Component {
 				{items.map((item) => (
 					<li key={item.id} className={this.state.activeSection === item.id ? 'active' : ''}>
 						<button type="button" className="encoding-template-nav-button" onClick={() => this.handleSectionNavigation(item.id)}>
-							{item.title}
+							{item.kind && <span className={`encoding-template-nav-icon ${item.kind}`} aria-hidden="true" />}
+							<span className="encoding-template-nav-label">{item.title}</span>
 						</button>
 						{item.children && item.children.length > 0 && this.renderNavigation(item.children, depth + 1)}
 					</li>
@@ -96,7 +100,7 @@ class EncodingTemplate extends React.Component {
 	}
 
 	render() {
-		const navigation = buildTreeNavigation(schema, this.state.template, [], 0, new Set(), schema);
+		const navigation = this.state.navigation || [];
 
 		return (
 			<div className={`encoding-template-shell ${this.state.sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>

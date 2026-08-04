@@ -1,7 +1,9 @@
 import React from "react";
 import { EncodingTemplate } from "./EncodingTemplate";
 import { buildNavigationTree } from "./ui-tree";
-import renderer from "react-test-renderer";
+import renderer, { act } from "react-test-renderer";
+
+const realSchema = require("../json-schema.json");
 
 describe("EncodingTemplate", () => {
   it("renders properly", () => {
@@ -17,6 +19,7 @@ describe("EncodingTemplate", () => {
       .toJSON();
 
     expect(JSON.stringify(tree)).toContain("Tree navigation");
+    expect(JSON.stringify(tree)).not.toContain("Template Properties");
   });
 
   it("keeps action trigger call actions visible in the navigation tree", () => {
@@ -59,5 +62,223 @@ describe("EncodingTemplate", () => {
     const serialized = JSON.stringify(tree);
 
     expect(serialized.match(/Child Action 1/g)).toHaveLength(2);
+    expect(serialized).not.toContain("Run Actions");
+  });
+
+  it("keeps action branch ids unique so live updates are applied to the right node", () => {
+    const schema = {
+      type: "object",
+      properties: {
+        firstAction: {
+          type: "object",
+          properties: {
+            onSuccess: { $ref: "#/definitions/ActionTrigger" },
+            onFailure: { $ref: "#/definitions/ActionTrigger" }
+          }
+        }
+      },
+      definitions: {
+        ActionTrigger: {
+          type: "object",
+          title: "Action Trigger",
+          properties: {
+            callActions: {
+              type: "array",
+              items: {
+                type: "object",
+                title: "Child Action"
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const value = {
+      firstAction: {
+        onSuccess: { callActions: [{}] },
+        onFailure: { callActions: [{}] }
+      }
+    };
+
+    const tree = buildNavigationTree(schema, value, [], 0, [], schema);
+    const ids = [];
+
+    const collectIds = (nodes) => {
+      nodes.forEach((node) => {
+        ids.push(node.id);
+        if (node.children) {
+          collectIds(node.children);
+        }
+      });
+    };
+
+    collectIds(tree);
+
+    expect(ids.filter((id) => id === "root_firstAction")).toHaveLength(1);
+    expect(ids).toContain("root_firstAction_onSuccess");
+    expect(ids).toContain("root_firstAction_onFailure");
+  });
+
+  it("keeps nested trigger children visible in the navigation tree", () => {
+    const value = {
+      firstAction: {
+        $type: "DESFire.SelectApplication",
+        label: "Select Root",
+        onSuccess: {
+          callActions: [
+            {
+              $type: "DESFire.Authenticate",
+              label: "Authenticate",
+              onSuccess: {
+                callActions: [
+                  {
+                    $type: "DESFire.WriteData",
+                    label: "Nested Write"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    };
+
+    const tree = buildNavigationTree(realSchema, value, [], 0, [], realSchema);
+    const serialized = JSON.stringify(tree);
+
+    expect(serialized).toContain("Authenticate");
+    expect(serialized).toContain("Nested Write");
+    expect(serialized).toContain("root_firstAction_onSuccess_callActions_0_onSuccess_callActions_0");
+  });
+
+  it("hides empty trigger sections and tags visible trigger and service nodes with icon kinds", () => {
+    const value = {
+      firstAction: {
+        $type: "DESFire.SelectApplication",
+        label: "Select Root",
+        onSuccess: {
+          callActions: [
+            {
+              $type: "DESFire.WriteData",
+              label: "Write Access Control #1",
+              servicesBefore: [
+                {
+                  $type: "PrepareAccessControlDataService",
+                  bufferBehavior: "overwrite",
+                  formatDefinition: {
+                    $type: "Binary64"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        onFailure: {
+          throw: true
+        },
+        servicesAfter: [
+          {
+            $type: "CardSerialNumberService",
+            bufferBehavior: "doNothing",
+            checkCSN: false
+          }
+        ]
+      }
+    };
+
+    const tree = buildNavigationTree(realSchema, value, [], 0, [], realSchema);
+    const firstAction = tree.find((node) => node.id === "root_firstAction");
+    const onSuccessNode = firstAction.children.find((node) => node.id === "root_firstAction_onSuccess");
+    const onFailureNode = firstAction.children.find((node) => node.id === "root_firstAction_onFailure");
+    const servicesAfterNode = firstAction.children.find((node) => node.id === "root_firstAction_servicesAfter");
+    const nestedAction = onSuccessNode.children.find((node) => node.id === "root_firstAction_onSuccess_callActions_0");
+    const servicesBeforeNode = nestedAction.children.find((node) => node.id === "root_firstAction_onSuccess_callActions_0_servicesBefore");
+
+    expect(onSuccessNode.kind).toBe("success");
+    expect(onFailureNode).toBeUndefined();
+    expect(servicesAfterNode.kind).toBe("services-after");
+    expect(servicesBeforeNode.kind).toBe("services-before");
+  });
+
+  it("rebuilds the navigation tree after form changes", () => {
+    const testRenderer = renderer.create(<EncodingTemplate chip="DESFire" />);
+    const instance = testRenderer.getInstance();
+
+    act(() => {
+      instance.handleFormChange({
+        firstAction: {
+          onSuccess: { callActions: [{}] },
+          onFailure: { callActions: [{}] }
+        }
+      });
+    });
+
+    const treeJson = JSON.stringify(testRenderer.toJSON());
+    expect(treeJson).toContain("Tree navigation");
+    expect(treeJson).toContain("onSuccess");
+  });
+
+  it("renders concrete DESFire action branches from discriminator-selected schemas", () => {
+    const value = {
+      forceCardType: "DESFireEV1",
+      properties: [],
+      firstAction: {
+        $type: "DESFire.SelectApplication",
+        aid: 0,
+        label: "Select Root",
+        onSuccess: {
+          callActions: [
+            {
+              $type: "DESFire.Authenticate",
+              key: {
+                keyId: "b3c7c11d-4bf2-414a-f33f-08dba8bbb74f"
+              },
+              keyNo: 0,
+              label: "Authenticate with PICC Master Key"
+            },
+            {
+              $type: "DESFire.WriteData",
+              encryptionMode: "encrypt",
+              fileNo: 0,
+              label: "Write Access Control #1",
+              offset: 0,
+              servicesBefore: [
+                {
+                  $type: "PrepareAccessControlDataService",
+                  bufferBehavior: "overwrite",
+                  fieldNamePrefix: null,
+                  formatDefinition: {
+                    $type: "Binary64"
+                  }
+                }
+              ]
+            }
+          ],
+          throw: false
+        },
+        servicesAfter: [
+          {
+            $type: "CardSerialNumberService",
+            bufferBehavior: "doNothing",
+            checkCSN: false,
+            fieldNamePrefix: null
+          }
+        ]
+      }
+    };
+
+    const tree = buildNavigationTree(realSchema, value, [], 0, [], realSchema);
+    const serialized = JSON.stringify(tree);
+
+    expect(serialized).toContain("On Success");
+    expect(serialized).toContain("Authenticate with PICC Master Key");
+    expect(serialized).toContain("Write Access Control #1");
+    expect(serialized).not.toContain("Run Actions");
+    expect(serialized).not.toContain("Template Properties");
+    expect(serialized).toContain("Services Before");
+    expect(serialized).toContain("PrepareAccessControlDataService");
+    expect(serialized).toContain("Services After");
+    expect(serialized).toContain("CardSerialNumberService");
   });
 });
