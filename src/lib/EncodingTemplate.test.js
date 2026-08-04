@@ -1,5 +1,5 @@
 import React from "react";
-import EncodingTemplate from "./EncodingTemplate";
+import { EncodingTemplate } from "./EncodingTemplate";
 import renderer from "react-test-renderer";
 
 describe("EncodingTemplate", () => {
@@ -8,5 +8,13 @@ describe("EncodingTemplate", () => {
       .create(<EncodingTemplate chip="DESFire" />)
       .toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it("renders a tree navigation sidebar", () => {
+    const tree = renderer
+      .create(<EncodingTemplate chip="DESFire" />)
+      .toJSON();
+
+    expect(JSON.stringify(tree)).toContain("Tree navigation");
   });
 });

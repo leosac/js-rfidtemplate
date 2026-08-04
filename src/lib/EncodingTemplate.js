@@ -10,13 +10,17 @@ import data from '../default-template.json';
 import uiSchema from "./ui-schema.js";
 import uiTemplates from "./ui-templates.js";
 import {keys, uiWidgets} from "./ui-widgets.js";
+import { buildNavigationTree as buildTreeNavigation } from "./ui-tree.js";
 
 class EncodingTemplate extends React.Component {
 
 	constructor(props) {
         super(props);
 		this.state = {
-			template: (props.content) ? JSON.parse(props.content) : data
+			template: (props.content) ? JSON.parse(props.content) : data,
+			sidebarCollapsed: false,
+			activeSection: null,
+			treeVersion: 0
 		}
         this.initProps();
 
@@ -52,16 +56,72 @@ class EncodingTemplate extends React.Component {
 		}
 	}
 
+	toggleSidebar = () => {
+		this.setState((prevState) => ({ sidebarCollapsed: !prevState.sidebarCollapsed }));
+	}
+
+	handleSectionNavigation = (sectionId) => {
+		this.setState({ activeSection: sectionId });
+		window.requestAnimationFrame(() => {
+			const section = document.getElementById(sectionId);
+			if (section) {
+				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			}
+		});
+	}
+
+	handleFormChange = (formData) => {
+		this.setState((prevState) => ({
+			template: formData,
+			treeVersion: prevState.treeVersion + 1
+		}));
+		if (this.props.onEdit) {
+			this.props.onEdit(formData);
+		}
+	}
+
+	renderNavigation(items, depth = 0) {
+		return (
+			<ul className={`encoding-template-nav-list depth-${depth}`}>
+				{items.map((item) => (
+					<li key={item.id} className={this.state.activeSection === item.id ? 'active' : ''}>
+						<button type="button" className="encoding-template-nav-button" onClick={() => this.handleSectionNavigation(item.id)}>
+							{item.title}
+						</button>
+						{item.children && item.children.length > 0 && this.renderNavigation(item.children, depth + 1)}
+					</li>
+				))}
+			</ul>
+		);
+	}
+
 	render() {
-		return (<Form ref={this.formRef}
-				      schema={schema}
-					  validator={validator}
-					  uiSchema={uiSchema}
-					  templates={uiTemplates}
-					  widgets={uiWidgets}
-					  formData={this.state.template}
-					  onChange={this.props.onEdit}
-					  onSubmit={this.props.onSubmit} />);
+		const navigation = buildTreeNavigation(schema, this.state.template, [], 0, new WeakSet(), schema);
+
+		return (
+			<div className={`encoding-template-shell ${this.state.sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+				<aside className="encoding-template-sidebar">
+					<div className="encoding-template-sidebar-header">
+						<strong className="encoding-template-sidebar-title">Tree navigation</strong>
+						<button type="button" className="encoding-template-sidebar-toggle" onClick={this.toggleSidebar}>
+							{this.state.sidebarCollapsed ? '▶' : '◀'}
+						</button>
+					</div>
+					{!this.state.sidebarCollapsed && this.renderNavigation(navigation)}
+				</aside>
+				<div className="encoding-template-form">
+					<Form ref={this.formRef}
+						  schema={schema}
+						  validator={validator}
+						  uiSchema={uiSchema}
+						  templates={uiTemplates}
+						  widgets={uiWidgets}
+						  formData={this.state.template}
+						  onChange={({ formData }) => this.handleFormChange(formData)}
+						  onSubmit={this.props.onSubmit} />
+				</div>
+			</div>
+		);
 	}
 }
 

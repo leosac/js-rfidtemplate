@@ -1,0 +1,1985 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EncodingTemplate renders properly 1`] = `
+<div
+  className="encoding-template-shell "
+>
+  <aside
+    className="encoding-template-sidebar"
+  >
+    <div
+      className="encoding-template-sidebar-header"
+    >
+      <strong
+        className="encoding-template-sidebar-title"
+      >
+        Tree navigation
+      </strong>
+      <button
+        className="encoding-template-sidebar-toggle"
+        onClick={[Function]}
+        type="button"
+      >
+        ◀
+      </button>
+    </div>
+    <ul
+      className="encoding-template-nav-list depth-0"
+    >
+      <li
+        className=""
+      >
+        <button
+          className="encoding-template-nav-button"
+          onClick={[Function]}
+          type="button"
+        >
+          Nothing
+        </button>
+        <ul
+          className="encoding-template-nav-list depth-1"
+        >
+          <li
+            className=""
+          >
+            <button
+              className="encoding-template-nav-button"
+              onClick={[Function]}
+              type="button"
+            >
+              Nothing
+            </button>
+          </li>
+        </ul>
+      </li>
+      <li
+        className=""
+      >
+        <button
+          className="encoding-template-nav-button"
+          onClick={[Function]}
+          type="button"
+        >
+          Force Card Type
+        </button>
+      </li>
+      <li
+        className=""
+      >
+        <button
+          className="encoding-template-nav-button"
+          onClick={[Function]}
+          type="button"
+        >
+          Template Properties
+        </button>
+      </li>
+      <li
+        className=""
+      >
+        <button
+          className="encoding-template-nav-button"
+          onClick={[Function]}
+          type="button"
+        >
+          NXP SAM AV2/AV3
+        </button>
+      </li>
+    </ul>
+  </aside>
+  <div
+    className="encoding-template-form"
+  >
+    <form
+      className="rjsf"
+      noValidate={false}
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group field field-object"
+      >
+        <div
+          id="root"
+        >
+          <div>
+            <div>
+              <div
+                className="mb-3"
+              >
+                Content definition for an encoding fragment template.
+              </div>
+            </div>
+            <div
+              className="p-0 container-fluid"
+            >
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <div
+                    className="form-group field field-array"
+                  />
+                </div>
+              </div>
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <div
+                    className="form-group field field-undefined"
+                  >
+                    <label
+                      className="form-label"
+                      htmlFor="root_firstAction"
+                    >
+                      Action
+                    </label>
+                    <div
+                      className="panel panel-default panel-body"
+                    >
+                      <div
+                        className="form-group"
+                      >
+                        <select
+                          aria-describedby="root_firstAction__oneof_select__error root_firstAction__oneof_select__description root_firstAction__oneof_select__help"
+                          className="custom-select"
+                          disabled={false}
+                          id="root_firstAction__oneof_select"
+                          multiple={false}
+                          name="root_firstAction__oneof_select"
+                          onBlur={[Function]}
+                          onChange={[Function]}
+                          onFocus={[Function]}
+                          value="0"
+                        >
+                          <option
+                            disabled={false}
+                            id="Nothing"
+                            value="0"
+                          >
+                            Nothing
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Authenticate"
+                            value="1"
+                          >
+                            MIFARE Classic - Authenticate
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Change Keys"
+                            value="2"
+                          >
+                            MIFARE Classic - Change Keys
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Decrement"
+                            value="3"
+                          >
+                            MIFARE Classic - Decrement
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Increment"
+                            value="4"
+                          >
+                            MIFARE Classic - Increment
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Load Key"
+                            value="5"
+                          >
+                            MIFARE Classic - Load Key
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Read Binary"
+                            value="6"
+                          >
+                            MIFARE Classic - Read Binary
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Classic - Update Binary"
+                            value="7"
+                          >
+                            MIFARE Classic - Update Binary
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Ultralight C - Authenticate"
+                            value="8"
+                          >
+                            MIFARE Ultralight C - Authenticate
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Ultralight C - Change Key"
+                            value="9"
+                          >
+                            MIFARE Ultralight C - Change Key
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Ultralight C - Lock Page"
+                            value="10"
+                          >
+                            MIFARE Ultralight C - Lock Page
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Ultralight C - Read Page"
+                            value="11"
+                          >
+                            MIFARE Ultralight C - Read Page
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE Ultralight C - Write Page"
+                            value="12"
+                          >
+                            MIFARE Ultralight C - Write Page
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Abort Transaction"
+                            value="13"
+                          >
+                            MIFARE DESFire - Abort Transaction
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Authenticate"
+                            value="14"
+                          >
+                            MIFARE DESFire - Authenticate
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Authenticate AES"
+                            value="15"
+                          >
+                            MIFARE DESFire - Authenticate AES
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Authenticate EV2 First"
+                            value="16"
+                          >
+                            MIFARE DESFire - Authenticate EV2 First
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Change File Settings"
+                            value="17"
+                          >
+                            MIFARE DESFire - Change File Settings
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Change File Settings EV3"
+                            value="18"
+                          >
+                            MIFARE DESFire - Change File Settings EV3
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Change Key"
+                            value="19"
+                          >
+                            MIFARE DESFire - Change Key
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Change Key EV2"
+                            value="20"
+                          >
+                            MIFARE DESFire - Change Key EV2
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Change Key Settings"
+                            value="21"
+                          >
+                            MIFARE DESFire - Change Key Settings
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Commit Reader ID"
+                            value="22"
+                          >
+                            MIFARE DESFire - Commit Reader ID
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Commit Transaction"
+                            value="23"
+                          >
+                            MIFARE DESFire - Commit Transaction
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Application"
+                            value="24"
+                          >
+                            MIFARE DESFire - Create Application
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Application EV1"
+                            value="25"
+                          >
+                            MIFARE DESFire - Create Application EV1
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Application EV2"
+                            value="26"
+                          >
+                            MIFARE DESFire - Create Application EV2
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Backup File"
+                            value="27"
+                          >
+                            MIFARE DESFire - Create Backup File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Cyclic Record File"
+                            value="28"
+                          >
+                            MIFARE DESFire - Create Cyclic Record File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Delegated Application"
+                            value="29"
+                          >
+                            MIFARE DESFire - Create Delegated Application
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Linear Record File"
+                            value="30"
+                          >
+                            MIFARE DESFire - Create Linear Record File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create NFC Application"
+                            value="31"
+                          >
+                            MIFARE DESFire - Create NFC Application
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Standard Data File"
+                            value="32"
+                          >
+                            MIFARE DESFire - Create Standard Data File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Standard Data File EV1"
+                            value="33"
+                          >
+                            MIFARE DESFire - Create Standard Data File EV1
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Standard Data File EV3"
+                            value="34"
+                          >
+                            MIFARE DESFire - Create Standard Data File EV3
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Transaction MAC File"
+                            value="35"
+                          >
+                            MIFARE DESFire - Create Transaction MAC File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Create Value File"
+                            value="36"
+                          >
+                            MIFARE DESFire - Create Value File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Credit"
+                            value="37"
+                          >
+                            MIFARE DESFire - Credit
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Debit"
+                            value="38"
+                          >
+                            MIFARE DESFire - Debit
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Delete Application"
+                            value="39"
+                          >
+                            MIFARE DESFire - Delete Application
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Delete File"
+                            value="40"
+                          >
+                            MIFARE DESFire - Delete File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - ECC Originality Check"
+                            value="41"
+                          >
+                            MIFARE DESFire - ECC Originality Check
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Erase"
+                            value="42"
+                          >
+                            MIFARE DESFire - Erase
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Finalize KeySet"
+                            value="43"
+                          >
+                            MIFARE DESFire - Finalize KeySet
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Initialize KeySet"
+                            value="44"
+                          >
+                            MIFARE DESFire - Initialize KeySet
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Proximity Check"
+                            value="45"
+                          >
+                            MIFARE DESFire - Proximity Check
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Read Data"
+                            value="46"
+                          >
+                            MIFARE DESFire - Read Data
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Restore Transfer"
+                            value="47"
+                          >
+                            MIFARE DESFire - Restore Transfer
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Roll KeySet"
+                            value="48"
+                          >
+                            MIFARE DESFire - Roll KeySet
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Select Application"
+                            value="49"
+                          >
+                            MIFARE DESFire - Select Application
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Set Configuration"
+                            value="50"
+                          >
+                            MIFARE DESFire - Set Configuration
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Set Configuration EV2"
+                            value="51"
+                          >
+                            MIFARE DESFire - Set Configuration EV2
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Set Configuration Messaging"
+                            value="52"
+                          >
+                            MIFARE DESFire - Set Configuration Messaging
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Write Data"
+                            value="53"
+                          >
+                            MIFARE DESFire - Write Data
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Write NDEF File"
+                            value="54"
+                          >
+                            MIFARE DESFire - Write NDEF File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Write SDM File"
+                            value="55"
+                          >
+                            MIFARE DESFire - Write SDM File
+                          </option>
+                          <option
+                            disabled={false}
+                            id="MIFARE DESFire - Write Record"
+                            value="56"
+                          >
+                            MIFARE DESFire - Write Record
+                          </option>
+                        </select>
+                      </div>
+                      <div
+                        className="form-group field field-object"
+                      >
+                        <div
+                          id="root_firstAction"
+                        >
+                          <div>
+                            <div>
+                              <h5>
+                                Nothing
+                              </h5>
+                              <hr
+                                className="border-0 bg-secondary"
+                                style={
+                                  Object {
+                                    "height": "1px",
+                                  }
+                                }
+                              />
+                            </div>
+                            <div>
+                              <div
+                                className="mb-3"
+                              >
+                                Do nothing. Action placeholder for delayed services execution.
+                              </div>
+                            </div>
+                            <div
+                              className="p-0 container-fluid"
+                            >
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-string d-none"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_firstAction_$type"
+                                    >
+                                      $type
+                                      *
+                                    </label>
+                                    <input
+                                      id="root_firstAction_$type"
+                                      name="root_firstAction_$type"
+                                      type="hidden"
+                                      value="Nothing"
+                                    />
+                                    <small
+                                      className="text-muted form-text"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-string"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_firstAction_label"
+                                    >
+                                      Label
+                                    </label>
+                                    <div
+                                      className="row"
+                                    >
+                                      <input
+                                        className="form-control"
+                                        disabled={false}
+                                        id="root_firstAction_label"
+                                        name="label"
+                                        onChange={[Function]}
+                                        placeholder=""
+                                        readOnly={false}
+                                        required={false}
+                                        type="text"
+                                      />
+                                    </div>
+                                    <small
+                                      className="text-muted form-text"
+                                    >
+                                      <div>
+                                        <div
+                                          className="mb-3"
+                                          id="root_firstAction_label__description"
+                                        >
+                                          The optional action indicative label.
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-string d-none"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_firstAction_group"
+                                    >
+                                      group
+                                    </label>
+                                    <div
+                                      className="row"
+                                    >
+                                      <input
+                                        className="form-control"
+                                        disabled={false}
+                                        id="root_firstAction_group"
+                                        name="group"
+                                        onChange={[Function]}
+                                        placeholder=""
+                                        readOnly={false}
+                                        required={false}
+                                        type="text"
+                                      />
+                                    </div>
+                                    <small
+                                      className="text-muted form-text"
+                                    >
+                                      <div>
+                                        <div
+                                          className="mb-3"
+                                          id="root_firstAction_group__description"
+                                        >
+                                          The optional action group, mainly used to regroup visually several operations.
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-array"
+                                  >
+                                    <div>
+                                      <div>
+                                        <h5>
+                                          Services Before
+                                        </h5>
+                                        <hr
+                                          className="border-0 bg-secondary"
+                                          style={
+                                            Object {
+                                              "height": "1px",
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                      <div />
+                                      <div
+                                        className="py-4 col-lg-3 col-3 col-3"
+                                      >
+                                        <button
+                                          className="ml-1 array-item-add btn btn-primary"
+                                          onClick={[Function]}
+                                          style={
+                                            Object {
+                                              "width": "100%",
+                                            }
+                                          }
+                                          title="Add Item"
+                                          type="button"
+                                        >
+                                          <svg
+                                            fill="currentColor"
+                                            height="1em"
+                                            stroke="currentColor"
+                                            strokeWidth="0"
+                                            viewBox="0 0 16 16"
+                                            width="1em"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              clipRule="evenodd"
+                                              d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                                              fillRule="evenodd"
+                                            />
+                                            <path
+                                              clipRule="evenodd"
+                                              d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                                              fillRule="evenodd"
+                                            />
+                                          </svg>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-array"
+                                  >
+                                    <div>
+                                      <div>
+                                        <h5>
+                                          Services After
+                                        </h5>
+                                        <hr
+                                          className="border-0 bg-secondary"
+                                          style={
+                                            Object {
+                                              "height": "1px",
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                      <div />
+                                      <div
+                                        className="py-4 col-lg-3 col-3 col-3"
+                                      >
+                                        <button
+                                          className="ml-1 array-item-add btn btn-primary"
+                                          onClick={[Function]}
+                                          style={
+                                            Object {
+                                              "width": "100%",
+                                            }
+                                          }
+                                          title="Add Item"
+                                          type="button"
+                                        >
+                                          <svg
+                                            fill="currentColor"
+                                            height="1em"
+                                            stroke="currentColor"
+                                            strokeWidth="0"
+                                            viewBox="0 0 16 16"
+                                            width="1em"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                          >
+                                            <path
+                                              clipRule="evenodd"
+                                              d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                                              fillRule="evenodd"
+                                            />
+                                            <path
+                                              clipRule="evenodd"
+                                              d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                                              fillRule="evenodd"
+                                            />
+                                          </svg>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-object"
+                                  >
+                                    <div
+                                      id="root_firstAction_onSuccess"
+                                    >
+                                      <div
+                                        className="card mb-3"
+                                      >
+                                        <div
+                                          className="card-header"
+                                        >
+                                          <button
+                                            className="btn btn-link p-0 w-100 text-left"
+                                            onClick={[Function]}
+                                            style={
+                                              Object {
+                                                "textDecoration": "none",
+                                              }
+                                            }
+                                            type="button"
+                                          >
+                                            <div
+                                              className="row align-items-center"
+                                            >
+                                              <div
+                                                className="col-8"
+                                              >
+                                                <h5
+                                                  className="mb-0"
+                                                >
+                                                  On Success
+                                                </h5>
+                                              </div>
+                                              <div
+                                                className="col-4 text-right"
+                                              >
+                                                <span
+                                                  className="rotate-icon open"
+                                                >
+                                                  &gt;
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </button>
+                                        </div>
+                                        <div
+                                          className="card-body"
+                                        >
+                                          <div
+                                            className="mb-3"
+                                          >
+                                            The action to trigger on action execution success.
+                                          </div>
+                                          <div>
+                                            <div>
+                                              <h5>
+                                                On Success
+                                              </h5>
+                                              <hr
+                                                className="border-0 bg-secondary"
+                                                style={
+                                                  Object {
+                                                    "height": "1px",
+                                                  }
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <div
+                                                className="mb-3"
+                                              >
+                                                The action to trigger on action execution success.
+                                              </div>
+                                            </div>
+                                            <div
+                                              className="p-0 container-fluid"
+                                            >
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-array"
+                                                  >
+                                                    <div>
+                                                      <div>
+                                                        <h5>
+                                                          Run Actions
+                                                        </h5>
+                                                        <hr
+                                                          className="border-0 bg-secondary"
+                                                          style={
+                                                            Object {
+                                                              "height": "1px",
+                                                            }
+                                                          }
+                                                        />
+                                                      </div>
+                                                      <div />
+                                                      <div
+                                                        className="py-4 col-lg-3 col-3 col-3"
+                                                      >
+                                                        <button
+                                                          className="ml-1 array-item-add btn btn-primary"
+                                                          onClick={[Function]}
+                                                          style={
+                                                            Object {
+                                                              "width": "100%",
+                                                            }
+                                                          }
+                                                          title="Add Item"
+                                                          type="button"
+                                                        >
+                                                          <svg
+                                                            fill="currentColor"
+                                                            height="1em"
+                                                            stroke="currentColor"
+                                                            strokeWidth="0"
+                                                            viewBox="0 0 16 16"
+                                                            width="1em"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                          >
+                                                            <path
+                                                              clipRule="evenodd"
+                                                              d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                                                              fillRule="evenodd"
+                                                            />
+                                                            <path
+                                                              clipRule="evenodd"
+                                                              d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                                                              fillRule="evenodd"
+                                                            />
+                                                          </svg>
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-boolean"
+                                                  >
+                                                    <div
+                                                      className="custom-control custom-switch"
+                                                    >
+                                                      <input
+                                                        className="custom-control-input"
+                                                        disabled={false}
+                                                        id="root_firstAction_onSuccess_throw"
+                                                        name="throw"
+                                                        onChange={[Function]}
+                                                        type="checkbox"
+                                                      />
+                                                      <label
+                                                        className="custom-control-label"
+                                                        htmlFor="root_firstAction_onSuccess_throw"
+                                                        title=""
+                                                      >
+                                                        Throw
+                                                      </label>
+                                                    </div>
+                                                    <small
+                                                      className="text-muted form-text"
+                                                    >
+                                                      True to throw an exception and end the fragment production, false otherwise.
+                                                    </small>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-string"
+                                                  >
+                                                    <label
+                                                      className="form-label"
+                                                      htmlFor="root_firstAction_onSuccess_throwCustomMessage"
+                                                    >
+                                                      Custom error message
+                                                    </label>
+                                                    <div
+                                                      className="row"
+                                                    >
+                                                      <input
+                                                        className="form-control"
+                                                        disabled={false}
+                                                        id="root_firstAction_onSuccess_throwCustomMessage"
+                                                        name="throwCustomMessage"
+                                                        onChange={[Function]}
+                                                        placeholder=""
+                                                        readOnly={false}
+                                                        required={false}
+                                                        type="text"
+                                                      />
+                                                    </div>
+                                                    <small
+                                                      className="text-muted form-text"
+                                                    >
+                                                      <div>
+                                                        <div
+                                                          className="mb-3"
+                                                          id="root_firstAction_onSuccess_throwCustomMessage__description"
+                                                        >
+                                                          An optional custom message to throw (if enabled).
+                                                        </div>
+                                                      </div>
+                                                    </small>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-object"
+                                  >
+                                    <div
+                                      id="root_firstAction_onFailure"
+                                    >
+                                      <div
+                                        className="card mb-3"
+                                      >
+                                        <div
+                                          className="card-header"
+                                        >
+                                          <button
+                                            className="btn btn-link p-0 w-100 text-left"
+                                            onClick={[Function]}
+                                            style={
+                                              Object {
+                                                "textDecoration": "none",
+                                              }
+                                            }
+                                            type="button"
+                                          >
+                                            <div
+                                              className="row align-items-center"
+                                            >
+                                              <div
+                                                className="col-8"
+                                              >
+                                                <h5
+                                                  className="mb-0"
+                                                >
+                                                  On Failure
+                                                </h5>
+                                              </div>
+                                              <div
+                                                className="col-4 text-right"
+                                              >
+                                                <span
+                                                  className="rotate-icon open"
+                                                >
+                                                  &gt;
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </button>
+                                        </div>
+                                        <div
+                                          className="card-body"
+                                        >
+                                          <div
+                                            className="mb-3"
+                                          >
+                                            The action to trigger on action execution failure.
+                                          </div>
+                                          <div>
+                                            <div>
+                                              <h5>
+                                                On Failure
+                                              </h5>
+                                              <hr
+                                                className="border-0 bg-secondary"
+                                                style={
+                                                  Object {
+                                                    "height": "1px",
+                                                  }
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <div
+                                                className="mb-3"
+                                              >
+                                                The action to trigger on action execution failure.
+                                              </div>
+                                            </div>
+                                            <div
+                                              className="p-0 container-fluid"
+                                            >
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-array"
+                                                  >
+                                                    <div>
+                                                      <div>
+                                                        <h5>
+                                                          Run Actions
+                                                        </h5>
+                                                        <hr
+                                                          className="border-0 bg-secondary"
+                                                          style={
+                                                            Object {
+                                                              "height": "1px",
+                                                            }
+                                                          }
+                                                        />
+                                                      </div>
+                                                      <div />
+                                                      <div
+                                                        className="py-4 col-lg-3 col-3 col-3"
+                                                      >
+                                                        <button
+                                                          className="ml-1 array-item-add btn btn-primary"
+                                                          onClick={[Function]}
+                                                          style={
+                                                            Object {
+                                                              "width": "100%",
+                                                            }
+                                                          }
+                                                          title="Add Item"
+                                                          type="button"
+                                                        >
+                                                          <svg
+                                                            fill="currentColor"
+                                                            height="1em"
+                                                            stroke="currentColor"
+                                                            strokeWidth="0"
+                                                            viewBox="0 0 16 16"
+                                                            width="1em"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                          >
+                                                            <path
+                                                              clipRule="evenodd"
+                                                              d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                                                              fillRule="evenodd"
+                                                            />
+                                                            <path
+                                                              clipRule="evenodd"
+                                                              d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                                                              fillRule="evenodd"
+                                                            />
+                                                          </svg>
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-boolean"
+                                                  >
+                                                    <div
+                                                      className="custom-control custom-switch"
+                                                    >
+                                                      <input
+                                                        className="custom-control-input"
+                                                        disabled={false}
+                                                        id="root_firstAction_onFailure_throw"
+                                                        name="throw"
+                                                        onChange={[Function]}
+                                                        type="checkbox"
+                                                      />
+                                                      <label
+                                                        className="custom-control-label"
+                                                        htmlFor="root_firstAction_onFailure_throw"
+                                                        title=""
+                                                      >
+                                                        Throw
+                                                      </label>
+                                                    </div>
+                                                    <small
+                                                      className="text-muted form-text"
+                                                    >
+                                                      True to throw an exception and end the fragment production, false otherwise.
+                                                    </small>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-string"
+                                                  >
+                                                    <label
+                                                      className="form-label"
+                                                      htmlFor="root_firstAction_onFailure_throwCustomMessage"
+                                                    >
+                                                      Custom error message
+                                                    </label>
+                                                    <div
+                                                      className="row"
+                                                    >
+                                                      <input
+                                                        className="form-control"
+                                                        disabled={false}
+                                                        id="root_firstAction_onFailure_throwCustomMessage"
+                                                        name="throwCustomMessage"
+                                                        onChange={[Function]}
+                                                        placeholder=""
+                                                        readOnly={false}
+                                                        required={false}
+                                                        type="text"
+                                                      />
+                                                    </div>
+                                                    <small
+                                                      className="text-muted form-text"
+                                                    >
+                                                      <div>
+                                                        <div
+                                                          className="mb-3"
+                                                          id="root_firstAction_onFailure_throwCustomMessage__description"
+                                                        >
+                                                          An optional custom message to throw (if enabled).
+                                                        </div>
+                                                      </div>
+                                                    </small>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <small
+                      className="text-muted form-text"
+                    >
+                      <div>
+                        <div
+                          className="mb-3"
+                          id="root_firstAction__description"
+                        >
+                          The first encoding action to execute.
+                        </div>
+                      </div>
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <div
+                    className="form-group field field-object"
+                  >
+                    <div
+                      id="root_sam"
+                    >
+                      <div
+                        className="card mb-3"
+                      >
+                        <div
+                          className="card-header"
+                        >
+                          <button
+                            className="btn btn-link p-0 w-100 text-left"
+                            onClick={[Function]}
+                            style={
+                              Object {
+                                "textDecoration": "none",
+                              }
+                            }
+                            type="button"
+                          >
+                            <div
+                              className="row align-items-center"
+                            >
+                              <div
+                                className="col-8"
+                              >
+                                <h5
+                                  className="mb-0"
+                                >
+                                  NXP SAM AV2/AV3
+                                </h5>
+                              </div>
+                              <div
+                                className="col-4 text-right"
+                              >
+                                <span
+                                  className="rotate-icon open"
+                                >
+                                  &gt;
+                                </span>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                        <div
+                          className="card-body"
+                        >
+                          <div
+                            className="mb-3"
+                          >
+                            The optional SAM properties.
+                          </div>
+                          <div>
+                            <div>
+                              <h5>
+                                NXP SAM AV2/AV3
+                              </h5>
+                              <hr
+                                className="border-0 bg-secondary"
+                                style={
+                                  Object {
+                                    "height": "1px",
+                                  }
+                                }
+                              />
+                            </div>
+                            <div>
+                              <div
+                                className="mb-3"
+                              >
+                                The optional SAM properties.
+                              </div>
+                            </div>
+                            <div
+                              className="p-0 container-fluid"
+                            >
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-string"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_sam_samType"
+                                    >
+                                      SAM Type
+                                    </label>
+                                    <select
+                                      aria-describedby="root_sam_samType__error root_sam_samType__description root_sam_samType__help"
+                                      autoFocus={false}
+                                      className="custom-select"
+                                      disabled={false}
+                                      id="root_sam_samType"
+                                      name="root_sam_samType"
+                                      onBlur={[Function]}
+                                      onChange={[Function]}
+                                      onFocus={[Function]}
+                                      required={false}
+                                      value=""
+                                    >
+                                      <option
+                                        disabled={false}
+                                        id="Auto"
+                                        value="0"
+                                      >
+                                        Auto
+                                      </option>
+                                      <option
+                                        disabled={false}
+                                        id="NXP SAM AV2"
+                                        value="1"
+                                      >
+                                        NXP SAM AV2
+                                      </option>
+                                      <option
+                                        disabled={false}
+                                        id="NXP SAM AV3"
+                                        value="2"
+                                      >
+                                        NXP SAM AV3
+                                      </option>
+                                    </select>
+                                    <small
+                                      className="text-muted form-text"
+                                    >
+                                      <div>
+                                        <div
+                                          className="mb-3"
+                                          id="root_sam_samType__description"
+                                        >
+                                          The SAM card type. Use Auto to automatically detected the SAM technology.
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-string"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_sam_authenticationMode"
+                                    >
+                                      Authentication Mode
+                                    </label>
+                                    <select
+                                      aria-describedby="root_sam_authenticationMode__error root_sam_authenticationMode__description root_sam_authenticationMode__help"
+                                      autoFocus={false}
+                                      className="custom-select"
+                                      disabled={false}
+                                      id="root_sam_authenticationMode"
+                                      name="root_sam_authenticationMode"
+                                      onBlur={[Function]}
+                                      onChange={[Function]}
+                                      onFocus={[Function]}
+                                      required={false}
+                                      value=""
+                                    >
+                                      <option
+                                        disabled={false}
+                                        id="Unlock"
+                                        value="0"
+                                      >
+                                        Unlock
+                                      </option>
+                                      <option
+                                        disabled={false}
+                                        id="Authenticate Host"
+                                        value="1"
+                                      >
+                                        Authenticate Host
+                                      </option>
+                                    </select>
+                                    <small
+                                      className="text-muted form-text"
+                                    >
+                                      <div>
+                                        <div
+                                          className="mb-3"
+                                          id="root_sam_authenticationMode__description"
+                                        >
+                                          The SAM authentication mode.
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-integer"
+                                  >
+                                    <label
+                                      className="form-label"
+                                      htmlFor="root_sam_unlockKeyNo"
+                                    >
+                                      Unlock/Authenticate Key No
+                                    </label>
+                                    <div
+                                      className="row"
+                                    >
+                                      <input
+                                        className="form-control"
+                                        disabled={false}
+                                        id="root_sam_unlockKeyNo"
+                                        max={127}
+                                        min={0}
+                                        name="unlockKeyNo"
+                                        onChange={[Function]}
+                                        placeholder=""
+                                        readOnly={false}
+                                        required={false}
+                                        type="number"
+                                      />
+                                    </div>
+                                    <small
+                                      className="text-muted form-text"
+                                    >
+                                      <div>
+                                        <div
+                                          className="mb-3"
+                                          id="root_sam_unlockKeyNo__description"
+                                        >
+                                          The SAM unlock/authenticate key number.
+                                        </div>
+                                      </div>
+                                    </small>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                className="row"
+                              >
+                                <div
+                                  className="col-12"
+                                >
+                                  <div
+                                    className="form-group field field-object"
+                                  >
+                                    <div
+                                      id="root_sam_unlockKey"
+                                    >
+                                      <div
+                                        className="card mb-3"
+                                      >
+                                        <div
+                                          className="card-header"
+                                        >
+                                          <button
+                                            className="btn btn-link p-0 w-100 text-left"
+                                            onClick={[Function]}
+                                            style={
+                                              Object {
+                                                "textDecoration": "none",
+                                              }
+                                            }
+                                            type="button"
+                                          >
+                                            <div
+                                              className="row align-items-center"
+                                            >
+                                              <div
+                                                className="col-8"
+                                              >
+                                                <h5
+                                                  className="mb-0"
+                                                >
+                                                  Unlock/Authenticate Key
+                                                </h5>
+                                              </div>
+                                              <div
+                                                className="col-4 text-right"
+                                              >
+                                                <span
+                                                  className="rotate-icon open"
+                                                >
+                                                  &gt;
+                                                </span>
+                                              </div>
+                                            </div>
+                                          </button>
+                                        </div>
+                                        <div
+                                          className="card-body"
+                                        >
+                                          <div
+                                            className="mb-3"
+                                          >
+                                            The SAM unlock/authenticate key details.
+                                          </div>
+                                          <div>
+                                            <div>
+                                              <h5>
+                                                Unlock/Authenticate Key
+                                              </h5>
+                                              <hr
+                                                className="border-0 bg-secondary"
+                                                style={
+                                                  Object {
+                                                    "height": "1px",
+                                                  }
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <div
+                                                className="mb-3"
+                                              >
+                                                The SAM unlock/authenticate key details.
+                                              </div>
+                                            </div>
+                                            <div
+                                              className="p-0 container-fluid"
+                                            >
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-string"
+                                                  >
+                                                    <label
+                                                      className="form-label"
+                                                      htmlFor="root_sam_unlockKey_keyId"
+                                                    >
+                                                      Key Id
+                                                    </label>
+                                                    <select
+                                                      className="form-control custom-select"
+                                                      id="root_sam_unlockKey_keyId"
+                                                      name="keyId"
+                                                      onChange={[Function]}
+                                                    >
+                                                      <option />
+                                                    </select>
+                                                    <small
+                                                      className="text-muted form-text"
+                                                    >
+                                                      <div>
+                                                        <div
+                                                          className="mb-3"
+                                                          id="root_sam_unlockKey_keyId__description"
+                                                        >
+                                                          The key identifier.
+                                                        </div>
+                                                      </div>
+                                                    </small>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div
+                                                className="row"
+                                              >
+                                                <div
+                                                  className="col-12"
+                                                >
+                                                  <div
+                                                    className="form-group field field-object"
+                                                  >
+                                                    <div
+                                                      id="root_sam_unlockKey_diversification"
+                                                    >
+                                                      <div
+                                                        className="card mb-3"
+                                                      >
+                                                        <div
+                                                          className="card-header"
+                                                        >
+                                                          <button
+                                                            className="btn btn-link p-0 w-100 text-left"
+                                                            onClick={[Function]}
+                                                            style={
+                                                              Object {
+                                                                "textDecoration": "none",
+                                                              }
+                                                            }
+                                                            type="button"
+                                                          >
+                                                            <div
+                                                              className="row align-items-center"
+                                                            >
+                                                              <div
+                                                                className="col-8"
+                                                              >
+                                                                <h5
+                                                                  className="mb-0"
+                                                                >
+                                                                  Key Diversification
+                                                                </h5>
+                                                              </div>
+                                                              <div
+                                                                className="col-4 text-right"
+                                                              >
+                                                                <span
+                                                                  className="rotate-icon open"
+                                                                >
+                                                                  &gt;
+                                                                </span>
+                                                              </div>
+                                                            </div>
+                                                          </button>
+                                                        </div>
+                                                        <div
+                                                          className="card-body"
+                                                        >
+                                                          <div
+                                                            className="mb-3"
+                                                          >
+                                                            Optional key diversification.
+                                                          </div>
+                                                          <div>
+                                                            <div>
+                                                              <h5>
+                                                                Key Diversification
+                                                              </h5>
+                                                              <hr
+                                                                className="border-0 bg-secondary"
+                                                                style={
+                                                                  Object {
+                                                                    "height": "1px",
+                                                                  }
+                                                                }
+                                                              />
+                                                            </div>
+                                                            <div>
+                                                              <div
+                                                                className="mb-3"
+                                                              >
+                                                                Optional key diversification.
+                                                              </div>
+                                                            </div>
+                                                            <div
+                                                              className="p-0 container-fluid"
+                                                            >
+                                                              <div
+                                                                className="row"
+                                                              >
+                                                                <div
+                                                                  className="col-12"
+                                                                >
+                                                                  <div
+                                                                    className="form-group field field-string"
+                                                                  >
+                                                                    <label
+                                                                      className="form-label"
+                                                                      htmlFor="root_sam_unlockKey_diversification_algorithm"
+                                                                    >
+                                                                      Algorithm
+                                                                    </label>
+                                                                    <select
+                                                                      aria-describedby="root_sam_unlockKey_diversification_algorithm__error root_sam_unlockKey_diversification_algorithm__description root_sam_unlockKey_diversification_algorithm__help"
+                                                                      autoFocus={false}
+                                                                      className="custom-select"
+                                                                      disabled={false}
+                                                                      id="root_sam_unlockKey_diversification_algorithm"
+                                                                      name="root_sam_unlockKey_diversification_algorithm"
+                                                                      onBlur={[Function]}
+                                                                      onChange={[Function]}
+                                                                      onFocus={[Function]}
+                                                                      required={false}
+                                                                      value=""
+                                                                    >
+                                                                      <option
+                                                                        value=""
+                                                                      />
+                                                                      <option
+                                                                        disabled={false}
+                                                                        id="an0945"
+                                                                        value="0"
+                                                                      >
+                                                                        an0945
+                                                                      </option>
+                                                                      <option
+                                                                        disabled={false}
+                                                                        id="an10922"
+                                                                        value="1"
+                                                                      >
+                                                                        an10922
+                                                                      </option>
+                                                                      <option
+                                                                        disabled={false}
+                                                                        id="sagem"
+                                                                        value="2"
+                                                                      >
+                                                                        sagem
+                                                                      </option>
+                                                                      <option
+                                                                        disabled={false}
+                                                                        id="omnitech"
+                                                                        value="3"
+                                                                      >
+                                                                        omnitech
+                                                                      </option>
+                                                                    </select>
+                                                                    <small
+                                                                      className="text-muted form-text"
+                                                                    >
+                                                                      <div>
+                                                                        <div
+                                                                          className="mb-3"
+                                                                          id="root_sam_unlockKey_diversification_algorithm__description"
+                                                                        >
+                                                                          The diversification algorithm.
+                                                                        </div>
+                                                                      </div>
+                                                                    </small>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="row"
+              >
+                <div
+                  className="col-12"
+                >
+                  <div
+                    className="form-group field field-string"
+                  >
+                    <label
+                      className="form-label"
+                      htmlFor="root_forceCardType"
+                    >
+                      Force Card Type
+                    </label>
+                    <select
+                      aria-describedby="root_forceCardType__error root_forceCardType__description root_forceCardType__help"
+                      autoFocus={false}
+                      className="custom-select"
+                      disabled={false}
+                      id="root_forceCardType"
+                      name="root_forceCardType"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={false}
+                      value=""
+                    >
+                      <option
+                        value=""
+                      />
+                      <option
+                        disabled={false}
+                        id="MIFARE Classic"
+                        value="0"
+                      >
+                        MIFARE Classic
+                      </option>
+                      <option
+                        disabled={false}
+                        id="MIFARE DESFire"
+                        value="1"
+                      >
+                        MIFARE DESFire
+                      </option>
+                      <option
+                        disabled={false}
+                        id="MIFARE DESFire EV1"
+                        value="2"
+                      >
+                        MIFARE DESFire EV1
+                      </option>
+                      <option
+                        disabled={false}
+                        id="MIFARE DESFire EV2"
+                        value="3"
+                      >
+                        MIFARE DESFire EV2
+                      </option>
+                      <option
+                        disabled={false}
+                        id="MIFARE DESFire EV3"
+                        value="4"
+                      >
+                        MIFARE DESFire EV3
+                      </option>
+                      <option
+                        disabled={false}
+                        id="MIFARE Ultralight C"
+                        value="5"
+                      >
+                        MIFARE Ultralight C
+                      </option>
+                    </select>
+                    <small
+                      className="text-muted form-text"
+                    >
+                      <div>
+                        <div
+                          className="mb-3"
+                          id="root_forceCardType__description"
+                        >
+                          Force the card type to use (optional).
+                        </div>
+                      </div>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;

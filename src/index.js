@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { EncodingTemplate } from "./lib";
 
 const App = () => (
-  <div style={{ width: 640, margin: "15px auto" }}>
+  <div style={{ width: 860, margin: "15px auto" }}>
 	<h1>Define your custom RFID Encoding Template</h1>
 	<p>This react component allows you to define the RFID encoding template from a web UI.</p>
 	<p>
