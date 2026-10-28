@@ -1,6 +1,15 @@
 # js-rfidtemplate
 JavaScript library to design RFID Template
 
+## Key selection
+
+Fields marked with `x-key` use a searchable dropdown. Opening it focuses a search
+input inside the menu, matching key names and IDs case-insensitively. Use the
+arrow keys to navigate results and Enter to select; Escape dismisses the menu.
+Closing the dropdown clears the filter without changing the selected key.
+Nullable fields include a "No key" option, and references to unknown keys remain
+selectable.
+
 ## Theme
 
 The editor uses the light theme by default. Set the optional `theme` prop to

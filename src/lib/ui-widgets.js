@@ -1,6 +1,124 @@
+import React, { useEffect, useRef, useState } from 'react';
 import FormCheck from 'react-bootstrap/FormCheck';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const keys = [];
+
+function KeySelectWidget(props) {
+    const [search, setSearch] = useState('');
+    const [open, setOpen] = useState(false);
+    const searchInput = useRef(null);
+    const optionList = useRef(null);
+    const disabled = props.disabled || props.readonly;
+    useEffect(() => {
+        if (open && !disabled) {
+            searchInput.current.focus();
+        }
+    }, [open, disabled]);
+    const query = search.trim().toLowerCase();
+    const options = keys.map(key => ({ value: key.id, label: key.name }));
+    if (props.value && !keys.some(key => key.id === props.value)) {
+        options.push({ value: props.value, label: `Unknown Key \`${props.value}\`` });
+    }
+    const matches = option => option.label.toLowerCase().includes(query)
+        || String(option.value).toLowerCase().includes(query);
+    const filteredOptions = options.filter(matches);
+    const selectedOption = options.find(option => option.value === props.value);
+    const toggle = nextOpen => {
+        setOpen(nextOpen);
+        setSearch('');
+    };
+    const select = value => {
+        props.onChange(value);
+        toggle(false);
+    };
+
+    return (
+        <Dropdown
+            className="encoding-template-key-select"
+            show={open && !disabled}
+            onToggle={toggle}
+            onSelect={select}
+            focusFirstItemOnShow={false}
+            onBlur={event => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                    toggle(false);
+                }
+            }}>
+            <input type="hidden" name={props.name} value={props.value == null ? '' : props.value} disabled={disabled} />
+            <Dropdown.Toggle
+                id={props.id}
+                variant=""
+                className="form-control custom-select text-left"
+                aria-label={(props.label || 'Key') + ': ' + (selectedOption ? selectedOption.label : 'Select a key')}
+                aria-haspopup="dialog"
+                aria-controls={props.id + '_menu'}
+                disabled={disabled}>
+                {selectedOption ? selectedOption.label : '\u00a0'}
+            </Dropdown.Toggle>
+            {open && !disabled && (
+                <Dropdown.Menu
+                    id={props.id + '_menu'}
+                    className="w-100"
+                    role="dialog"
+                    aria-label={(props.label || 'Key') + ' selection'}>
+                    <div className="px-2 pb-2">
+                        <input
+                            ref={searchInput}
+                            id={props.id + '_search'}
+                            type="search"
+                            className="form-control"
+                            aria-label={'Search ' + (props.label || 'keys')}
+                            aria-controls={props.id + '_options'}
+                            placeholder="Search keys by name or ID"
+                            value={search}
+                            onChange={event => setSearch(event.target.value)}
+                            onKeyDown={event => {
+                                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    const items = optionList.current.querySelectorAll('[role="option"]');
+                                    const item = event.key === 'ArrowDown' ? items[0] : items[items.length - 1];
+                                    if (item) item.focus();
+                                } else if (event.key === 'Enter') {
+                                    event.preventDefault();
+                                    if (filteredOptions.length > 0) select(filteredOptions[0].value);
+                                }
+                            }} />
+                    </div>
+                    <div
+                        ref={optionList}
+                        id={props.id + '_options'}
+                        className="encoding-template-key-options"
+                        role="listbox"
+                        aria-label={props.label || 'Keys'}
+                        aria-required={props.required}>
+                        {props.schema.nullable && (
+                            <Dropdown.Item as="button" type="button" eventKey="" role="option" aria-selected={!props.value}>
+                                No key
+                            </Dropdown.Item>
+                        )}
+                        {filteredOptions.map(option => (
+                            <Dropdown.Item
+                                as="button"
+                                type="button"
+                                key={option.value}
+                                eventKey={option.value}
+                                role="option"
+                                active={option.value === props.value}
+                                aria-selected={option.value === props.value}>
+                                {option.label}
+                            </Dropdown.Item>
+                        ))}
+                    </div>
+                    {filteredOptions.length === 0 && (
+                        <small className="text-muted d-block px-3 py-2" role="status">No matching keys</small>
+                    )}
+                </Dropdown.Menu>
+            )}
+        </Dropdown>
+    );
+}
 
 function getHex(number, padding = undefined) {
     let hex = undefined;
@@ -33,23 +151,7 @@ const uiWidgets = {
     },
     TextWidget: function(props) {
         if (props.schema['x-key']) {
-            return (
-                <select
-                    id={props.id}
-                    className='form-control custom-select'
-                    name={props.name}
-                    onChange={(event) => props.onChange(event.target.value)}>
-                        {props.schema.nullable && (
-                            <option></option>
-                        )}
-                        {keys.map((key) => (
-                            <option value={key.id} selected={(key.id === props.value)}>{key.name}</option>
-                        ))}
-                        {props.value && !keys.some(key => key.id === props.value) && (
-                            <option value={props.value} selected='true'>Unknown Key `{props.value}`</option>
-                        )}
-                </select>
-            );
+            return <KeySelectWidget {...props} />;
         } else {
             if (props.schema.type === 'number' || props.schema.type === 'integer') {
                 if (props.schema['x-hexinput']) {

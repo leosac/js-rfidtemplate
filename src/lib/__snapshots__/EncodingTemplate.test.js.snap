@@ -1669,14 +1669,30 @@ exports[`EncodingTemplate renders properly 1`] = `
                                                     >
                                                       Key Id
                                                     </label>
-                                                    <select
-                                                      className="form-control custom-select"
-                                                      id="root_sam_unlockKey_keyId"
-                                                      name="keyId"
-                                                      onChange={[Function]}
+                                                    <div
+                                                      className="encoding-template-key-select dropdown"
+                                                      onBlur={[Function]}
                                                     >
-                                                      <option />
-                                                    </select>
+                                                      <input
+                                                        disabled={false}
+                                                        name="keyId"
+                                                        type="hidden"
+                                                        value=""
+                                                      />
+                                                      <button
+                                                        aria-controls="root_sam_unlockKey_keyId_menu"
+                                                        aria-expanded={false}
+                                                        aria-haspopup="dialog"
+                                                        aria-label="Key Id: Select a key"
+                                                        className="form-control custom-select text-left dropdown-toggle btn"
+                                                        disabled={false}
+                                                        id="root_sam_unlockKey_keyId"
+                                                        onClick={[Function]}
+                                                        type="button"
+                                                      >
+                                                         
+                                                      </button>
+                                                    </div>
                                                     <small
                                                       className="text-muted form-text"
                                                     >
