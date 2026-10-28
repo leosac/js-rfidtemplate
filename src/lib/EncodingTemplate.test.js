@@ -6,6 +6,25 @@ import renderer, { act } from "react-test-renderer";
 const realSchema = require("../json-schema.json");
 
 describe("EncodingTemplate", () => {
+  it("uses stylesheet sizing without a resize handle and still collapses", () => {
+    const testRenderer = renderer.create(<EncodingTemplate />);
+    const sidebar = () => testRenderer.root.findByProps({ className: "encoding-template-sidebar" });
+    expect(sidebar().props.style).toBeUndefined();
+    expect(testRenderer.root.findAllByProps({ role: "separator" })).toHaveLength(0);
+
+    act(() => {
+      testRenderer.getInstance().toggleSidebar();
+    });
+    expect(testRenderer.toJSON().props.className).toContain("sidebar-collapsed");
+
+    act(() => {
+      testRenderer.getInstance().toggleSidebar();
+    });
+    expect(testRenderer.toJSON().props.className).not.toContain("sidebar-collapsed");
+    expect(sidebar().props.style).toBeUndefined();
+    testRenderer.unmount();
+  });
+
   it("renders properly", () => {
     const tree = renderer
       .create(<EncodingTemplate chip="DESFire" />)

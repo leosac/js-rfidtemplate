@@ -18,7 +18,7 @@
 }
 
 .encoding-template-sidebar {
-    width: 260px;
+    width: 25%;
     flex-shrink: 0;
     max-height: 80vh;
     overflow-y: auto;
