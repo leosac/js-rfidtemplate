@@ -142,9 +142,13 @@ class EncodingTemplate extends React.Component {
 
 	render() {
 		const navigation = this.state.navigation || [];
+		const { theme } = this.props;
+		if (theme !== 'light' && theme !== 'dark') {
+			throw new Error('JsRfidTemplate : theme must be "light" or "dark".');
+		}
 
 		return (
-			<div className={`encoding-template-shell ${this.state.sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+			<div className={`encoding-template-shell ${this.state.sidebarCollapsed ? 'sidebar-collapsed' : ''}`} data-theme={theme}>
 				<aside className="encoding-template-sidebar">
 					<div className="encoding-template-sidebar-header">
 						<strong className="encoding-template-sidebar-title">Tree navigation</strong>
@@ -171,6 +175,7 @@ class EncodingTemplate extends React.Component {
 }
 
 EncodingTemplate.defaultProps = {
+	theme: 'light',
 	onSubmit: undefined,
 	onLoaded: undefined
 }

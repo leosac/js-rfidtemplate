@@ -22,6 +22,65 @@ describe("EncodingTemplate", () => {
     expect(JSON.stringify(tree)).not.toContain("Template Properties");
   });
 
+  it("uses the light theme by default and supports an explicit light theme", () => {
+    const testRenderer = renderer.create(<EncodingTemplate />);
+    expect(testRenderer.toJSON().props["data-theme"]).toBe("light");
+
+    act(() => {
+      testRenderer.update(<EncodingTemplate theme="light" />);
+    });
+
+    expect(testRenderer.toJSON().props["data-theme"]).toBe("light");
+  });
+
+  it("switches themes through props without resetting editor state or adding controls", () => {
+    const testRenderer = renderer.create(<EncodingTemplate />);
+    const instance = testRenderer.getInstance();
+    const lightTree = testRenderer.toJSON();
+
+    act(() => {
+      instance.toggleSidebar();
+    });
+    const state = instance.state;
+
+    act(() => {
+      testRenderer.update(<EncodingTemplate theme="dark" />);
+    });
+
+    expect(testRenderer.toJSON().props["data-theme"]).toBe("dark");
+    expect(instance.state).toBe(state);
+    expect(testRenderer.toJSON().props.className).toContain("sidebar-collapsed");
+
+    act(() => {
+      instance.toggleSidebar();
+    });
+    const darkTree = testRenderer.toJSON();
+    expect(JSON.stringify(darkTree.children)).toBe(JSON.stringify(lightTree.children));
+
+    act(() => {
+      testRenderer.update(<EncodingTemplate theme="light" />);
+    });
+
+    expect(JSON.stringify(testRenderer.toJSON())).toBe(JSON.stringify(lightTree));
+  });
+
+  it("scopes the theme to each editor instance", () => {
+    const testRenderer = renderer.create(
+      <div>
+        <EncodingTemplate theme="dark" />
+        <EncodingTemplate />
+      </div>
+    );
+
+    expect(testRenderer.toJSON().children.map((child) => child.props["data-theme"]))
+      .toEqual(["dark", "light"]);
+  });
+
+  it("rejects unsupported themes", () => {
+    const instance = new EncodingTemplate({ theme: "sepia" });
+    expect(() => instance.render()).toThrow('theme must be "light" or "dark"');
+  });
+
   it("keeps action trigger call actions visible in the navigation tree", () => {
     const schema = {
       type: "object",

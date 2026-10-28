@@ -3,6 +3,7 @@
 exports[`EncodingTemplate renders properly 1`] = `
 <div
   className="encoding-template-shell "
+  data-theme="light"
 >
   <aside
     className="encoding-template-sidebar"
