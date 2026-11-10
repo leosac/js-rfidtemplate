@@ -40,6 +40,8 @@ Selecting an entry stores an explicit reference such as `"${applicationId}"`,
 not its current value. Unknown references are preserved when reopening templates.
 Click **Use literal value** to return to numeric entry, including hexadecimal
 entry for AIDs.
+The **Use parameter** link is hidden when no parameters are available. Existing
+references remain visible and can still be switched back to literal values.
 
 Existing JSON templates remain valid: literal numbers retain their numeric type,
 defaults and limits. Supported fields additionally accept a complete

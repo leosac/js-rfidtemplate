@@ -10,8 +10,13 @@ function ParameterWidget(props) {
     const isReference = typeof props.value === 'string' && /^\$\{[^{}\r\n]+\}$/.test(props.value);
     const [choosingParameter, setChoosingParameter] = useState(false);
     const literalValue = useRef(isReference ? props.schema.default : props.value);
-    const referenceMode = isReference || choosingParameter;
-    const options = parameters.map(parameter => ({
+    const availableParameters = parameters || [];
+    const hasParameters = availableParameters.length > 0;
+    useEffect(() => {
+        if (!hasParameters) setChoosingParameter(false);
+    }, [hasParameters]);
+    const referenceMode = isReference || (choosingParameter && hasParameters);
+    const options = availableParameters.map(parameter => ({
         value: '${' + parameter.key + '}',
         label: parameter.key + ' = ' + String(parameter.value)
             + (parameter.description ? ' - ' + parameter.description : '')
@@ -41,7 +46,7 @@ function ParameterWidget(props) {
                     emptyMessage="No matching parameters"
                     emptySelectionLabel="Select a parameter" />
             ) : <uiWidgets.TextWidget {...props} schema={literalSchema} />}
-            <button
+            {(referenceMode || hasParameters) && <button
                 type="button"
                 className="btn btn-link btn-sm px-0"
                 disabled={props.disabled || props.readonly}
@@ -56,7 +61,7 @@ function ParameterWidget(props) {
                     }
                 }}>
                 {referenceMode ? 'Use literal value' : 'Use parameter'}
-            </button>
+            </button>}
         </div>
     );
 }

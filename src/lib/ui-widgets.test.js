@@ -275,13 +275,40 @@ describe("parameter selection", () => {
     expect(onChange).toHaveBeenCalledWith(0);
   });
 
-  it("handles an empty list without changing the existing value", () => {
+  it("hides parameter selection when the list is empty without changing the literal", () => {
     parameters.splice(0, parameters.length);
     render(<TextWidget {...props} />);
-    userEvent.click(screen.getByRole("button", { name: "Use parameter" }));
+    expect(screen.queryByRole("button", { name: "Use parameter" })).not.toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toHaveValue(42);
+    expect(screen.getByRole("textbox")).toHaveValue("00002a");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("preserves loaded references and allows literal entry with an empty list", () => {
+    parameters.splice(0, parameters.length);
+    const { rerender } = render(<TextWidget {...props} value="${missing}" />);
     openParameters();
-    expect(screen.getByRole("status")).toHaveTextContent("No matching parameters");
-    userEvent.keyboard("{enter}");
+    expect(screen.getByRole("option")).toHaveTextContent("Unknown parameter ${missing}");
+    userEvent.keyboard("{esc}");
+    userEvent.click(screen.getByRole("button", { name: "Use literal value" }));
+    expect(onChange).toHaveBeenCalledWith(0);
+    rerender(<TextWidget {...props} value={0} />);
+    expect(screen.queryByRole("button", { name: "Use parameter" })).not.toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toHaveValue(0);
+  });
+
+  it("updates parameter availability on rerender and exits an empty picker", () => {
+    const { rerender } = render(<TextWidget {...props} />);
+    userEvent.click(screen.getByRole("button", { name: "Use parameter" }));
+    parameters.splice(0, parameters.length);
+    rerender(<TextWidget {...props} />);
+    expect(screen.queryByRole("button", { name: "Use parameter" })).not.toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toHaveValue(42);
+    expect(onChange).not.toHaveBeenCalled();
+    parameters.push({ key: "file", value: 1 });
+    rerender(<TextWidget {...props} />);
+    expect(screen.getByRole("button", { name: "Use parameter" })).toBeInTheDocument();
+    expect(screen.getByRole("spinbutton")).toHaveValue(42);
     expect(onChange).not.toHaveBeenCalled();
   });
 
