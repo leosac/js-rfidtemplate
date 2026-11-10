@@ -5,6 +5,7 @@ import "@testing-library/jest-dom";
 import { keys, uiWidgets } from "./ui-widgets";
 
 const TextWidget = uiWidgets.TextWidget;
+const SelectWidget = uiWidgets.SelectWidget;
 /* eslint-disable testing-library/no-unnecessary-act -- user-event v13 requires explicit act with this React 18 setup. */
 const userEvent = {
   click: element => act(() => rawUserEvent.click(element)),
@@ -186,5 +187,64 @@ describe("key selection", () => {
     expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveValue("master-001");
+  });
+});
+
+describe("action selection", () => {
+  const onChange = jest.fn();
+  const props = {
+    id: "root_firstAction__oneof_select",
+    name: "root_firstAction__oneof_select",
+    label: "Action",
+    schema: { type: "number", default: 0 },
+    value: 0,
+    disabled: false,
+    readonly: false,
+    options: {
+      enumOptions: [
+        { label: "Nothing", value: 0 },
+        { label: "MIFARE Classic - Authenticate", value: 1 },
+        { label: "DESFire - Read Data", value: 2 }
+      ]
+    },
+    onChange
+  };
+  const openDropdown = () => userEvent.click(screen.getByRole("button", { name: /^Action:/ }));
+
+  beforeEach(() => onChange.mockClear());
+
+  it("shows a searchable dropdown and filters actions by name", async () => {
+    render(<SelectWidget {...props} />);
+    expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    openDropdown();
+    expect(screen.getByRole("searchbox")).toHaveFocus();
+    await waitFor(() => expect(screen.getByRole("dialog")).not.toHaveStyle("pointer-events: none"));
+    expect(screen.getAllByRole("option")).toHaveLength(3);
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "desfire" } });
+    expect(screen.getAllByRole("option").map(option => option.textContent))
+      .toEqual(["DESFire - Read Data"]);
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("selects the original one-of option value and closes the dropdown", async () => {
+    render(<SelectWidget {...props} />);
+    openDropdown();
+    await waitFor(() => expect(screen.getByRole("dialog")).not.toHaveStyle("pointer-events: none"));
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "authenticate" } });
+    userEvent.click(screen.getByRole("option", { name: "MIFARE Classic - Authenticate" }));
+    expect(onChange).toHaveBeenCalledWith(1);
+    expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+  });
+
+  it("keeps ordinary enum selects on the Bootstrap widget", () => {
+    render(<SelectWidget
+      {...props}
+      id="root_forceCardType"
+      name="forceCardType"
+      schema={{ type: "string" }}
+      options={{ enumOptions: [{ label: "MIFARE Classic", value: "Mifare" }] }}
+      value="Mifare" />);
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
+    expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
   });
 });

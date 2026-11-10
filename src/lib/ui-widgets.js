@@ -1,76 +1,100 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FormCheck from 'react-bootstrap/FormCheck';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Widgets as bootstrapWidgets } from '@rjsf/bootstrap-4';
 
 const keys = [];
 
-function KeySelectWidget(props) {
+function SearchableSelectWidget({
+    id,
+    name,
+    label,
+    value,
+    options,
+    onChange,
+    disabled: isDisabled,
+    readonly,
+    required,
+    onFocus,
+    onBlur,
+    searchPlaceholder,
+    emptyMessage,
+    emptySelectionLabel,
+    emptyOption
+}) {
     const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
     const searchInput = useRef(null);
     const optionList = useRef(null);
-    const disabled = props.disabled || props.readonly;
+    const disabled = isDisabled || readonly;
     useEffect(() => {
         if (open && !disabled) {
             searchInput.current.focus();
         }
     }, [open, disabled]);
+    const normalizedValue = value == null ? '' : String(value);
+    const selectedOption = options.find(option => String(option.value) === normalizedValue);
     const query = search.trim().toLowerCase();
-    const options = keys.map(key => ({ value: key.id, label: key.name }));
-    if (props.value && !keys.some(key => key.id === props.value)) {
-        options.push({ value: props.value, label: `Unknown Key \`${props.value}\`` });
-    }
-    const matches = option => option.label.toLowerCase().includes(query)
-        || String(option.value).toLowerCase().includes(query);
-    const filteredOptions = options.filter(matches);
-    const selectedOption = options.find(option => option.value === props.value);
+    const filteredOptions = options.filter(option => String(option.label).toLowerCase().includes(query)
+        || String(option.value).toLowerCase().includes(query));
     const toggle = nextOpen => {
         setOpen(nextOpen);
         setSearch('');
     };
-    const select = value => {
-        props.onChange(value);
+    const select = selectedValue => {
+        const option = options.find(candidate => String(candidate.value) === String(selectedValue));
+        if (option) {
+            onChange(option.value);
+        } else if (emptyOption && String(emptyOption.value) === String(selectedValue)) {
+            onChange(emptyOption.value);
+        }
         toggle(false);
     };
 
     return (
         <Dropdown
-            className="encoding-template-key-select"
+            className="encoding-template-search-select"
             show={open && !disabled}
             onToggle={toggle}
             onSelect={select}
             focusFirstItemOnShow={false}
+            onFocus={event => {
+                if (!event.currentTarget.contains(event.relatedTarget) && onFocus) {
+                    onFocus(id, value);
+                }
+            }}
             onBlur={event => {
                 if (!event.currentTarget.contains(event.relatedTarget)) {
                     toggle(false);
+                    if (onBlur) onBlur(id, value);
                 }
             }}>
-            <input type="hidden" name={props.name} value={props.value == null ? '' : props.value} disabled={disabled} />
+            <input type="hidden" name={name} value={normalizedValue} disabled={disabled} />
             <Dropdown.Toggle
-                id={props.id}
+                id={id}
                 variant=""
                 className="form-control custom-select text-left"
-                aria-label={(props.label || 'Key') + ': ' + (selectedOption ? selectedOption.label : 'Select a key')}
+                aria-label={(label || 'Selection') + ': ' + (selectedOption ? selectedOption.label : emptySelectionLabel)}
                 aria-haspopup="dialog"
-                aria-controls={props.id + '_menu'}
+                aria-controls={id + '_menu'}
                 disabled={disabled}>
                 {selectedOption ? selectedOption.label : '\u00a0'}
             </Dropdown.Toggle>
             {open && !disabled && (
                 <Dropdown.Menu
-                    id={props.id + '_menu'}
+                    id={id + '_menu'}
                     className="w-100"
                     role="dialog"
-                    aria-label={(props.label || 'Key') + ' selection'}>
+                    aria-label={(label || 'Selection') + ' selection'}>
                     <div className="px-2 pb-2">
                         <input
                             ref={searchInput}
-                            id={props.id + '_search'}
+                            id={id + '_search'}
                             type="search"
                             className="form-control"
-                            aria-label={'Search ' + (props.label || 'keys')}
-                            aria-controls={props.id + '_options'}
-                            placeholder="Search keys by name or ID"
+                            aria-label={'Search ' + (label || 'options')}
+                            aria-controls={id + '_options'}
+                            placeholder={searchPlaceholder}
                             value={search}
                             onChange={event => setSearch(event.target.value)}
                             onKeyDown={event => {
@@ -88,14 +112,20 @@ function KeySelectWidget(props) {
                     </div>
                     <div
                         ref={optionList}
-                        id={props.id + '_options'}
-                        className="encoding-template-key-options"
+                        id={id + '_options'}
+                        className="encoding-template-search-options"
                         role="listbox"
-                        aria-label={props.label || 'Keys'}
-                        aria-required={props.required}>
-                        {props.schema.nullable && (
-                            <Dropdown.Item as="button" type="button" eventKey="" role="option" aria-selected={!props.value}>
-                                No key
+                        aria-label={label || 'Options'}
+                        aria-required={required}>
+                        {emptyOption && (
+                            <Dropdown.Item
+                                as="button"
+                                type="button"
+                                eventKey={emptyOption.value}
+                                role="option"
+                                active={normalizedValue === String(emptyOption.value)}
+                                aria-selected={normalizedValue === String(emptyOption.value)}>
+                                {emptyOption.label}
                             </Dropdown.Item>
                         )}
                         {filteredOptions.map(option => (
@@ -105,18 +135,62 @@ function KeySelectWidget(props) {
                                 key={option.value}
                                 eventKey={option.value}
                                 role="option"
-                                active={option.value === props.value}
-                                aria-selected={option.value === props.value}>
+                                active={String(option.value) === normalizedValue}
+                                aria-selected={String(option.value) === normalizedValue}>
                                 {option.label}
                             </Dropdown.Item>
                         ))}
                     </div>
                     {filteredOptions.length === 0 && (
-                        <small className="text-muted d-block px-3 py-2" role="status">No matching keys</small>
+                        <small className="text-muted d-block px-3 py-2" role="status">{emptyMessage}</small>
                     )}
                 </Dropdown.Menu>
             )}
         </Dropdown>
+    );
+}
+
+function KeySelectWidget(props) {
+    const options = keys.map(key => ({ value: key.id, label: key.name }));
+    if (props.value && !keys.some(key => key.id === props.value)) {
+        options.push({ value: props.value, label: `Unknown Key \`${props.value}\`` });
+    }
+
+    return (
+        <SearchableSelectWidget
+            id={props.id}
+            name={props.name}
+            label={props.label || 'Key'}
+            value={props.value}
+            options={options}
+            onChange={props.onChange}
+            disabled={props.disabled}
+            readonly={props.readonly}
+            required={props.required}
+            searchPlaceholder="Search keys by name or ID"
+            emptyMessage="No matching keys"
+            emptySelectionLabel="Select a key"
+            emptyOption={props.schema.nullable ? { label: 'No key', value: '' } : undefined} />
+    );
+}
+
+function OneOfSelectWidget(props) {
+    return (
+        <SearchableSelectWidget
+            id={props.id}
+            name={props.id}
+            label={props.label || 'Action'}
+            value={props.value}
+            options={props.options.enumOptions || []}
+            onChange={props.onChange}
+            disabled={props.disabled}
+            readonly={props.readonly}
+            required={props.required}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
+            searchPlaceholder="Search actions"
+            emptyMessage="No matching actions"
+            emptySelectionLabel="Select an action" />
     );
 }
 
@@ -132,6 +206,12 @@ function getHex(number, padding = undefined) {
 }
 
 const uiWidgets = {
+    SelectWidget: function(props) {
+        if (props.name && props.name.endsWith('__oneof_select')) {
+            return <OneOfSelectWidget {...props} />;
+        }
+        return <bootstrapWidgets.SelectWidget {...props} />;
+    },
     CheckboxWidget: function(props) {
         return (
             <>
