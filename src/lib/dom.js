@@ -1,5 +1,6 @@
 import React from "react";
-import { EncodingTemplate, keys } from "./index";
+import ReactDOM from "react-dom";
+import { EncodingTemplate, keys, parameters } from "./index";
 
 function createRfidTemplate(domContainer, props, newKeys) {
   if (props === undefined) {
@@ -19,4 +20,4 @@ document.querySelectorAll('.rfidtemplate')
     createRfidTemplate(domContainer);
   });
 
-export { createRfidTemplate };
+export { createRfidTemplate, keys, parameters };

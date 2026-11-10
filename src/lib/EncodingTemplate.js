@@ -9,7 +9,7 @@ import schema from '../json-schema.json';
 import data from '../default-template.json';
 import uiSchema from "./ui-schema.js";
 import uiTemplates from "./ui-templates.js";
-import {keys, uiWidgets} from "./ui-widgets.js";
+import {keys, parameters, uiWidgets} from "./ui-widgets.js";
 import { buildNavigationTree as buildTreeNavigation } from "./ui-tree.js";
 
 class EncodingTemplate extends React.Component {
@@ -180,4 +180,4 @@ EncodingTemplate.defaultProps = {
 	onLoaded: undefined
 }
 
-export { EncodingTemplate, keys };
+export { EncodingTemplate, keys, parameters };

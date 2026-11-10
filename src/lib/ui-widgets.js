@@ -4,6 +4,62 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Widgets as bootstrapWidgets } from '@rjsf/bootstrap-4';
 
 const keys = [];
+const parameters = [];
+
+function ParameterWidget(props) {
+    const isReference = typeof props.value === 'string' && /^\$\{[^{}\r\n]+\}$/.test(props.value);
+    const [choosingParameter, setChoosingParameter] = useState(false);
+    const literalValue = useRef(isReference ? props.schema.default : props.value);
+    const referenceMode = isReference || choosingParameter;
+    const options = parameters.map(parameter => ({
+        value: '${' + parameter.key + '}',
+        label: parameter.key + ' = ' + String(parameter.value)
+            + (parameter.description ? ' - ' + parameter.description : '')
+    }));
+    if (isReference && !options.some(option => option.value === props.value)) {
+        options.push({ value: props.value, label: `Unknown parameter ${props.value}` });
+    }
+    const literalSchema = {
+        ...props.schema,
+        type: Array.isArray(props.schema.type) ? props.schema.type[0] : props.schema.type,
+        'x-parameter': false
+    };
+
+    return (
+        <div className="encoding-template-parameter">
+            {referenceMode ? (
+                <SearchableSelectWidget
+                    {...props}
+                    label={(props.label || 'Value') + ' parameter'}
+                    value={isReference ? props.value : undefined}
+                    options={options}
+                    onChange={value => {
+                        setChoosingParameter(false);
+                        props.onChange(value);
+                    }}
+                    searchPlaceholder="Search parameters by key, value or description"
+                    emptyMessage="No matching parameters"
+                    emptySelectionLabel="Select a parameter" />
+            ) : <uiWidgets.TextWidget {...props} schema={literalSchema} />}
+            <button
+                type="button"
+                className="btn btn-link btn-sm px-0"
+                disabled={props.disabled || props.readonly}
+                aria-pressed={referenceMode}
+                onClick={() => {
+                    if (referenceMode) {
+                        setChoosingParameter(false);
+                        props.onChange(literalValue.current);
+                    } else {
+                        literalValue.current = props.value;
+                        setChoosingParameter(true);
+                    }
+                }}>
+                {referenceMode ? 'Use literal value' : 'Use parameter'}
+            </button>
+        </div>
+    );
+}
 
 function SearchableSelectWidget({
     id,
@@ -230,7 +286,9 @@ const uiWidgets = {
         );
     },
     TextWidget: function(props) {
-        if (props.schema['x-key']) {
+        if (props.schema['x-parameter']) {
+            return <ParameterWidget {...props} />;
+        } else if (props.schema['x-key']) {
             return <KeySelectWidget {...props} />;
         } else {
             if (props.schema.type === 'number' || props.schema.type === 'integer') {
@@ -360,4 +418,4 @@ const uiWidgets = {
     }
 };
 
-export { keys, uiWidgets };
+export { keys, parameters, uiWidgets };

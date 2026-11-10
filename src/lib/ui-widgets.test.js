@@ -1,8 +1,9 @@
+/* eslint-disable no-template-curly-in-string -- Tests use literal parameter references. */
 import React from "react";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import rawUserEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import { keys, uiWidgets } from "./ui-widgets";
+import { keys, parameters, uiWidgets } from "./ui-widgets";
 
 const TextWidget = uiWidgets.TextWidget;
 const SelectWidget = uiWidgets.SelectWidget;
@@ -187,6 +188,107 @@ describe("key selection", () => {
     expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveValue("master-001");
+  });
+});
+
+describe("parameter selection", () => {
+  const onChange = jest.fn();
+  const props = {
+    id: "aid",
+    name: "aid",
+    label: "Application Id",
+    schema: {
+      type: ["integer", "string"],
+      "x-parameter": true,
+      "x-hexinput": true,
+      "x-hexlength": 6,
+      default: 0,
+      minimum: 0,
+      maximum: 16777215
+    },
+    value: 42,
+    onChange
+  };
+  const openParameters = () => userEvent.click(screen.getByRole("button", { name: /^Application Id parameter:/ }));
+
+  beforeEach(() => {
+    parameters.push(
+      { key: "applicationId", value: 1122867, description: "Access control application" },
+      { key: "backupFile", value: 2 }
+    );
+    onChange.mockClear();
+  });
+  afterEach(() => parameters.splice(0, parameters.length));
+
+  it("preserves numeric and hexadecimal input until parameter mode is requested", () => {
+    render(<TextWidget {...props} />);
+    expect(screen.getByRole("spinbutton")).toHaveValue(42);
+    expect(screen.getByRole("textbox")).toHaveValue("00002a");
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "112233" } });
+    expect(onChange).toHaveBeenLastCalledWith(1122867);
+    userEvent.click(screen.getByRole("button", { name: "Use parameter" }));
+    expect(screen.queryByRole("spinbutton")).not.toBeInTheDocument();
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: "Use literal value" }));
+    expect(onChange).toHaveBeenLastCalledWith(42);
+  });
+
+  it("searches descriptions and selects a reference rather than the parameter value", () => {
+    render(<TextWidget {...props} />);
+    userEvent.click(screen.getByRole("button", { name: "Use parameter" }));
+    openParameters();
+    expect(screen.getByRole("searchbox")).toHaveFocus();
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "ACCESS CONTROL" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.getByRole("option")).toHaveTextContent("applicationId = 1122867 - Access control application");
+    userEvent.keyboard("{enter}");
+    expect(onChange).toHaveBeenCalledWith("${applicationId}");
+  });
+
+  it("searches keys and values and supports entries without a description", () => {
+    render(<TextWidget {...props} value="${applicationId}" />);
+    openParameters();
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "backup" } });
+    expect(screen.getByRole("option")).toHaveTextContent("backupFile = 2");
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "1122867" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    expect(screen.getByRole("option")).toHaveTextContent("applicationId");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("preserves unknown references and follows external updates", () => {
+    const { rerender } = render(<TextWidget {...props} value="${missing}" />);
+    expect(screen.getByRole("button", { name: /^Application Id parameter:/ }))
+      .toHaveTextContent("Unknown parameter ${missing}");
+    openParameters();
+    fireEvent.change(screen.getByRole("searchbox"), { target: { value: "missing" } });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+    rerender(<TextWidget {...props} value={16} />);
+    expect(screen.getByRole("spinbutton")).toHaveValue(16);
+    expect(screen.getByRole("textbox")).toHaveValue("000010");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("restores the schema default when a loaded reference switches to a literal", () => {
+    render(<TextWidget {...props} value="${applicationId}" />);
+    userEvent.click(screen.getByRole("button", { name: "Use literal value" }));
+    expect(onChange).toHaveBeenCalledWith(0);
+  });
+
+  it("handles an empty list without changing the existing value", () => {
+    parameters.splice(0, parameters.length);
+    render(<TextWidget {...props} />);
+    userEvent.click(screen.getByRole("button", { name: "Use parameter" }));
+    openParameters();
+    expect(screen.getByRole("status")).toHaveTextContent("No matching parameters");
+    userEvent.keyboard("{enter}");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it.each(["disabled", "readonly"])("prevents changes when %s", flag => {
+    render(<TextWidget {...props} value="${applicationId}" {...{ [flag]: true }} />);
+    screen.getAllByRole("button").forEach(button => expect(button).toBeDisabled());
+    expect(onChange).not.toHaveBeenCalled();
   });
 });
 
