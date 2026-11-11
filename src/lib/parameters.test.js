@@ -51,7 +51,7 @@ describe("parameter references through the editor", () => {
   afterEach(() => parameters.splice(0, parameters.length));
 
   it("round-trips nested references and emits numeric literals without string coercion", () => {
-    parameters.push({ key: "applicationId", value: 1122867, description: "Access control" });
+    parameters.push({ name: "applicationId", value: 1122867, description: "Access control" });
     const onEdit = jest.fn();
     const content = {
       firstAction: {

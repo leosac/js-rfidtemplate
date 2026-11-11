@@ -8,10 +8,10 @@ keys.push(
   { id: "demo-application-key", name: "Demo Application Key" }
 );
 parameters.push(
-  { key: "applicationId", value: 1122867, description: "Access control application (0x112233)" },
-  { key: "credentialFile", value: 1, description: "File containing the cardholder credential" },
-  { key: "backupFile", value: 2 },
-  { key: "siteName", value: "Head office", description: "Example text parameter, resolved by the host application" }
+  { name: "applicationId", value: 1122867, description: "Access control application (0x112233)" },
+  { name: "credentialFile", value: 1, description: "File containing the cardholder credential" },
+  { name: "backupFile", value: 2 },
+  { name: "siteName", value: "Head office", description: "Example text parameter, resolved by the host application" }
 );
 
 const sampleTemplate = {
@@ -50,15 +50,15 @@ const App = () => {
     <p>
       This example selects an application, authenticates with a demo key, and reads a file.
       DESFire Application Id and File No fields can use literal numbers or parameter references.
-      Use the parameter picker to search by key, value or description; the application resolves
+      Use the parameter picker to search by name, value or description; the application resolves
       references when processing the template.
     </p>
     <h2>Example keys</h2>
     <ul>{keys.map(key => <li key={key.id}>{key.name} ({key.id})</li>)}</ul>
     <h2>Example parameters</h2>
     <ul>{parameters.map(parameter => (
-      <li key={parameter.key}>
-        <code>{parameter.key}</code> = {parameter.value}
+      <li key={parameter.name}>
+        <code>{parameter.name}</code> = {parameter.value}
         {parameter.description && <> - {parameter.description}</>}
       </li>
     ))}</ul>

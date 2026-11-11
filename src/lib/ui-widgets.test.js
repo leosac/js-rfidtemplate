@@ -213,8 +213,8 @@ describe("parameter selection", () => {
 
   beforeEach(() => {
     parameters.push(
-      { key: "applicationId", value: 1122867, description: "Access control application" },
-      { key: "backupFile", value: 2 }
+      { name: "applicationId", value: 1122867, description: "Access control application" },
+      { name: "backupFile", value: 2 }
     );
     onChange.mockClear();
   });
@@ -245,7 +245,7 @@ describe("parameter selection", () => {
     expect(onChange).toHaveBeenCalledWith("${applicationId}");
   });
 
-  it("searches keys and values and supports entries without a description", () => {
+  it("searches parameter names and values and supports entries without a description", () => {
     render(<TextWidget {...props} value="${applicationId}" />);
     openParameters();
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "backup" } });
@@ -305,7 +305,7 @@ describe("parameter selection", () => {
     expect(screen.queryByRole("button", { name: "Use parameter" })).not.toBeInTheDocument();
     expect(screen.getByRole("spinbutton")).toHaveValue(42);
     expect(onChange).not.toHaveBeenCalled();
-    parameters.push({ key: "file", value: 1 });
+    parameters.push({ name: "file", value: 1 });
     rerender(<TextWidget {...props} />);
     expect(screen.getByRole("button", { name: "Use parameter" })).toBeInTheDocument();
     expect(screen.getByRole("spinbutton")).toHaveValue(42);

@@ -17,8 +17,8 @@ function ParameterWidget(props) {
     }, [hasParameters]);
     const referenceMode = isReference || (choosingParameter && hasParameters);
     const options = availableParameters.map(parameter => ({
-        value: '${' + parameter.key + '}',
-        label: parameter.key + ' = ' + String(parameter.value)
+        value: '${' + parameter.name + '}',
+        label: parameter.name + ' = ' + String(parameter.value)
             + (parameter.description ? ' - ' + parameter.description : '')
     }));
     if (isReference && !options.some(option => option.value === props.value)) {
@@ -42,7 +42,7 @@ function ParameterWidget(props) {
                         setChoosingParameter(false);
                         props.onChange(value);
                     }}
-                    searchPlaceholder="Search parameters by key, value or description"
+                    searchPlaceholder="Search parameters by name, value or description"
                     emptyMessage="No matching parameters"
                     emptySelectionLabel="Select a parameter" />
             ) : <uiWidgets.TextWidget {...props} schema={literalSchema} />}
